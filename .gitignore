@@ -1,0 +1,35 @@
+QuartusProject/BIOS/CGROM.hex
+QuartusProject/BIOS/IPLROM.hex
+
+
+
+# ignore Quartus Prime generated files
+*_generation_script*
+*_inst.vhd
+*.bak
+*.cmp
+*.done
+*.eqn
+*.jdi
+*.mif
+*.pin
+*.ptf.*
+*.qar
+*.qarlog
+*.qws
+*.rpt
+*.smsg
+*.sopc_builder
+*.summary
+*.tcl
+*~
+*example*
+*sopc_*
+
+# ignore Quartus Prime generated folders
+*/db/
+*/incremental_db/
+*/simulation/
+*/timing/
+*/testbench/
+*/*_sim/

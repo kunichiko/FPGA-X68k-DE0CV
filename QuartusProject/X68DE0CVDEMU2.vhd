@@ -99,7 +99,10 @@ port(
 	pHDMI_DAT0	:out std_logic;
 	pHDMI_DAT1	:out std_logic;
 	pHDMI_DAT2	:out std_logic;
-	pHDMI_CLK		:out std_logic;
+	pHDMI_CLK	:out std_logic;
+	pHDMI_SCL	:inout std_logic;
+	pHDMI_SDA	:inout std_logic;
+	pHDMI_PWR	:in std_logic;
 	
 	pHang	:out std_logic;
 	
@@ -573,9 +576,9 @@ signal	dclk	:std_logic;
 signal	vidR	:std_logic_vector(3 downto 0);
 signal	vidG	:std_logic_vector(3 downto 0);
 signal	vidB	:std_logic_vector(3 downto 0);
-signal	vidRF	:std_logic_vector(4 downto 0);
-signal	vidGF	:std_logic_vector(4 downto 0);
-signal	vidBF	:std_logic_vector(4 downto 0);
+signal	vidRF	:std_logic_vector(5 downto 0);
+signal	vidGF	:std_logic_vector(5 downto 0);
+signal	vidBF	:std_logic_vector(5 downto 0);
 signal	vidRC	:std_logic_vector(7 downto 0);
 signal	vidGC	:std_logic_vector(7 downto 0);
 signal	vidBC	:std_logic_vector(7 downto 0);
@@ -1091,9 +1094,9 @@ port(
 	GOUT		:out std_logic_vector(DACRES-1 downto 0);
 	BOUT		:out std_logic_vector(DACRES-1 downto 0);
 	
-	RFOUT		:out std_logic_vector(4 downto 0);
-	GFOUT		:out std_logic_vector(4 downto 0);
-	BFOUT		:out std_logic_vector(4 downto 0);
+	RFOUT		:out std_logic_vector(5 downto 0);
+	GFOUT		:out std_logic_vector(5 downto 0);
+	BFOUT		:out std_logic_vector(5 downto 0);
 
 	HSYNC		:out std_logic;
 	VSYNC		:out std_logic;
@@ -2905,9 +2908,9 @@ begin
 	);
 	contvalm<=	(others=>'1') when dem_conten ='1' or dem_initdone='0' else
 					contval;
-	contR	:contrast  generic map(5,4+context,8) port map(vidRF,contvalm,vidRC);
-	contG	:contrast  generic map(5,4+context,8) port map(vidGF,contvalm,vidGC);
-	contB	:contrast  generic map(5,4+context,8) port map(vidBF,contvalm,vidBC);
+	contR	:contrast  generic map(6,4+context,8) port map(vidRF,contvalm,vidRC);
+	contG	:contrast  generic map(6,4+context,8) port map(vidGF,contvalm,vidGC);
+	contB	:contrast  generic map(6,4+context,8) port map(vidBF,contvalm,vidBC);
 			
 	hdmi	:hdmiconv port map(
 		datinR	=>vidRC,
@@ -2926,6 +2929,9 @@ begin
 		clk2		=>not dclk,
 		rstn		=>vid_rstn
 	);
+
+	pHDMI_SCL<='Z';
+	pHDMI_SDA<='Z';
 
 	font	:fontrom port map(dem_fontaddr,vidclk,dem_fontdat);
 	dem_tramamod<= dem_tramaddr(0) & dem_tramaddr(12 downto 1);
@@ -3819,9 +3825,15 @@ begin
 
 	dacs	:sftclk generic map(ACFREQ,DACFREQ,1) port map("1",dacsft,sndclk,srstn);
 	
-	sndL<=mix_sndL;
+	sndL<=mix_sndL;-- when pDip(7 downto 6)="11" else
+--			opm_sndL when pDip(7 downto 6)="10" else
+--			pcm_sndL	when pDip(7 downto 6)="01" else
+--			(others=>'0');
 
-	sndR<=mix_sndR;
+	sndR<=mix_sndR;-- when pDip(7 downto 6)="11" else
+--			opm_sndR when pDip(7 downto 6)="10" else
+--			pcm_sndR	when pDip(7 downto 6)="01" else
+--			(others=>'0');
 	
 	
 	DacL	:deltasigmadac generic map(16) port map(

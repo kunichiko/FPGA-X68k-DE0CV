@@ -33,3 +33,4 @@ QuartusProject/BIOS/IPLROM.hex
 */timing/
 */testbench/
 */*_sim/
+QuartusProject/greybox_tmp/

@@ -86,10 +86,12 @@ begin
 					else
 						tbladdr<=step & datin(2 downto 0);
 						sign<=datin(3);
-						case datin(2  downto 0) is
+						case datin(2 downto 0) is
 						when "000" | "001" | "010" | "011" =>
 							if(step>"000000")then
 								nxtstep:=step-"000001";
+							else
+								nxtstep:=step;
 							end if;
 						when "100" =>
 							nxtstep:=step+"000010";

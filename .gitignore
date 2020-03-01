@@ -1,8 +1,3 @@
-QuartusProject/BIOS/CGROM.hex
-QuartusProject/BIOS/IPLROM.hex
-
-
-
 # ignore Quartus Prime generated files
 *_generation_script*
 *_inst.vhd
@@ -37,6 +32,7 @@ QuartusProject/greybox_tmp/
 *.sopcinfo
 
 # other specific files
+QuartusProject/BIOS/CGROM.hex
 QuartusProject/release-F68K_DE0CV_DEMU.pof
 QuartusProject/release-F68K_DE0CV_DEMU.sld
 QuartusProject/c5_pin_model_dump.txt

@@ -152,6 +152,8 @@ signal	CPUWR_DAT	:std_logic;
 signal	CPURD_DAT	:std_logic;
 signal	CPURD_STA	:std_logic;
 signal	CPUWR_DATf	:std_logic;
+signal	lCPURD_DAT	:std_logic_vector(1 downto 0);
+signal	lCPUWR_DAT	:std_logic_vector(1 downto 0);
 signal	CPURD_DATf	:std_logic;
 signal	DMARD		:std_logic;
 signal	DMAWR		:std_logic;
@@ -159,6 +161,8 @@ signal	DMARDx		:std_logic;
 signal	DMAWRx		:std_logic;
 signal	DMARDxf		:std_logic;
 signal	DMAWRxf		:std_logic;
+signal	lDMARDx		:std_logic_vector(1 downto 0);
+signal	lDMAWRx		:std_logic_vector(1 downto 0);
 signal	lDMARD		:std_logic;
 signal	lDMAWR		:std_logic;
 signal	CPUWRDAT	:std_logic_vector(7 downto 0);
@@ -328,6 +332,7 @@ signal	lindex		:std_logic;
 signal	contdata	:std_logic;
 
 signal	TCclr		:std_logic;
+signal	sTC			:std_logic;
 signal	TCen		:std_logic;
 
 signal	INT		:std_logic;		--interrupt start
@@ -1198,6 +1203,40 @@ begin
 	
 	process(fclk,rstn)begin
 		if(rstn='0')then
+			lCPURD_DAT<=(others=>'0');
+			lCPUWR_DAT<=(others=>'0');
+			lDMARDx<=(others=>'0');
+			lDMAWRx<=(others=>'0');
+			CPURD_DATf<='0';
+			CPUWR_DATf<='0';
+			DMARDxf<='0';
+			DMAWRxf<='0';
+		elsif(fclk' event and fclk='1')then
+			CPURD_DATf<='0';
+			CPUWR_DATf<='0';
+			DMARDxf<='0';
+			DMAWRxf<='0';
+			lCPURD_DAT<=lCPURD_DAT(0) & CPURD_DAT;
+			lCPUWR_DAT<=lCPUWR_DAT(0) & CPUWR_DAT;
+			lDMARDx<=lDMARDx(0) & DMARDx;
+			lDMAWRx<=lDMAWRx(0) & DMAWRx;
+			if(lCPURD_DAT="01")then
+				CPURD_DATf<='1';
+			end if;
+			if(lCPUWR_DAT="01")then
+				CPUWR_DATf<='1';
+			end if;
+			if(lDMARDx="01")then
+				DMARDxf<='1';
+			end if;
+			if(lDMAWRx="01")then
+				DMAWRxf<='1';
+			end if;
+		end if;
+	end process;
+	
+	process(fclk,rstn)begin
+		if(rstn='0')then
 			execstate<=es_idle;
 			end_EXEC<='0';
 			seek_bgn<='0';
@@ -1258,10 +1297,6 @@ begin
 			ecommand<=(others=>'0');
 			COMPDAT<=(others=>'0');
 			scancomp<='0';
-			CPURD_DATf<='0';
-			CPUWR_DATf<='0';
-			DMARDxf<='0';
-			DMAWRxf<='0';
 		elsif(fclk' event and fclk='1')then
 			end_EXEC<='0';
 			seek_bgn<='0';
@@ -1294,10 +1329,6 @@ begin
 			setHD<='0';
 			resHD<='0';
 			NRDSTART<='0';
-			CPUWR_DATf<=CPUWR_DAT;
-			CPURD_DATf<=CPURD_DAT;
-			DMARDxf<=DMARDx;
-			DMAWRxf<=DMAWRx;
 			if(execstate=es_idle)then
 				sRQM<='1';
 				if(EXEC='1')then
@@ -1710,6 +1741,7 @@ begin
 									crcin<=x"fb";
 								end if;
 								crcwr<='1';
+								TCclr<='1';
 								execstate<=es_DATA;
 							elsif(fmmf8det='1' or fmmfbdet='1'or fmmfcdet='1' or fmmfedet='1' or fmrxed='1')then
 								dembreak<='1';
@@ -1775,6 +1807,7 @@ begin
 						if(mfmrxed='1' and ((((ecommand=cmd_READDATA or ecommand=cmd_READATRACK) or SK='0') and mfmrxdat=x"fb") or ((ecommand=cmd_READDELETEDDATA or SK='0') and mfmrxdat=x"f8")))then
 							crcin<=mfmrxdat;
 							crcwr<='1';
+							TCclr<='1';
 							execstate<=es_DATA;
 						elsif(mfmma1det='1' or mfmmc2det='1' or mfmrxed='1')then
 							dembreak<='1';
@@ -1828,7 +1861,6 @@ begin
 								bytecount<=bytecount-1;
 								execstate<=es_DATA;
 							else
-								TCclr<='1';
 								execstate<=es_CRCd0;
 							end if;
 						elsif((MF='0' and fmrxed='1') or (MF='1' and mfmrxed='1'))then
@@ -2300,6 +2332,7 @@ begin
 								end if;
 								sRQM<='1';
 								sDIOd<='0';
+								TCclr<='1';
 								execstate<=es_DATA;
 							else
 								mfmma1wr<='1';
@@ -2361,6 +2394,7 @@ begin
 							end if;
 							sRQM<='1';
 							sDIOd<='0';
+							TCclr<='1';
 							execstate<=es_DATA;
 						end if;
 					when es_DATA =>
@@ -2378,7 +2412,6 @@ begin
 								bytecount<=bytecount-1;
 								execstate<=es_DATAw;
 							else
-								TCclr<='1';
 								execstate<=es_CRCd0;
 							end if;
 						elsif((MF='0' and fmtxend='1') or (MF='1' and mfmtxend='1'))then
@@ -3262,6 +3295,7 @@ begin
 									crcin<=x"fb";
 								end if;
 								crcwr<='1';
+								TCclr<='1';
 								execstate<=es_DATA;
 								scancomp<='0';
 							elsif(fmmf8det='1' or fmmfbdet='1'or fmmfcdet='1' or fmmfedet='1' or fmrxed='1')then
@@ -3328,6 +3362,7 @@ begin
 						if(mfmrxed='1' and (mfmrxdat=x"fb" or mfmrxdat=x"f8"))then
 							crcin<=mfmrxdat;
 							crcwr<='1';
+							TCclr<='1';
 							execstate<=es_DATA;
 							scancomp<='0';
 						elsif(mfmma1det='1' or mfmmc2det='1' or mfmrxed='1')then
@@ -3383,7 +3418,6 @@ begin
 									bytecount<=bytecount-1;
 									execstate<=es_DATA;
 								else
-									TCclr<='1';
 									execstate<=es_CRCd0;
 								end if;
 							elsif(COMPDAT<CPUWRDAT and command=cmd_SCANLOWEQUAL)then
@@ -3392,7 +3426,6 @@ begin
 									bytecount<=bytecount-1;
 									execstate<=es_DATA;
 								else
-									TCclr<='1';
 									execstate<=es_CRCd0;
 								end if;
 							elsif(COMPDAT>CPUWRDAT and command=cmd_SCANHIGHEQUAL)then
@@ -3401,7 +3434,6 @@ begin
 									bytecount<=bytecount-1;
 									execstate<=es_DATA;
 								else
-									TCclr<='1';
 									execstate<=es_CRCd0;
 								end if;
 							else
@@ -4115,13 +4147,21 @@ begin
 	uselb<=US;
 	usel<=uselb;
 	
+	process(sclk,rstn)begin
+		if(rstn='0')then
+			sTC<='0';
+		elsif(sclk' event and sclk='1')then
+			sTC<=TC;
+		end if;
+	end process;
+	
 	process(fclk,rstn)begin
 		if(rstn='0')then
 			TCen<='0';
 		elsif(fclk' event and fclk='1')then
 			if(TCclr='1')then
 				TCen<='0';
-			elsif(TC='1')then
+			elsif(sTC='1')then
 				TCen<='1';
 			end if;
 		end if;

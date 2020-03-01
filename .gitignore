@@ -39,7 +39,6 @@ QuartusProject/greybox_tmp/
 # other specific files
 QuartusProject/release-F68K_DE0CV_DEMU.pof
 QuartusProject/release-F68K_DE0CV_DEMU.sld
-QuartusProject/release-F68K_DE0CV_DEMU.sof
 QuartusProject/c5_pin_model_dump.txt
 QuartusProject/X68k_DE0CVDEMU.map
 QuartusProject/X68k_DE0CVDEMU.pof

@@ -1,0 +1,78 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.2"))
+(symbol
+	(rect 0 0 208 128)
+	(text "LVDStrans" (rect 73 -1 147 15)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 112 25 124)(font "Arial" ))
+	(port
+		(pt 0 48)
+		(input)
+		(text "tx_in[29..0]" (rect 0 0 62 14)(font "Arial" (font_size 8)))
+		(text "tx_in[29..0]" (rect 4 34 55 47)(font "Arial" (font_size 8)))
+		(line (pt 0 48)(pt 64 48)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "tx_inclock" (rect 0 0 56 14)(font "Arial" (font_size 8)))
+		(text "tx_inclock" (rect 4 50 50 63)(font "Arial" (font_size 8)))
+		(line (pt 0 64)(pt 64 64))
+	)
+	(port
+		(pt 208 48)
+		(output)
+		(text "tx_out[2..0]" (rect 0 0 63 14)(font "Arial" (font_size 8)))
+		(text "tx_out[2..0]" (rect 151 34 203 47)(font "Arial" (font_size 8)))
+		(line (pt 208 48)(pt 128 48)(line_width 3))
+	)
+	(port
+		(pt 208 64)
+		(output)
+		(text "tx_outclock" (rect 0 0 64 14)(font "Arial" (font_size 8)))
+		(text "tx_outclock" (rect 150 50 203 63)(font "Arial" (font_size 8)))
+		(line (pt 208 64)(pt 128 64))
+	)
+	(port
+		(pt 208 80)
+		(output)
+		(text "tx_locked" (rect 0 0 54 14)(font "Arial" (font_size 8)))
+		(text "tx_locked" (rect 159 66 203 79)(font "Arial" (font_size 8)))
+		(line (pt 208 80)(pt 128 80))
+	)
+	(port
+		(pt 208 96)
+		(output)
+		(text "tx_coreclock" (rect 0 0 73 14)(font "Arial" (font_size 8)))
+		(text "tx_coreclock" (rect 143 82 203 95)(font "Arial" (font_size 8)))
+		(line (pt 208 96)(pt 128 96))
+	)
+	(drawing
+		(line (pt 64 32)(pt 128 32))
+		(line (pt 128 32)(pt 128 112))
+		(line (pt 64 112)(pt 128 112))
+		(line (pt 64 32)(pt 64 112))
+		(line (pt 0 0)(pt 208 0))
+		(line (pt 208 0)(pt 208 128))
+		(line (pt 0 128)(pt 208 128))
+		(line (pt 0 0)(pt 0 128))
+	)
+)

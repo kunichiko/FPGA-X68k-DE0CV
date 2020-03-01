@@ -327,10 +327,7 @@ set_instance_assignment -name IO_STANDARD LVDS -to pHDMI_DAT2
 set_location_assignment PIN_D17 -to pHDMI_SCL
 set_location_assignment PIN_K20 -to pHDMI_SDA
 set_location_assignment PIN_M16 -to pHDMI_PWR
-<<<<<<< HEAD
-=======
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
->>>>>>> c3907c186c09ce1a12365a6c8765979362191237
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
 set_global_assignment -name HEX_FILE diskemu.v2/sramdefault.hex
 set_global_assignment -name VHDL_FILE X68DE0CVDEMU2.vhd
@@ -570,4 +567,3 @@ set_global_assignment -name SEARCH_PATH sound/FMcommon/ -tag from_archive
 set_global_assignment -name SEARCH_PATH sound/OPM/ -tag from_archive
 set_global_assignment -name SEARCH_PATH sound/adpcm6258/ -tag from_archive
 set_global_assignment -name SEARCH_PATH sound/midiif/ -tag from_archive
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

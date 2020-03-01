@@ -870,8 +870,14 @@ begin
 						end if;
 						BTC_dec<='1';
 					when "11" =>
-						BUSADDR<=BAR;
-						STATE<=ST_CHAINH;
+						if(BAR=x"00000000")then
+							int_comp<='1';
+							busreq<='0';
+							STATE<=ST_IDLE;
+						else
+							BUSADDR<=BAR;
+							STATE<=ST_CHAINH;
+						end if;
 					when others =>
 						busreq<='0';
 						STATE<=ST_IDLE;
@@ -961,10 +967,10 @@ begin
 					b_rwn<='1';
 					b_uds<='0';
 					b_lds<='0';
-					BAR_loadl<='1';
 					STATE<=ST_CHAINNLA;
 				when ST_CHAINNLA =>
 					if(b_ack='0')then
+						BAR_loadl<='1';
 						b_as<='1';
 						b_rwn<='1';
 						b_uds<='1';

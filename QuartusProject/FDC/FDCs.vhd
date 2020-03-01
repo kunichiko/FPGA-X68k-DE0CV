@@ -147,14 +147,18 @@ signal	lIOWR_DAT	:std_logic;
 signal	lIORD_DAT	:std_logic;
 signal	lIORD_STA	:std_logic;
 signal	datnum		:integer range 0 to 20;
-signal	lWDAT		:std_logic_vector(7 downto 0);
+--signal	lWDAT		:std_logic_vector(7 downto 0);
 signal	CPUWR_DAT	:std_logic;
 signal	CPURD_DAT	:std_logic;
 signal	CPURD_STA	:std_logic;
+signal	CPUWR_DATf	:std_logic;
+signal	CPURD_DATf	:std_logic;
 signal	DMARD		:std_logic;
 signal	DMAWR		:std_logic;
 signal	DMARDx		:std_logic;
 signal	DMAWRx		:std_logic;
+signal	DMARDxf		:std_logic;
+signal	DMAWRxf		:std_logic;
 signal	lDMARD		:std_logic;
 signal	lDMAWR		:std_logic;
 signal	CPUWRDAT	:std_logic_vector(7 downto 0);
@@ -170,6 +174,7 @@ signal	scancomp	:std_logic;
 
 type execstate_t is (
 		es_idle,
+
 		es_seek,
 		es_windex,
 		es_GAP0,
@@ -630,7 +635,7 @@ begin
 			lIOWR_DAT<='0';
 			lIORD_DAT<='0';
 			lIORD_STA<='0';
-			lWDAT<=(others=>'0');
+--			lWDAT<=(others=>'0');
 			CPUWRDAT<=(others=>'0');
 			CPUWR_DAT<='0';
 			CPURD_DAT<='0';
@@ -642,9 +647,10 @@ begin
 			CPURD_STA<='0';
 			DMARDx<='0';
 			DMAWRx<='0';
-			if(IOWR_DAT='0' and lIOWR_DAT='1')then
+			if(IOWR_DAT='1')then
+				CPUWRDAT<=WDAT;
+			elsif(IOWR_DAT='0' and lIOWR_DAT='1')then
 				CPUWR_DAT<='1';
-				CPUWRDAT<=lWDAT;
 			end if;
 			if(IORD_DAT='0' and lIORD_DAT='1')then
 				CPURD_DAT<='1';
@@ -652,9 +658,10 @@ begin
 			if(IORD_STA='0' and lIORD_STA='1')then
 				CPURD_STA<='1';
 			end if;
-			if(DMAWR='0' and lDMAWR='1')then
+			if(DMAWR='1')then
+				CPUWRDAT<=WDAT;
+			elsif(DMAWR='0' and lDMAWR='1')then
 				DMAWRx<='1';
-				CPUWRDAT<=lWDAT;
 			end if;
 			if(DMARD='0' and lDMARD='1')then
 				DMARDx<='1';
@@ -669,7 +676,7 @@ begin
 			lIORD_STA<=IORD_STA;
 			lDMAWR<=DMAWR;
 			lDMARD<=DMARD;
-			lWDAT<=WDAT;
+--			lWDAT<=WDAT;
 		end if;
 	end process;
 	
@@ -1251,6 +1258,10 @@ begin
 			ecommand<=(others=>'0');
 			COMPDAT<=(others=>'0');
 			scancomp<='0';
+			CPURD_DATf<='0';
+			CPUWR_DATf<='0';
+			DMARDxf<='0';
+			DMAWRxf<='0';
 		elsif(fclk' event and fclk='1')then
 			end_EXEC<='0';
 			seek_bgn<='0';
@@ -1283,6 +1294,10 @@ begin
 			setHD<='0';
 			resHD<='0';
 			NRDSTART<='0';
+			CPUWR_DATf<=CPUWR_DAT;
+			CPURD_DATf<=CPURD_DAT;
+			DMARDxf<=DMARDx;
+			DMAWRxf<=DMAWRx;
 			if(execstate=es_idle)then
 				sRQM<='1';
 				if(EXEC='1')then
@@ -1807,7 +1822,7 @@ begin
 							end if;
 						end if;
 					when es_DATAw =>
-						if(CPURD_DAT='1' or DMARDx='1')then
+						if(CPURD_DATf='1' or DMARDxf='1')then
 							sRQM<='0';
 							if(bytecount>1)then
 								bytecount<=bytecount-1;
@@ -2349,7 +2364,7 @@ begin
 							execstate<=es_DATA;
 						end if;
 					when es_DATA =>
-						if(CPUWR_DAT='1' or DMAWRx='1')then
+						if(CPUWR_DATf='1' or DMAWRxf='1')then
 							sRQM<='0';
 							txdat<=CPUWRDAT;
 							crcin<=CPUWRDAT;
@@ -2635,7 +2650,7 @@ begin
 --							end if;
 --						end if;
 --					when es_DATAw =>
---						if(CPURD_DAT='1' or DMARDx='1')then
+--						if(CPURD_DATf='1' or DMARDx=f'1')then
 --							sRQM<='0';
 --							if(bytecount>1)then
 --								bytecount<=bytecount-1;
@@ -3361,7 +3376,7 @@ begin
 							end if;
 						end if;
 					when es_DATAw =>
-						if(CPUWR_DAT='1' or DMAWRx='1')then
+						if(CPUWR_DATf='1' or DMAWRxf='1')then
 							sRQM<='0';
 							if(CPUWRDAT=x"ff" or CPUWRDAT=COMPDAT or scancomp='1')then
 								if(bytecount>1)then
@@ -3728,7 +3743,7 @@ begin
 							execstate<=es_C;
 						end if;
 					when es_C | es_H | es_R | es_N =>
-						if(CPUWR_DAT='1' or DMAWRx='1')then
+						if(CPUWR_DATf='1' or DMAWRxf='1')then
 							sRQM<='0';
 							txdat<=CPUWRDAT;
 							crcin<=CPUWRDAT;

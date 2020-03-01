@@ -73,7 +73,18 @@ begin
 						OE_CH<=not DATIN(3);
 						OE_B<=not DATIN(1);
 						OE_CL<=not DATIN(0);
-						
+						if(DATIN(4)='0')then
+							ODAT_A<=(others=>'0');
+						end if;
+						if(DATIN(1)='0')then
+							ODAT_B<=(others=>'0');
+						end if;
+						if(DATIN(3)='0')then
+							ODAT_C(7 downto 4)<=(others=>'0');
+						end if;
+						if(DATIN(0)='0')then
+							ODAT_C(3 downto 0)<=(others=>'0');
+						end if;
 					else
 						case DATIN(3 downto 1) is
 						when "000" =>

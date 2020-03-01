@@ -30,9 +30,9 @@ port(
 	GOUT		:out std_logic_vector(DACRES-1 downto 0);
 	BOUT		:out std_logic_vector(DACRES-1 downto 0);
 	
-	RFOUT		:out std_logic_vector(4 downto 0);
-	GFOUT		:out std_logic_vector(4 downto 0);
-	BFOUT		:out std_logic_vector(4 downto 0);
+	RFOUT		:out std_logic_vector(5 downto 0);
+	GFOUT		:out std_logic_vector(5 downto 0);
+	BFOUT		:out std_logic_vector(5 downto 0);
 	
 	HSYNC		:out std_logic;
 	VSYNC		:out std_logic;
@@ -198,17 +198,18 @@ signal clk2		:std_logic;
 signal	Rdat	:std_logic_vector(4 downto 0);
 signal	Gdat	:std_logic_vector(4 downto 0);
 signal	Bdat	:std_logic_vector(4 downto 0);
+signal	Idat	:std_logic;
 
-signal	X68R	:std_logic_vector(4 downto 0);
-signal	X68G	:std_logic_vector(4 downto 0);
-signal	X68B	:std_logic_vector(4 downto 0);
-signal	TXTR	:std_logic_vector(4 downto 0);
-signal	TXTG	:std_logic_vector(4 downto 0);
-signal	TXTB	:std_logic_vector(4 downto 0);
+signal	X68R	:std_logic_vector(5 downto 0);
+signal	X68G	:std_logic_vector(5 downto 0);
+signal	X68B	:std_logic_vector(5 downto 0);
+signal	TXTR	:std_logic_vector(5 downto 0);
+signal	TXTG	:std_logic_vector(5 downto 0);
+signal	TXTB	:std_logic_vector(5 downto 0);
 
-signal	Rdat5	:std_logic_vector(4 downto 0);
-signal	Gdat5	:std_logic_vector(4 downto 0);
-signal	Bdat5	:std_logic_vector(4 downto 0);
+signal	Rdat6	:std_logic_vector(5 downto 0);
+signal	Gdat6	:std_logic_vector(5 downto 0);
+signal	Bdat6	:std_logic_vector(5 downto 0);
 signal	Rdat4	:std_logic_vector(3 downto 0);
 signal	Gdat4	:std_logic_vector(3 downto 0);
 signal	Bdat4	:std_logic_vector(3 downto 0);
@@ -311,6 +312,7 @@ begin
 	Rdat<=LRAMDAT(10 downto 6);
 	Gdat<=LRAMDAT(15 downto 11);
 	Bdat<=LRAMDAT(5 downto 1);
+	Idat<=LRAMDAT(0);
 
 	
 	process(gclk,rstn)begin
@@ -330,9 +332,9 @@ begin
 --	ROUT<=(others=>'0')when lVISIBLE='0' else LRAMDAT(10 downto 11-DACRES);
 --	GOUT<=(others=>'0')when lVISIBLE='0' else LRAMDAT(15 downto 16-DACRES);
 --	BOUT<=(others=>'0')when lVISIBLE='0' else LRAMDAT(5 downto 6-DACRES);
-	X68R<=(others=>'0')when lVISIBLE='0' else Rdat;
-	X68G<=(others=>'0')when lVISIBLE='0' else Gdat;
-	X68B<=(others=>'0')when lVISIBLE='0' else Bdat;
+	X68R<=(others=>'0')when lVISIBLE='0' else Rdat & Idat;
+	X68G<=(others=>'0')when lVISIBLE='0' else Gdat & Idat;
+	X68B<=(others=>'0')when lVISIBLE='0' else Bdat & Idat;
 	
 	process(gclk)begin
 		if(gclk' event and gclk='1')then
@@ -363,22 +365,22 @@ begin
 	TXTG<=(others=>T_FGCOLOR(1))when T_BIT='1' else (others=>T_BGCOLOR(1));
 	TXTB<=(others=>T_FGCOLOR(0))when T_BIT='1' else (others=>T_BGCOLOR(0));
 	
-	Rdat5<=X68R when TXTMODE='0' else TXTR;
-	Gdat5<=X68G when TXTMODE='0' else TXTG;
-	Bdat5<=X68B when TXTMODE='0' else TXTB;
+	Rdat6<=X68R when TXTMODE='0' else TXTR;
+	Gdat6<=X68G when TXTMODE='0' else TXTG;
+	Bdat6<=X68B when TXTMODE='0' else TXTB;
 
-	Rdat4<=	(Rdat5(4 downto 1)+"0001") when (lsel xor ssel xor dsel)='1' and Rdat5(4 downto 1)/="1111" and Rdat5(0)='1' else
-			Rdat5(4 downto 1);
-	Gdat4<=	(Gdat5(4 downto 1)+"0001") when (lsel xor ssel xor dsel)='1' and Gdat5(4 downto 1)/="1111" and Gdat5(0)='1' else
-			Gdat5(4 downto 1);
-	Bdat4<=	(Bdat5(4 downto 1)+"0001") when (lsel xor ssel xor dsel)='1' and Bdat5(4 downto 1)/="1111" and Bdat5(0)='1' else
-			Bdat5(4 downto 1);
+	Rdat4<=	(Rdat6(5 downto 2)+"0001") when (lsel xor ssel xor dsel)='1' and Rdat6(5 downto 2)/="1111" and Rdat6(1)='1' else
+			Rdat6(5 downto 2);
+	Gdat4<=	(Gdat6(5 downto 2)+"0001") when (lsel xor ssel xor dsel)='1' and Gdat6(5 downto 2)/="1111" and Gdat6(1)='1' else
+			Gdat6(5 downto 2);
+	Bdat4<=	(Bdat6(5 downto 2)+"0001") when (lsel xor ssel xor dsel)='1' and Bdat6(5 downto 2)/="1111" and Bdat6(1)='1' else
+			Bdat6(5 downto 2);
 	ROUT<=RDAT4;
 	GOUT<=GDAT4;
 	BOUT<=BDAT4;
-	RFOUT<=RDAT5;
-	GFOUT<=GDAT5;
-	BFOUT<=BDAT5;
+	RFOUT<=RDAT6;
+	GFOUT<=GDAT6;
+	BFOUT<=BDAT6;
 	
 end rtl;
 

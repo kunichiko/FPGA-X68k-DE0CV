@@ -568,4 +568,12 @@ set_global_assignment -name SEARCH_PATH sound/adpcm6258/ -tag from_archive
 set_global_assignment -name SEARCH_PATH sound/midiif/ -tag from_archive
 set_location_assignment PIN_T15 -to pF68kIO_Dip
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pF68kIO_Dip
+set_location_assignment PIN_T19 -to pF68kIO_Test[0]
+set_location_assignment PIN_R16 -to pF68kIO_Test[1]
+set_location_assignment PIN_R15 -to pF68kIO_Test[2]
+set_location_assignment PIN_K19 -to pF68kIO_Test[3]
+set_location_assignment PIN_T18 -to pF68kIO_Test[4]
+set_location_assignment PIN_T20 -to pF68kIO_Test[5]
+set_location_assignment PIN_R17 -to pF68kIO_Test[6]
+set_location_assignment PIN_P18 -to pF68kIO_Test[7]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

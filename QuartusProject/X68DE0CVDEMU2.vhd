@@ -80,6 +80,8 @@ port(
 
     -- F68k I/O board's debug ports
     pF68kIO_Dip  : in std_logic;  -- DIP switch
+	pF68kIO_Test : out std_logic_vector(7 downto 0); -- Test signals
+
     -- Video, Audio/CMT ports
     pDac_VR     : inout std_logic_vector( 3 downto 0);  -- RGB_Red / Svideo_C
     pDac_VG     : inout std_logic_vector( 3 downto 0);  -- RGB_Grn / Svideo_Y
@@ -2470,6 +2472,17 @@ begin
 	vid_rstn<=plllock and pwr_rstn and ram_inidone;
 	dem_conten<=pDip(1) or pF68kIO_Dip;
 
+	-- for debug
+	pF68kIO_Test(0) <= midi_cs;
+	pF68kIO_Test(1) <= midi_rd;
+	pF68kIO_Test(2) <= midi_wr;
+	pF68kIO_Test(3) <= midi_int;
+	pF68kIO_Test(4) <= '0';
+	pF68kIO_Test(5) <= '0';
+	pF68kIO_Test(6) <= '0';
+	pF68kIO_Test(7) <= '0';
+
+	
 	pwr	:pwrcont  port map(
 		addrin	=>abus,
 		wr		=>b_wr(0),

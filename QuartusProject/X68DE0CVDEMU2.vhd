@@ -78,6 +78,8 @@ port(
     pSeg4		: out std_logic_vector(7 downto 0);
     pSeg5		: out std_logic_vector(7 downto 0);
 
+    -- F68k I/O board's debug ports
+    pF68kIO_Dip  : in std_logic;  -- DIP switch
     -- Video, Audio/CMT ports
     pDac_VR     : inout std_logic_vector( 3 downto 0);  -- RGB_Red / Svideo_C
     pDac_VG     : inout std_logic_vector( 3 downto 0);  -- RGB_Grn / Svideo_Y
@@ -2466,7 +2468,7 @@ begin
 	dem_rstn<=plllock and pwr_rstn;
 	srstn<=plllock and pwr_rstn and ldr_done and dem_initdone;
 	vid_rstn<=plllock and pwr_rstn and ram_inidone;
-	dem_conten<=pDip(1);
+	dem_conten<=pDip(1) or pF68kIO_Dip;
 
 	pwr	:pwrcont  port map(
 		addrin	=>abus,

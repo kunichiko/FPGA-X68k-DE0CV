@@ -48,9 +48,7 @@ begin
 			if(WRITE='1' and EXDATA='0')then	-- write to buffer
 				NXTBUF<=DATA;
 				EXDATA<='1';
-			end if;
-
-			if(SFT='1')then
+			elsif(SFT='1')then
 				if((WCNT=widzero) or (BITCNT<STPLEN and WCNT(maxwid-1)='0' and WCNT(maxwid-2 downto 0)=WIDTH(maxwid-1 downto 1)))then
 					if(BITCNT=0)then	-- shift register empty
 						if(EXDATA='1')then

@@ -28,7 +28,9 @@ port(
 	GPOE	:out std_logic_vector(7 downto 0);
 	
 	clk	:in std_logic;
-	rstn	:in std_logic
+	rstn	:in std_logic;
+
+	ptxsft :out std_logic
 );
 end em3802;
 
@@ -197,6 +199,8 @@ component txframe
 end component;
 
 begin
+
+	ptxsft <= txsft;
 
 	txfifo	:datfifo generic map(8,16) port map(
 		datin		=>txfifowdat,
@@ -620,7 +624,7 @@ begin
 		end if;
 	end process;
 	
-	process(clk,clk)begin
+	process(clk,rstn)begin
 		if(rstn='0')then
 			srxbit<='1';
 		elsif(clk' event and clk='1')then
@@ -875,8 +879,6 @@ begin
 			txfiford<='0';
 			txframelen<=1;
 		elsif(clk' event and clk='1')then
-			txwr<='0';
-			txfiford<='0';
 			if(txemp='1' and txfifoemp='0')then
 				txwr<='1';
 				txfiford<='1';
@@ -913,6 +915,9 @@ begin
 					vlen:=vlen+1;
 				end if;
 				txframelen<=vlen;
+			else
+				txwr<='0';
+				txfiford<='0';
 			end if;
 		end if;
 	end process;

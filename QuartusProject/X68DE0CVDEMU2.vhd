@@ -703,6 +703,7 @@ signal	midi_rd		:std_logic;
 signal	midi_wr		:std_logic;
 signal	midi_int		:std_logic;
 signal	midi_ivect	:std_logic_vector(7 downto 0);
+signal  midi_out :std_logic;
 
 --Contrast controller
 constant	context	:integer	:=2;
@@ -2318,7 +2319,9 @@ port(
 	GPOE	:out std_logic_vector(7 downto 0);
 	
 	clk	:in std_logic;
-	rstn	:in std_logic
+	rstn	:in std_logic;
+
+	ptxsft :out std_logic
 );
 end component;
 
@@ -2477,11 +2480,12 @@ begin
 	pF68kIO_Test(1) <= midi_rd;
 	pF68kIO_Test(2) <= midi_wr;
 	pF68kIO_Test(3) <= midi_int;
-	pF68kIO_Test(4) <= '0';
-	pF68kIO_Test(5) <= '0';
+--	pF68kIO_Test(4) <= '0';
+	pF68kIO_Test(5) <= midi_out;
 	pF68kIO_Test(6) <= '0';
 	pF68kIO_Test(7) <= '0';
 
+	pMidi_out <= midi_out;
 	
 	pwr	:pwrcont  port map(
 		addrin	=>abus,
@@ -4003,7 +4007,8 @@ begin
 		IVECT	=>midi_ivect,
 
 		RxD	=>pMidi_in,
-		TxD	=>pMidi_out,
+--		TxD	=>pMidi_out,
+		TxD	=>midi_out,
 		RxF	=>'1',
 		TxF	=>open,
 		SYNC	=>open,
@@ -4013,7 +4018,9 @@ begin
 		GPOE	=>open,
 		
 		clk	=>sysclk,
-		rstn	=>srstn
+		rstn	=>srstn,
+
+		ptxsft => pF68kIO_Test(4)
 	);
 
 	SASI_CS<='1' when abus(23 downto 3)=(x"e9600" & '0') else '0';

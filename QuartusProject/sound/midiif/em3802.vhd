@@ -197,6 +197,7 @@ component txframe
 end component;
 
 begin
+	txfifoclr <= '0';
 
 	txfifo	:datfifo generic map(8,16) port map(
 		datin		=>txfifowdat,

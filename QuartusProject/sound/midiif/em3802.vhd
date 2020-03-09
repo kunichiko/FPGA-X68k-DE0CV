@@ -201,6 +201,7 @@ end component;
 begin
 
 	ptxsft <= txsft;
+	txfifoclr <= '0';
 
 	txfifo	:datfifo generic map(8,16) port map(
 		datin		=>txfifowdat,

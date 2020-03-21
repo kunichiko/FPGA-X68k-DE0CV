@@ -78,10 +78,6 @@ port(
     pSeg4		: out std_logic_vector(7 downto 0);
     pSeg5		: out std_logic_vector(7 downto 0);
 
-    -- F68k I/O board's debug ports
-    pF68kIO_Dip  : in std_logic;  -- DIP switch
-	pF68kIO_Test : out std_logic_vector(7 downto 0); -- Test signals
-
     -- Video, Audio/CMT ports
     pDac_VR     : inout std_logic_vector( 3 downto 0);  -- RGB_Red / Svideo_C
     pDac_VG     : inout std_logic_vector( 3 downto 0);  -- RGB_Grn / Svideo_Y
@@ -107,7 +103,15 @@ port(
 	pHDMI_SCL	:inout std_logic;
 	pHDMI_SDA	:inout std_logic;
 	pHDMI_PWR	:in std_logic;
-	
+
+    -- F68k I/O board's ports
+    pF68kIO_Dip        : in std_logic;  -- DIP switch
+	pF68kIO_I2S_MCLK   : out std_logic;
+	pF68kIO_I2S_BICK   : out std_logic;
+	pF68kIO_I2S_DATA   : out std_logic;
+	pF68kIO_I2S_LRCK   : out std_logic;
+	pF68kIO_I2S_MUTE_n : out std_logic;
+
 	pHang	:out std_logic;
 	
 	rstn		:in std_logic
@@ -132,6 +136,7 @@ signal	sysclk	:std_logic;
 signal	vidclk	:std_logic;
 signal	sndclk	:std_logic;
 signal	emuclk	:std_logic;
+signal	i2sclk	:std_logic;
 signal	srstn	:std_logic;
 signal	srst	:std_logic;
 signal	pllrst	:std_logic;
@@ -624,6 +629,9 @@ signal	mix_sndL,mix_sndR	:std_logic_vector(15 downto 0);
 signal	sndL,sndR	:std_logic_vector(15 downto 0);
 signal	dacsft		:std_logic;
 
+--I2S DAC
+signal	i2s_sndL,i2s_sndR	:std_logic_vector(31 downto 0);
+
 --for I2C I/F
 signal	SDAIN,SDAOUT	:std_logic;
 signal	SCLIN,SCLOUT	:std_logic;
@@ -735,6 +743,7 @@ component mainpllCVdemu
 		outclk_4 : out std_logic;        -- outclk4.clk
 		outclk_5 : out std_logic;        -- outclk5.clk
 		outclk_6 : out std_logic;        -- outclk6.clk
+		outclk_7 : out std_logic;        -- outclk7.clk
 		locked   : out std_logic         --  locked.export
 	);
 end component;
@@ -2455,9 +2464,23 @@ end component;
 --);
 --end component;
 
+component i2s_encoder
+port(
+	snd_clk     :in std_logic;
+	snd_L       :in std_logic_vector(31 downto 0);
+	snd_R       :in std_logic_vector(31 downto 0);
+	
+	i2s_data    :out std_logic;
+	i2s_lrck    :out std_logic;
+		
+	i2s_bclk    :in std_logic;  -- I2S BCK (Bit Clock) 3.072MHz (=48kHz * 64)
+	rstn		:in std_logic
+);
+end component;
+
 begin
 	pllrst<=not pwr_rstn;
-	clkgen	:mainpllCVdemu port map(pClk50M,pllrst,ramclk,sysclk,vidclk,pMemClk,fdcclk,sndclk,emuclk,plllock);
+	clkgen	:mainpllCVdemu port map(pClk50M,pllrst,ramclk,sysclk,vidclk,pMemClk,fdcclk,sndclk,emuclk,i2sclk,plllock);
 --	pMemClk<=not ramclk;
 
 	sr	:sftclk    generic map(100000000,1,1) port map("1",srst,sysclk,rstn);
@@ -2472,17 +2495,6 @@ begin
 	vid_rstn<=plllock and pwr_rstn and ram_inidone;
 	dem_conten<=pDip(1) or pF68kIO_Dip;
 
-	-- for debug
-	pF68kIO_Test(0) <= midi_cs;
-	pF68kIO_Test(1) <= midi_rd;
-	pF68kIO_Test(2) <= midi_wr;
-	pF68kIO_Test(3) <= midi_int;
-	pF68kIO_Test(4) <= '0';
-	pF68kIO_Test(5) <= '0';
-	pF68kIO_Test(6) <= '0';
-	pF68kIO_Test(7) <= '0';
-
-	
 	pwr	:pwrcont  port map(
 		addrin	=>abus,
 		wr		=>b_wr(0),
@@ -4236,5 +4248,28 @@ begin
 --		mclk	=>ramclk,
 --		rstn	=>srstn
 --	);
+
+	pF68kIO_I2S_MCLK <= '0';
+	pF68kIO_I2S_BICK <= i2sclk;
+	pF68kIO_I2S_MUTE_n <= '1';
+
+	i2s_sndL(15 downto 0) <= (others => '0');
+	i2s_sndL(15 downto 0) <= (others => '0');
+
+	-- SC-55との音量差があったので、音量2倍にしている
+	doubleL	:addsat generic map(16) port map(sndL,sndL,i2s_sndL(31 downto 16),open,open);
+	doubleR	:addsat generic map(16) port map(sndR,sndR,i2s_sndR(31 downto 16),open,open);
+
+    I2S	: i2s_encoder port map(
+		snd_clk     => sndclk,
+		snd_L       => i2s_sndL,
+		snd_R       => i2s_sndR,
 	
+		i2s_data    => pF68kIO_I2S_DATA,
+		i2s_lrck    => pF68kIO_I2S_LRCK,
+		
+		i2s_bclk    => i2sclk,
+		rstn		=> srstn
+	);
+
 end rtl;

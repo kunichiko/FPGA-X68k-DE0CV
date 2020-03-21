@@ -19,6 +19,7 @@ entity mainpllCVdemu is
 		outclk_4 : out std_logic;        -- outclk4.clk
 		outclk_5 : out std_logic;        -- outclk5.clk
 		outclk_6 : out std_logic;        -- outclk6.clk
+		outclk_7 : out std_logic;        -- outclk7.clk
 		locked   : out std_logic         --  locked.export
 	);
 end entity mainpllCVdemu;
@@ -35,6 +36,7 @@ architecture rtl of mainpllCVdemu is
 			outclk_4 : out std_logic;        -- clk
 			outclk_5 : out std_logic;        -- clk
 			outclk_6 : out std_logic;        -- clk
+			outclk_7 : out std_logic;        -- clk
 			locked   : out std_logic         -- export
 		);
 	end component mainpllCVdemu_0002;
@@ -52,6 +54,7 @@ begin
 			outclk_4 => outclk_4, -- outclk4.clk
 			outclk_5 => outclk_5, -- outclk5.clk
 			outclk_6 => outclk_6, -- outclk6.clk
+			outclk_7 => outclk_7, -- outclk7.clk
 			locked   => locked    --  locked.export
 		);
 

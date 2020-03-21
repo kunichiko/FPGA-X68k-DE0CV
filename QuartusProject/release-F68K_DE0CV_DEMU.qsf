@@ -528,48 +528,46 @@ set_global_assignment -name VHDL_FILE DMAC/DMA63450.vhd
 set_global_assignment -name VHDL_FILE DMAC/dma1ch.vhd
 set_global_assignment -name VHDL_FILE LIB/delayon.vhd
 set_global_assignment -name HEX_FILE BIOS/IPLROM.hex
-set_global_assignment -name SEARCH_PATH BIOS/ -tag from_archive
-set_global_assignment -name SEARCH_PATH CPU/tg68/VHDL/ -tag from_archive
-set_global_assignment -name SEARCH_PATH DMAC/ -tag from_archive
-set_global_assignment -name SEARCH_PATH Doc/ -tag from_archive
-set_global_assignment -name SEARCH_PATH FDC/ -tag from_archive
-set_global_assignment -name SEARCH_PATH GPALETTE/ -tag from_archive
-set_global_assignment -name SEARCH_PATH HDMI/ -tag from_archive
-set_global_assignment -name SEARCH_PATH I2C/ -tag from_archive
-set_global_assignment -name SEARCH_PATH LIB/ -tag from_archive
-set_global_assignment -name SEARCH_PATH MFP/ -tag from_archive
-set_global_assignment -name SEARCH_PATH MFP/KBIF/ -tag from_archive
-set_global_assignment -name SEARCH_PATH PS2IF/ -tag from_archive
-set_global_assignment -name SEARCH_PATH SASIIF/ -tag from_archive
-set_global_assignment -name SEARCH_PATH SCC/ -tag from_archive
-set_global_assignment -name SEARCH_PATH SCC/MOUSEIF/ -tag from_archive
-set_global_assignment -name SEARCH_PATH SPI/ -tag from_archive
-set_global_assignment -name SEARCH_PATH SPRITE/ -tag from_archive
-set_global_assignment -name SEARCH_PATH USART/ -tag from_archive
-set_global_assignment -name SEARCH_PATH VIDEO/ -tag from_archive
-set_global_assignment -name SEARCH_PATH VIDEO/HDMI/ -tag from_archive
-set_global_assignment -name SEARCH_PATH VIDEO/font/ -tag from_archive
-set_global_assignment -name SEARCH_PATH cycV/ -tag from_archive
-set_global_assignment -name SEARCH_PATH db/ip/diskemu/ -tag from_archive
-set_global_assignment -name SEARCH_PATH db/ip/diskemu/submodules/ -tag from_archive
-set_global_assignment -name SEARCH_PATH diskemu.v2/ -tag from_archive
-set_global_assignment -name SEARCH_PATH diskemu.v2/software/ -tag from_archive
-set_global_assignment -name SEARCH_PATH diskemu.v2/software/diskemu/mem_init/ -tag from_archive
-set_global_assignment -name SEARCH_PATH mainpllCVdemu/ -tag from_archive
-set_global_assignment -name SEARCH_PATH rtc/ -tag from_archive
-set_global_assignment -name SEARCH_PATH sound/ -tag from_archive
-set_global_assignment -name SEARCH_PATH sound/FMcommon/ -tag from_archive
-set_global_assignment -name SEARCH_PATH sound/OPM/ -tag from_archive
-set_global_assignment -name SEARCH_PATH sound/adpcm6258/ -tag from_archive
-set_global_assignment -name SEARCH_PATH sound/midiif/ -tag from_archive
 set_location_assignment PIN_T15 -to pF68kIO_Dip
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pF68kIO_Dip
-set_location_assignment PIN_T19 -to pF68kIO_Test[0]
-set_location_assignment PIN_R16 -to pF68kIO_Test[1]
-set_location_assignment PIN_R15 -to pF68kIO_Test[2]
-set_location_assignment PIN_K19 -to pF68kIO_Test[3]
-set_location_assignment PIN_T18 -to pF68kIO_Test[4]
-set_location_assignment PIN_T20 -to pF68kIO_Test[5]
-set_location_assignment PIN_R17 -to pF68kIO_Test[6]
-set_location_assignment PIN_P18 -to pF68kIO_Test[7]
+set_location_assignment PIN_K19 -to pF68kIO_I2S_MCLK
+set_location_assignment PIN_R15 -to pF68kIO_I2S_BICK
+set_location_assignment PIN_R16 -to pF68kIO_I2S_DATA
+set_location_assignment PIN_T19 -to pF68kIO_I2S_LRCK
+set_location_assignment PIN_T17 -to pF68kIO_I2S_MUTE_n
+set_global_assignment -name SEARCH_PATH i2s/
+set_global_assignment -name SEARCH_PATH bios/
+set_global_assignment -name SEARCH_PATH cpu/tg68/vhdl/
+set_global_assignment -name SEARCH_PATH dmac/
+set_global_assignment -name SEARCH_PATH doc/
+set_global_assignment -name SEARCH_PATH fdc/
+set_global_assignment -name SEARCH_PATH gpalette/
+set_global_assignment -name SEARCH_PATH hdmi/
+set_global_assignment -name SEARCH_PATH i2c/
+set_global_assignment -name SEARCH_PATH lib/
+set_global_assignment -name SEARCH_PATH mfp/
+set_global_assignment -name SEARCH_PATH mfp/kbif/
+set_global_assignment -name SEARCH_PATH ps2if/
+set_global_assignment -name SEARCH_PATH sasiif/
+set_global_assignment -name SEARCH_PATH scc/
+set_global_assignment -name SEARCH_PATH scc/mouseif/
+set_global_assignment -name SEARCH_PATH spi/
+set_global_assignment -name SEARCH_PATH sprite/
+set_global_assignment -name SEARCH_PATH usart/
+set_global_assignment -name SEARCH_PATH video/
+set_global_assignment -name SEARCH_PATH video/hdmi/
+set_global_assignment -name SEARCH_PATH video/font/
+set_global_assignment -name SEARCH_PATH cycv/
+set_global_assignment -name SEARCH_PATH db/ip/diskemu/
+set_global_assignment -name SEARCH_PATH db/ip/diskemu/submodules/
+set_global_assignment -name SEARCH_PATH diskemu.v2/
+set_global_assignment -name SEARCH_PATH diskemu.v2/software/
+set_global_assignment -name SEARCH_PATH diskemu.v2/software/diskemu/mem_init/
+set_global_assignment -name SEARCH_PATH mainpllcvdemu/
+set_global_assignment -name SEARCH_PATH rtc/
+set_global_assignment -name SEARCH_PATH sound/
+set_global_assignment -name SEARCH_PATH sound/fmcommon/
+set_global_assignment -name SEARCH_PATH sound/opm/
+set_global_assignment -name SEARCH_PATH sound/adpcm6258/
+set_global_assignment -name SEARCH_PATH sound/midiif/
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

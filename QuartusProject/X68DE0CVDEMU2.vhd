@@ -4253,12 +4253,10 @@ begin
 	pF68kIO_I2S_BICK <= i2sclk;
 	pF68kIO_I2S_MUTE_n <= '1';
 
+	i2s_sndL(31 downto 16) <= sndL;
+	i2s_sndR(31 downto 16) <= sndR;
 	i2s_sndL(15 downto 0) <= (others => '0');
 	i2s_sndL(15 downto 0) <= (others => '0');
-
-	-- SC-55との音量差があったので、音量2倍にしている
-	doubleL	:addsat generic map(16) port map(sndL,sndL,i2s_sndL(31 downto 16),open,open);
-	doubleR	:addsat generic map(16) port map(sndR,sndR,i2s_sndR(31 downto 16),open,open);
 
     I2S	: i2s_encoder port map(
 		snd_clk     => sndclk,

@@ -40,3 +40,5 @@ QuartusProject/X68k_DE0CVDEMU.map
 QuartusProject/X68k_DE0CVDEMU.pof
 QuartusProject/release-F68K_DE0CV_DEMU.cdf
 QuartusProject/BIOS/CGROM.DAT
+QuartusProject/sound/OPM_JT51/jt51_1v1.v
+QuartusProject/sound/OPM_JT51/OPM_JT51.vhd

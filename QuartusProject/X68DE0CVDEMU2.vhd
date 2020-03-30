@@ -2089,32 +2089,7 @@ port(
 );
 end component;
 
---component jt51
---port(
---	clk	:in std_logic;								--input				clk,	// main clock
---	rst	:in std_logic;								--input				rst,	// reset
---	cs_n	:in std_logic;								--input				cs_n,	// chip select
---	wr_n	:in std_logic;								--input				wr_n,	// write
---	a0		:in std_logic;								--input				a0,
---	d_in	:in std_logic_vector(7 downto 0);	--input		[7:0]	d_in, // data in
---	d_out	:out std_logic_vector(7 downto 0);	--output 		[7:0]	d_out, // data out
---	ct1	:out std_logic;							--output 				ct1,
---	ct2	:out std_logic;							--output 				ct2,
---	irq_n	:out std_logic;							--output 				irq_n,	// I do not synchronize this signal
---	p1		:out std_logic;							--output	reg 		p1,
---	--// Low resolution output (same as real chip)
---	sample	:out std_logic;						--output				sample,	// marks new output sample
---	left	:out std_logic_vector(15 downto 0);	--output	signed	[15:0] left,
---	right	:out std_logic_vector(15 downto 0);	--output	signed	[15:0] right,
---	--// Full resolution output
---	xleft	:out std_logic_vector(15 downto 0);	--output	signed	[15:0] xleft,
---	xright :out std_logic_vector(15 downto 0);--output	signed	[15:0] xright,
---	--// unsigned outputs for sigma delta converters, full resolution
---	dacleft:out std_logic_vector(15 downto 0);							--output	[15:0] dacleft,
---	dacright:out std_logic_vector(15 downto 0)							--output	[15:0] dacright
---);
---end component;
-
+--component OPM_JT51  -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
 component OPM
 generic(
 	res		:integer	:=9
@@ -3763,8 +3738,9 @@ begin
 	
 	dopmonoff<=	pDip(9 downto 2) when DEBUG(DBIT_OPMCH_ONOFF)='1' else
 					(others=>'1');
-	
-	FM:OPM generic map(16) port map(
+
+    -- FM:OPM_JT51 generic map(16) port map( -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
+    FM:OPM generic map(16) port map(
 		DIN		=>dbus(7 downto 0),
 		DOUT	=>opm_odat,
 		DOE		=>opm_doe,

@@ -535,6 +535,8 @@ set_location_assignment PIN_R15 -to pF68kIO_I2S_BICK
 set_location_assignment PIN_R16 -to pF68kIO_I2S_DATA
 set_location_assignment PIN_T19 -to pF68kIO_I2S_LRCK
 set_location_assignment PIN_T17 -to pF68kIO_I2S_MUTE_n
+set_global_assignment -name VHDL_FILE sound/OPM_JT51/OPM_JT51.vhd
+set_global_assignment -name VERILOG_FILE sound/OPM_JT51/jt51_1v1.v
 set_global_assignment -name SEARCH_PATH i2s/
 set_global_assignment -name SEARCH_PATH bios/
 set_global_assignment -name SEARCH_PATH cpu/tg68/vhdl/

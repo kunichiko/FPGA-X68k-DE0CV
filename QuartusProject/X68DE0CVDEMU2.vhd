@@ -2089,8 +2089,8 @@ port(
 );
 end component;
 
---component OPM_JT51  -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
-component OPM
+component OPM_JT51  -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
+--component OPM
 generic(
 	res		:integer	:=9
 );
@@ -3739,8 +3739,8 @@ begin
 	dopmonoff<=	pDip(9 downto 2) when DEBUG(DBIT_OPMCH_ONOFF)='1' else
 					(others=>'1');
 
-    -- FM:OPM_JT51 generic map(16) port map( -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
-    FM:OPM generic map(16) port map(
+    FM:OPM_JT51 generic map(16) port map( -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
+    -- FM:OPM generic map(16) port map(
 		DIN		=>dbus(7 downto 0),
 		DOUT	=>opm_odat,
 		DOE		=>opm_doe,

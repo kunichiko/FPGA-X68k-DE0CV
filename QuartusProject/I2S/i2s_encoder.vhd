@@ -43,7 +43,6 @@ architecture rtl of i2s_encoder is
 signal pcm_req	   :std_logic;
 signal pcm_req_d   :std_logic;
 signal pcm_ack     :std_logic;
-signal pcm_ack_d   :std_logic;
 signal pcm_latch_l :std_logic_vector(31 downto 0);
 signal pcm_latch_r :std_logic_vector(31 downto 0);
 
@@ -61,8 +60,8 @@ begin
 		elsif(snd_clk' event and snd_clk='1') then
 			pcm_req_d <= pcm_req; -- メタステーブル回避
 			if(pcm_req_d /= pcm_ack) then
-				-- pcmデータ要求
-				pcm_ack <= pcm_req_d;
+				-- pcmデータ要求に応答
+				pcm_ack <= not pcm_ack;
 				pcm_latch_l <= snd_L;
 				pcm_latch_r <= snd_R;
 			end if;
@@ -75,7 +74,6 @@ begin
 			pcm_req <= '0';
 			i2s_counter <= (others => '0');
 		elsif(i2s_bclk' event and i2s_bclk='1')then
-			pcm_ack_d <= pcm_ack; -- メタステーブル回避
 			i2s_data <= i2s_data_v(63);
 			i2s_data_v <= i2s_data_v(62 downto 0) & '0';
 
@@ -83,7 +81,7 @@ begin
 			if(i2s_counter = 0) then
 				i2s_data_v <= pcm_latch_l & pcm_latch_r;
 				i2s_lrck <= '0';
-				pcm_req <= not pcm_ack_d;
+				pcm_req <= not pcm_req;
 			elsif(i2s_counter = 32) then
 			    i2s_lrck <= '1';
 			end if;

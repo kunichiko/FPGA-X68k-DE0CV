@@ -11,7 +11,6 @@ QuartusProject/BIOS/IPLROM.hex
 *.done
 *.eqn
 *.jdi
-*.mif
 *.pin
 *.ptf.*
 *.qar

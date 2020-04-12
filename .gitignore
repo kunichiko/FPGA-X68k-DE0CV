@@ -6,7 +6,6 @@
 *.done
 *.eqn
 *.jdi
-*.mif
 *.pin
 *.ptf.*
 *.qar

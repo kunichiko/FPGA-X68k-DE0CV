@@ -61,7 +61,7 @@ module  mainpllCVdemu_0002(
 		.output_clock_frequency6("60.000000 MHz"),
 		.phase_shift6("0 ps"),
 		.duty_cycle6(50),
-        .output_clock_frequency7("3.076923 MHz"),
+        .output_clock_frequency7("4.000000 MHz"),
 		.phase_shift7("0 ps"),
 		.duty_cycle7(50),
 		.output_clock_frequency8("0 MHz"),

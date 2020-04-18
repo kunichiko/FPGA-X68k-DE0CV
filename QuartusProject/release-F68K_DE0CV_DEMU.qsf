@@ -323,8 +323,13 @@ set_instance_assignment -name IO_STANDARD LVDS_E_3R -to pHDMI_DAT2
 set_location_assignment PIN_D17 -to pHDMI_SCL
 set_location_assignment PIN_K20 -to pHDMI_SDA
 set_location_assignment PIN_M16 -to pHDMI_PWR
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to pClk50M
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to pDac_SL
+set_location_assignment PIN_G18 -to pDemuSw
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pDemuSw
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pHDMI_SCL
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pHDMI_SDA
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
-set_global_assignment -name HEX_FILE diskemu.v2/sramdefault.hex
 set_global_assignment -name VHDL_FILE X68DE0CVDEMU2.vhd
 set_global_assignment -name SOURCE_FILE "diskemu.v2/software/nios-src.zip"
 set_global_assignment -name SOURCE_FILE X68k_DE0CVDEMU.cof
@@ -473,6 +478,8 @@ set_global_assignment -name QIP_FILE diskemu.v2/software/diskemu/mem_init/memini
 set_global_assignment -name VHDL_FILE diskemu.v2/FDemu.vhd
 set_global_assignment -name VHDL_FILE diskemu.v2/diskemuunit.vhd
 set_global_assignment -name VHDL_FILE diskemu.v2/mkgapsync.vhd
+set_global_assignment -name VHDL_FILE diskemu.v2/fdcopy.vhd
+set_global_assignment -name HEX_FILE diskemu.v2/sramdefault.hex
 set_global_assignment -name VHDL_FILE I2C/I2C_pkg.vhd
 set_global_assignment -name VHDL_FILE I2C/I2CIF.vhd
 set_global_assignment -name VHDL_FILE rtc/I2Crtc.vhd
@@ -528,8 +535,6 @@ set_global_assignment -name VHDL_FILE DMAC/DMA63450.vhd
 set_global_assignment -name VHDL_FILE DMAC/dma1ch.vhd
 set_global_assignment -name VHDL_FILE LIB/delayon.vhd
 set_global_assignment -name HEX_FILE BIOS/IPLROM.hex
-set_location_assignment PIN_T15 -to pF68kIO_Dip
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pF68kIO_Dip
 set_location_assignment PIN_K19 -to pF68kIO_I2S_MCLK
 set_location_assignment PIN_R15 -to pF68kIO_I2S_BICK
 set_location_assignment PIN_R16 -to pF68kIO_I2S_DATA

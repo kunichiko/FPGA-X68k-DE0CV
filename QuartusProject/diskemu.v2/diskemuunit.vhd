@@ -76,6 +76,7 @@ port(
 	fdd_wprotn	:in std_logic						:='1';
 	fdd_eject	:out std_logic_vector(1 downto 0);
 	fdd_indisk	:in std_logic_vector(1 downto 0)	:=(others=>'0');
+	fdd_cpyen	:out std_logic;
 
 --FD emulator
 	fde_tracklen:out std_logic_vector(13 downto 0);
@@ -159,7 +160,38 @@ signal	fdc_indiskw		:std_logic_vector(3 downto 0);
 signal	fddselw			:std_logic_vector(3 downto 0);
 signal	fddsel			:std_logic_vector(FDDs-1 downto 0);
 
+signal	fdcpyen			:std_logic;
+signal	fdemu_ramaddr	:std_logic_vector(23 downto 0);
+signal	fdemu_ramwdat	:std_logic_vector(15 downto 0);
+signal	fdemu_ramwr		:std_logic;
+signal	fdcpy_ramaddr	:std_logic_vector(23 downto 0);
+signal	fdcpy_ramwdat	:std_logic_vector(15 downto 0);
+signal	fdcpy_ramwr		:std_logic;
+
+signal	fdcpy_USELn		:std_logic_vector(1 downto 0);
+signal	fdcpy_MOTORn	:std_logic_vector(1 downto 0);
+signal	fdcpy_WRENn		:std_logic;
+signal	fdcpy_WRBITn	:std_logic;
+signal	fdcpy_STEPn		:std_logic;
+signal	fdcpy_SDIRn		:std_logic;
+signal	fdcpy_siden		:std_logic;
+
+signal	fdcpy_fdmode	:std_logic_vector(1 downto 0);
+signal	fdcpy_mfm		:std_logic;
+signal	fdcpy_unit		:std_logic;
+signal	fdcpy_emunit	:std_logic_vector(1 downto 0);
+signal	fdcpy_track		:std_logic_vector(6 downto 0);
+signal	fdcpy_head		:std_logic;
+signal	fdcpy_carib		:std_logic;
+signal	fdcpy_seek		:std_logic;
+signal	fdcpy_wrdisk	:std_logic;
+signal	fdcpy_rddisk	:std_logic;
+signal	fdcpy_busy		:std_logic;
+signal	fdcpy_error		:std_logic;
+
 signal	kbfifowait		:std_logic;
+signal	fdemu_tracklen	:std_logic_vector(13 downto 0);
+signal	fdcpy_tracklen	:std_logic_vector(13 downto 0);
 
 component diskemu
 	port (
@@ -231,9 +263,21 @@ component diskemu
 		clk_clk              : in  std_logic                     := '0';             --             clk.clk
 		vclk_clk             : in  std_logic                     := '0';             --            vclk.clk
 		fdclk_clk            : in  std_logic                     := '0';             --           fdclk.clk
-		sysclk_clk             : in  std_logic                     := '0';             --            mclk.clk
+		sysclk_clk           : in  std_logic                     := '0';             --            mclk.clk
 		ramclk_clk           : in  std_logic                     := '0';             --          ramclk.clk
-		reset_reset_n        : in  std_logic                     := '0'              --           reset.reset_n
+		reset_reset_n        : in  std_logic                     := '0';             --           reset.reset_n
+		fdcpy_fdmode_export  : out std_logic_vector(1 downto 0);                     --    fdcpy_fdmode.export
+		fdcpy_mfm_export     : out std_logic;                                        --       fdcpy_mfm.export
+		fdcpy_unit_export    : out std_logic;                                        --      fdcpy_unit.export
+		fdcpy_emunit_export  : out std_logic_vector(1 downto 0);                     --    fdcpy_emunit.export
+		fdcpy_track_export   : out std_logic_vector(6 downto 0);                     --     fdcpy_track.export
+		fdcpy_head_export    : out std_logic;                                        --      fdcpy_head.export
+		fdcpy_recarib_export : out std_logic;                                        --   fdcpy_recarib.export
+		fdcpy_seek_export    : out std_logic;                                        --      fdcpy_seek.export
+		fdcpy_wrdisk_export  : out std_logic;                                        --    fdcpy_wrdisk.export
+		fdcpy_rddisk_export  : out std_logic;                                        --    fdcpy_rddisk.export
+		fdcpy_busy_export    : in  std_logic                     := '0';             --      fdcpy_busy.export
+		fdcpy_error_export   : in  std_logic                     := '0'              --     fdcpy_error.export
 	);
 end component;
 
@@ -269,6 +313,54 @@ port(
 	track0n	:out std_logic;		--pin26
 	indexn	:out std_logic;		--pin8
 	siden	:in std_logic;		--pin32
+
+	clk		:in std_logic;
+	rstn	:in std_logic
+);
+end component;
+
+component  FDcopy
+generic(
+	sysclk		:integer	:=20000;
+	maxtrack	:integer	:=85;
+	seekstep	:integer	:=3;		--msec
+	seekset		:integer	:=30;
+	toutlen	:integer	:=2000	--msec
+);
+port(
+	ramaddr	:out std_logic_vector(23 downto 0);
+	ramrdat	:in std_logic_vector(15 downto 0);
+	ramwdat	:out std_logic_vector(15 downto 0);
+	ramwr	:out std_logic;
+	ramwait	:in std_logic;
+	tracklen	:out std_logic_vector(13 downto 0);
+
+	fdmode		:in std_logic_vector(1 downto 0);
+	mfm			:in std_logic;
+	unit		:in std_logic;
+	emunit		:in std_logic_vector(1 downto 0);
+	track		:in std_logic_vector(6 downto 0);
+	head		:in std_logic;
+	recarib		:in std_logic;
+	seek		:in std_logic;
+	wrdisk		:in std_logic;
+	rddisk		:in std_logic;
+	busy		:out std_logic;
+	control	:out std_logic;
+	error		:out std_logic;
+	
+	USELn	:out std_logic_vector(1 downto 0);
+	MOTORn	:out std_logic_vector(1 downto 0);
+	READYn	:in std_logic;
+	WRENn	:out std_logic;		--pin24
+	WRBITn	:out std_logic;		--pin22
+	RDBITn	:in std_logic;		--pin30
+	STEPn	:out std_logic;		--pin20
+	SDIRn	:out std_logic;		--pin18
+	WPRTn	:in std_logic;		--pin28
+	track0n	:in std_logic;		--pin26
+	indexn	:in std_logic;		--pin8
+	siden	:out std_logic;		--pin32
 
 	clk		:in std_logic;
 	rstn	:in std_logic
@@ -355,6 +447,20 @@ begin
 		fdemuen_export			=>fde_emuen,
 		fdebusy_export			=>fde_busy,
 		fdmotor_export       =>not fdc_motorn,
+		
+		fdcpy_fdmode_export  =>fdcpy_fdmode,
+		fdcpy_mfm_export     =>fdcpy_mfm,
+		fdcpy_unit_export    =>fdcpy_unit,
+		fdcpy_emunit_export  =>fdcpy_emunit,
+		fdcpy_track_export   =>fdcpy_track,
+		fdcpy_head_export    =>fdcpy_head,
+		fdcpy_recarib_export =>fdcpy_carib,
+		fdcpy_seek_export    =>fdcpy_seek,
+		fdcpy_wrdisk_export  =>fdcpy_wrdisk,
+		fdcpy_rddisk_export  =>fdcpy_rddisk,
+		fdcpy_busy_export    =>fdcpy_busy,
+		fdcpy_error_export   =>fdcpy_error,
+		
 		curc_export				=>vcursor_Cw,
 		curl_export				=>vcursor_Lw,
 		curen_export			=>vcursoren,
@@ -399,10 +505,10 @@ begin
 						'0';
 	
 	fde	:FDemu generic map(clkfreq,fdwait) port map(
-		ramaddr		=>fde_ramaddr,
+		ramaddr		=>fdemu_ramaddr,
 		ramrdat		=>fde_ramrdat,
-		ramwdat		=>fde_ramwdat,
-		ramwr		=>fde_ramwr,
+		ramwdat		=>fdemu_ramwdat,
+		ramwr		=>fdemu_ramwr,
 		ramwait		=>fde_ramwait,
 
 		rdfdmode	=>fde_rdmode,
@@ -410,7 +516,7 @@ begin
 		modeset		=>fde_modeset,
 		wrote		=>fde_wrote,
 		wprot		=>fde_wprot,
-		tracklen	=>fde_tracklen,
+		tracklen	=>fdemu_tracklen,
 		
 		USEL		=>fdmodem_usel,
 		MOTOR		=>fde_motoren,
@@ -451,27 +557,85 @@ begin
 		fddselw(FDDs-1 downto 0)<=fddsel;
 	end process;
 	
-	fdd_useln(0)<=	'0' when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
+	fdcp	: FDcopy generic map(
+		sysclk		=>clkfreq,
+		maxtrack	=>85,
+		seekstep	=>3,
+		seekset		=>30,
+		toutlen	=>3000
+	)port map(
+		ramaddr		=>fdcpy_ramaddr,
+		ramrdat		=>fde_ramrdat,
+		ramwdat		=>fdcpy_ramwdat,
+		ramwr		=>fdcpy_ramwr,
+		ramwait		=>fde_ramwait,
+		tracklen		=>fdcpy_tracklen,
+
+		fdmode		=>fdcpy_fdmode,
+		mfm			=>fdcpy_mfm,
+		unit		=>fdcpy_unit,
+		emunit		=>fdcpy_emunit,
+		track		=>fdcpy_track,
+		head		=>fdcpy_head,
+		recarib		=>fdcpy_carib,
+		seek		=>fdcpy_seek,
+		wrdisk		=>fdcpy_wrdisk,
+		rddisk		=>fdcpy_rddisk,
+		busy		=>fdcpy_busy,
+		control	=>fdcpyen,
+		error		=>fdcpy_error,
+		
+		USELn		=>fdcpy_USELn,
+		MOTORn		=>fdcpy_MOTORn,
+		READYn		=>fdd_readyn,
+		WRENn		=>fdcpy_WRENn,
+		WRBITn		=>fdcpy_WRBITn,
+		RDBITn		=>fdd_rdbitn,
+		STEPn		=>fdcpy_STEPn,
+		SDIRn		=>fdcpy_SDIRn,
+		WPRTn		=>fdd_wprotn,
+		track0n		=>fdd_track0n,
+		indexn		=>fdd_indexn,
+		siden		=>fdcpy_siden,
+
+		clk			=>fclk,
+		rstn		=>rstn
+	);
+	fdd_cpyen<=fdcpyen;
+
+	fde_ramaddr<=	fdcpy_ramaddr	when fdcpyen='1' else
+					fdemu_ramaddr;
+	fde_ramwdat<=	fdcpy_ramwdat	when fdcpyen='1' else
+					fdemu_ramwdat;
+	fde_ramwr<=		fdcpy_ramwr		when fdcpyen='1' else
+					fdemu_ramwr;
+
+	fdd_useln(0)<=	fdcpy_USELn(0)	when fdcpyen='1' else
+					'0' when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
 					'0' when fde_dsel0(1)='1' and fdc_uselnw(1)='0' else
 					'0' when fde_dsel0(2)='1' and fdc_uselnw(2)='0' else
 					'0' when fde_dsel0(3)='1' and fdc_uselnw(3)='0' else
 					'1';
-	fdd_useln(1)<=	'0' when fde_dsel1(0)='1' and fdc_uselnw(0)='0' else
+	fdd_useln(1)<=	fdcpy_USELn(1)	when fdcpyen='1' else
+					'0' when fde_dsel1(0)='1' and fdc_uselnw(0)='0' else
 					'0' when fde_dsel1(1)='1' and fdc_uselnw(1)='0' else
 					'0' when fde_dsel1(2)='1' and fdc_uselnw(2)='0' else
 					'0' when fde_dsel1(3)='1' and fdc_uselnw(3)='0' else
 					'1';
-	fdd_motorn(0)<=	'0' when fde_dsel0(0)='1' and fdc_motornw(0)='0' else
+	fdd_motorn(0)<=	fdcpy_MOTORn(0)	when fdcpyen='1' else
+					'0' when fde_dsel0(0)='1' and fdc_motornw(0)='0' else
 					'0' when fde_dsel0(1)='1' and fdc_motornw(1)='0' else
 					'0' when fde_dsel0(2)='1' and fdc_motornw(2)='0' else
 					'0' when fde_dsel0(3)='1' and fdc_motornw(3)='0' else
 					'1';
-	fdd_motorn(1)<=	'0' when fde_dsel1(0)='1' and fdc_motornw(0)='0' else
+	fdd_motorn(1)<=	fdcpy_MOTORn(1)	when fdcpyen='1' else
+					'0' when fde_dsel1(0)='1' and fdc_motornw(0)='0' else
 					'0' when fde_dsel1(1)='1' and fdc_motornw(1)='0' else
 					'0' when fde_dsel1(2)='1' and fdc_motornw(2)='0' else
 					'0' when fde_dsel1(3)='1' and fdc_motornw(3)='0' else
 					'1';
-	fdd_wrenn<=		fdc_wrenn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
+	fdd_wrenn<=		fdcpy_WRENn		when fdcpyen='1' else
+					fdc_wrenn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
 					fdc_wrenn when fde_dsel0(1)='1' and fdc_uselnw(1)='0' else
 					fdc_wrenn when fde_dsel0(2)='1' and fdc_uselnw(2)='0' else
 					fdc_wrenn when fde_dsel0(3)='1' and fdc_uselnw(3)='0' else
@@ -480,7 +644,8 @@ begin
 					fdc_wrenn when fde_dsel1(2)='1' and fdc_uselnw(2)='0' else
 					fdc_wrenn when fde_dsel1(3)='1' and fdc_uselnw(3)='0' else
 					'1';
-	fdd_wrbitn<=	fdc_wrbitn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
+	fdd_wrbitn<=	fdcpy_WRBITn 	when fdcpyen='1' else
+					fdc_wrbitn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
 					fdc_wrbitn when fde_dsel0(1)='1' and fdc_uselnw(1)='0' else
 					fdc_wrbitn when fde_dsel0(2)='1' and fdc_uselnw(2)='0' else
 					fdc_wrbitn when fde_dsel0(3)='1' and fdc_uselnw(3)='0' else
@@ -489,7 +654,8 @@ begin
 					fdc_wrbitn when fde_dsel1(2)='1' and fdc_uselnw(2)='0' else
 					fdc_wrbitn when fde_dsel1(3)='1' and fdc_uselnw(3)='0' else
 					'1';
-	fdd_stepn<=		fdc_stepn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
+	fdd_stepn<=		fdcpy_STEPn		when fdcpyen='1' else
+					fdc_stepn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
 					fdc_stepn when fde_dsel0(1)='1' and fdc_uselnw(1)='0' else
 					fdc_stepn when fde_dsel0(2)='1' and fdc_uselnw(2)='0' else
 					fdc_stepn when fde_dsel0(3)='1' and fdc_uselnw(3)='0' else
@@ -498,7 +664,8 @@ begin
 					fdc_stepn when fde_dsel1(2)='1' and fdc_uselnw(2)='0' else
 					fdc_stepn when fde_dsel1(3)='1' and fdc_uselnw(3)='0' else
 					'1';
-	fdd_sdirn<=		fdc_sdirn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
+	fdd_sdirn<=		fdcpy_SDIRn		when fdcpyen='1' else
+					fdc_sdirn when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
 					fdc_sdirn when fde_dsel0(1)='1' and fdc_uselnw(1)='0' else
 					fdc_sdirn when fde_dsel0(2)='1' and fdc_uselnw(2)='0' else
 					fdc_sdirn when fde_dsel0(3)='1' and fdc_uselnw(3)='0' else
@@ -507,7 +674,8 @@ begin
 					fdc_sdirn when fde_dsel1(2)='1' and fdc_uselnw(2)='0' else
 					fdc_sdirn when fde_dsel1(3)='1' and fdc_uselnw(3)='0' else
 					'1';
-	fdd_siden<=		fdc_siden when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
+	fdd_siden<=		fdcpy_siden		when fdcpyen='1' else
+					fdc_siden when fde_dsel0(0)='1' and fdc_uselnw(0)='0' else
 					fdc_siden when fde_dsel0(1)='1' and fdc_uselnw(1)='0' else
 					fdc_siden when fde_dsel0(2)='1' and fdc_uselnw(2)='0' else
 					fdc_siden when fde_dsel0(3)='1' and fdc_uselnw(3)='0' else
@@ -610,6 +778,9 @@ begin
 					fdd_indisk(1) when fde_dsel1(3)='1' else
 					'0';
 	fdc_indisk<=fdc_indiskw(FDDs-1 downto 0);
+	fde_tracklen<=	fdcpy_tracklen	when fdcpyen='1' else
+						fdemu_tracklen;
+
 	busy<=fde_busy or sasi_bsyb;
 	
 end rtl;					

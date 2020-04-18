@@ -11,7 +11,7 @@ generic(
 	SCFREQ		:integer	:=10000;		--kHz
 	FCFREQ		:integer	:=30000;		--FDC clock
 	ACFREQ		:integer	:=32000;		--Audio clock
-	DACFREQ		:integer	:=4000;		--Audio DAC freq
+	DACFREQ		:integer	:=16000;		--Audio DAC freq
 	DEBUG			:std_logic_vector(7 downto 0)	:="00010010"	--nop,SPRBGONOFF,OPMCH_ONOFF,PAUSE_ONOFF,GRP_ONOFF,SCR_ONOFF,ADPCM_ONOFF,CYCLERESET
 );
 port(
@@ -104,6 +104,7 @@ port(
 	pHDMI_SDA	:inout std_logic;
 	pHDMI_PWR	:in std_logic;
 	
+	pDemuSw		:in std_logic;
 	pHang	:out std_logic;
 	
 	rstn		:in std_logic
@@ -339,6 +340,7 @@ signal	FDC_READYm	:std_logic;
 signal	FDSREG		:std_logic_vector(15 downto 0);
 signal	FD_DE		:std_logic_vector(1 downto 0);
 signal	FDC_BUSY	:std_logic;
+signal	FDCPY_BUSY	:std_logic;
 signal	FDC_DSKCHG	:std_logic;
 signal	FDC_indisk	:std_logic_vector(3 downto 0);
 signal	FDC_wrenn	:std_logic;
@@ -1454,6 +1456,7 @@ port(
 	fdd_wprotn	:in std_logic;
 	fdd_eject	:out std_logic_vector(1 downto 0);
 	fdd_indisk	:in std_logic_vector(1 downto 0);
+	fdd_cpyen	:out std_logic;
 
 --FD emulation
 	fde_tracklen:out std_logic_vector(13 downto 0);
@@ -1461,6 +1464,7 @@ port(
 	fde_ramrdat	:in std_logic_vector(15 downto 0);
 	fde_ramwdat	:out std_logic_vector(15 downto 0);
 	fde_ramwr	:out std_logic;
+	fde_ramwait	:in std_logic;
 	fec_ramaddrh :out std_logic_vector(15 downto 0);
 	fec_ramaddrl :in std_logic_vector(7 downto 0);
 	fec_ramwe	:in std_logic;
@@ -2466,7 +2470,7 @@ begin
 	dem_rstn<=plllock and pwr_rstn;
 	srstn<=plllock and pwr_rstn and ldr_done and dem_initdone;
 	vid_rstn<=plllock and pwr_rstn and ram_inidone;
-	dem_conten<=pDip(1);
+	dem_conten<=(not pDip(1)) xor pDemuSw;
 
 	pwr	:pwrcont  port map(
 		addrin	=>abus,
@@ -3472,12 +3476,12 @@ begin
 	
 	dchk	:dskchk2d generic map(FCFREQ,300,1,10,500) port map(
 		FDC_USELn	=>FD_USELn,
-		FDC_BUSY	=>FDC_BUSY,
+		FDC_BUSY		=>FDC_BUSY or FDCPY_BUSY,
 		FDC_MOTORn	=>FD_MOTORn,
-		FDC_DIRn	=>FD_DIRn,
-		FDC_STEPn	=>FDC_STEPn,
+		FDC_DIRn		=>FD_DIRn,
+		FDC_STEPn	=>FD_STEPn,
 		FDC_READYn	=>FDD_READYn,
-		FDC_WAIT	=>FDC_WAIT,
+		FDC_WAIT		=>FDC_WAIT,
 		
 		FDD_USELn	=>FD_DE,
 		FDD_MOTORn	=>FDD_MOTORn,
@@ -3840,7 +3844,7 @@ begin
 		data	=>(not sndL(15)) & sndL(14 downto 0),
 		datum	=>pDac_SL,
 		
-		sft	=>'1',
+		sft	=>dacsft,
 		clk	=>sndclk,
 		rstn	=>srstn
 	);
@@ -3848,7 +3852,7 @@ begin
 		data	=>(not sndR(15)) & sndR(14 downto 0),
 		datum	=>pDac_SR,
 		
-		sft	=>'1',
+		sft	=>dacsft,
 		clk	=>sndclk,
 		rstn	=>srstn
 	);
@@ -4133,6 +4137,7 @@ begin
 		fdd_wprotn	=>pFd_WPTn,
 		fdd_eject	=>FDD_eject,
 		fdd_indisk	=>FDD_indisk,
+		fdd_cpyen	=>FDCPY_BUSY,
 
 	--FD emulator
 		fde_tracklen=>dem_fdetracklen,
@@ -4140,6 +4145,7 @@ begin
 		fde_ramrdat	=>dem_fderamrdat,
 		fde_ramwdat	=>dem_fderamwdat,
 		fde_ramwr	=>dem_fderamwr,
+		fde_ramwait	=>'0',
 		fec_ramaddrh =>dem_fecramaddrh,
 		fec_ramaddrl =>dem_fecramaddrl,
 		fec_ramwe	=>dem_fecramwe,

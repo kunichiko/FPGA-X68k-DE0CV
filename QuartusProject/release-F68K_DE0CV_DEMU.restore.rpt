@@ -1,5 +1,5 @@
 Restore Archived Project report for release-F68K_DE0CV_DEMU
-Sun Mar 01 09:33:12 2020
+Sat Apr 18 13:37:14 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -36,7 +36,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------+
 ; Restore Archived Project Summary                                        ;
 +---------------------------------+---------------------------------------+
-; Restore Archived Project Status ; Successful - Sun Mar 01 09:33:12 2020 ;
+; Restore Archived Project Status ; Successful - Sat Apr 18 13:37:13 2020 ;
 ; Revision Name                   ; release-F68K_DE0CV_DEMU               ;
 ; Top-level Entity Name           ; X68DE0CVDEMU2                         ;
 ; Family                          ; Cyclone V                             ;
@@ -46,14 +46,14 @@ refer to the applicable agreement for further details.
 +-----------------------------------+
 ; Restore Archived Project Messages ;
 +-----------------------------------+
-Info: Successfully restored 'C:/Users/kuni/work/DE0CV-X68k/release-F68k_DE0CVDEMU.200224.qar' into the 'C:/Users/kuni/work/DE0CV-X68k/release-F68k_DE0CVDEMU.200224_restored.org/' directory
+Info: Successfully restored 'C:/Users/kuni/work/DE0CV-X68k/release-F68k_DE0CVDEMU.200329.qar' into the 'C:/Users/kuni/work/DE0CV-X68k/release-F68k_DE0CVDEMU.200329_restored/' directory
 Info: Generated report 'release-F68K_DE0CV_DEMU.restore.rpt'
 Info (23030): Evaluation of Tcl script c:/intelfpga_lite/18.1/quartus/common/tcl/apps/qpm/qar.tcl was successful
 Info: Quartus Prime Shell was successful. 0 errors, 179 warnings
     Info: Peak virtual memory: 4855 megabytes
-    Info: Processing ended: Sun Mar 01 09:33:15 2020
-    Info: Elapsed time: 00:00:13
-    Info: Total CPU time (on all processors): 00:00:09
+    Info: Processing ended: Sat Apr 18 13:37:19 2020
+    Info: Elapsed time: 00:00:31
+    Info: Total CPU time (on all processors): 00:00:13
 
 
 +---------------------------------------------------------------------------+
@@ -250,6 +250,9 @@ Info: Quartus Prime Shell was successful. 0 errors, 179 warnings
 ; X68k_DE0CVDEMU2.cof                                                       ;
 ; db/ip/diskemu/diskemu.v                                                   ;
 ; db/ip/diskemu/submodules/altera_avalon_sc_fifo.v                          ;
+; db/ip/diskemu/submodules/altera_avalon_st_clock_crosser.v                 ;
+; db/ip/diskemu/submodules/altera_avalon_st_handshake_clock_crosser.v       ;
+; db/ip/diskemu/submodules/altera_avalon_st_pipeline_base.v                 ;
 ; db/ip/diskemu/submodules/altera_merlin_address_alignment.sv               ;
 ; db/ip/diskemu/submodules/altera_merlin_arbitrator.sv                      ;
 ; db/ip/diskemu/submodules/altera_merlin_burst_adapter.sv                   ;
@@ -264,6 +267,9 @@ Info: Quartus Prime Shell was successful. 0 errors, 179 warnings
 ; db/ip/diskemu/submodules/altera_reset_synchronizer.v                      ;
 ; db/ip/diskemu/submodules/diskemu_FDRAM.hex                                ;
 ; db/ip/diskemu/submodules/diskemu_FDRAM.v                                  ;
+; db/ip/diskemu/submodules/diskemu_fdcpy_busy.v                             ;
+; db/ip/diskemu/submodules/diskemu_fdcpy_emunit.v                           ;
+; db/ip/diskemu/submodules/diskemu_fdcpy_fdmode.v                           ;
 ; db/ip/diskemu/submodules/diskemu_irq_mapper.sv                            ;
 ; db/ip/diskemu/submodules/diskemu_jtag_uart_0.v                            ;
 ; db/ip/diskemu/submodules/diskemu_kbfifo.v                                 ;
@@ -276,11 +282,14 @@ Info: Quartus Prime Shell was successful. 0 errors, 179 warnings
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_cmd_xbar_demux_001.sv  ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_cmd_xbar_mux.sv        ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_cmd_xbar_mux_002.sv    ;
+; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_cmd_xbar_mux_045.sv    ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_id_router.sv           ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_id_router_002.sv       ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_id_router_017.sv       ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_id_router_020.sv       ;
+; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_id_router_045.sv       ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_rsp_xbar_demux_002.sv  ;
+; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_rsp_xbar_demux_045.sv  ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_rsp_xbar_mux.sv        ;
 ; db/ip/diskemu/submodules/diskemu_mm_interconnect_0_rsp_xbar_mux_001.sv    ;
 ; db/ip/diskemu/submodules/diskemu_model.v                                  ;
@@ -338,6 +347,7 @@ Info: Quartus Prime Shell was successful. 0 errors, 179 warnings
 ; diskemu.v2/FDtrackram.vhd                                                 ;
 ; diskemu.v2/diskemu.qsys                                                   ;
 ; diskemu.v2/diskemuunit.vhd                                                ;
+; diskemu.v2/fdcopy.vhd                                                     ;
 ; diskemu.v2/fdtrackconv.vhd                                                ;
 ; diskemu.v2/mkgapsync.vhd                                                  ;
 ; diskemu.v2/software/diskemu/mem_init/diskemu_mainmem.hex                  ;

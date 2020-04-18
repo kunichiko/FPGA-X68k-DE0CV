@@ -60,6 +60,7 @@ signal	move		:std_logic;
 signal	intbusy		:std_logic;
 signal	curdir		:std_logic;
 signal	wsetcount	:integer range 0 to maxset;
+signal	seekerrb	:std_logic;
 begin
 	process(clk,rstn)begin
 		if(rstn='0')then
@@ -67,7 +68,7 @@ begin
 			movedir<='1';
 			move<='0';
 			reachtrack<='0';
-			seekerr<='0';
+			seekerrb<='0';
 			if(initseek=0)then
 				busy<='0';
 				state<=ST_IDLE;
@@ -81,7 +82,7 @@ begin
 			if(init='1')then
 				STATE<=ST_INIIN0;
 				current<=0;
-				seekerr<='0';
+				seekerrb<='0';
 				busy<='1';
 			end if;
 			case state is
@@ -93,7 +94,7 @@ begin
 							move<='1';
 							current<=current+1;
 						else
-							seekerr<='1';
+							seekerrb<='1';
 							busy<='1';
 							state<=ST_IDLE;
 						end if;
@@ -121,16 +122,15 @@ begin
 							movedir<='1';
 							move<='1';
 						else
-							seekerr<='1';
+							seekerrb<='1';
 							busy<='0';
 							state<=ST_IDLE;
 						end if;
 					else
 						current<=0;
-						seekerr<='0';
-						reachtrack<='1';
-						state<=ST_IDLE;
-						busy<='0';
+						seekerrb<='0';
+						wsetcount<=setwait;
+						state<=ST_WAITSET;
 					end if;
 				end if;
 			when ST_IDLE =>
@@ -222,6 +222,7 @@ begin
 
 	sdir<=curdir;
 	curtrack<=current;
+	seekerr<=seekerrb and not (destset or init);
 	
 end rtl;
 				

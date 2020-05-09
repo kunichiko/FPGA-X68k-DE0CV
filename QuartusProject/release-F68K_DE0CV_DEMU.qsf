@@ -577,4 +577,27 @@ set_global_assignment -name SEARCH_PATH sound/fmcommon/
 set_global_assignment -name SEARCH_PATH sound/opm/
 set_global_assignment -name SEARCH_PATH sound/adpcm6258/
 set_global_assignment -name SEARCH_PATH sound/midiif/
+set_location_assignment PIN_T15 -to pOPM_A0
+set_location_assignment PIN_K17 -to pOPM_DATA[7]
+set_location_assignment PIN_L17 -to pOPM_DATA[6]
+set_location_assignment PIN_M18 -to pOPM_DATA[5]
+set_location_assignment PIN_P17 -to pOPM_DATA[4]
+set_location_assignment PIN_P19 -to pOPM_DATA[3]
+set_location_assignment PIN_N19 -to pOPM_DATA[2]
+set_location_assignment PIN_T22 -to pOPM_DATA[1]
+set_location_assignment PIN_R22 -to pOPM_DATA[0]
+set_location_assignment PIN_T18 -to pOPM_IRQ_n
+set_location_assignment PIN_P18 -to pOPM_RD_n
+set_location_assignment PIN_T20 -to pOPM_RST
+set_location_assignment PIN_R17 -to pOPM_WR_n
+set_location_assignment PIN_L19 -to pOPM_CLK
+set_global_assignment -name IOBANK_VCCIO 2.5V -section_id 5B
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pHDMI_PWR
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pMidi_in
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_CLK
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[7]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[6]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[5]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pOPM_IRQ_n
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

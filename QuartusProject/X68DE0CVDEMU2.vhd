@@ -114,7 +114,16 @@ port(
 	pF68kIO_I2S_BICK   : out std_logic;
 	pF68kIO_I2S_DATA   : out std_logic;
 	pF68kIO_I2S_LRCK   : out std_logic;
-	pF68kIO_I2S_MUTE_n : out std_logic
+	pF68kIO_I2S_MUTE_n : out std_logic;
+	
+	-- to real YM2151
+	pOPM_DATA  : inout std_logic_vector( 7 downto 0);
+	pOPM_A0    : out std_logic;
+	pOPM_RD_n  : out std_logic;
+	pOPM_WR_n  : out std_logic;
+	pOPM_IRQ_n : in std_logic;
+	pOPM_RST   : out std_logic;
+	pOPM_CLK   : out std_logic
 );
 end X68DE0CVDEMU2;
 
@@ -610,6 +619,11 @@ signal	opm_sndl		:std_logic_vector(15 downto 0);
 signal	opm_sndr		:std_logic_vector(15 downto 0);
 signal	iowait_opm		:std_logic;
 signal	opm_wstate	:integer range 0 to 3;
+
+--for real YM2151
+signal   opm_clk_divider : std_logic_vector(2 downto 0); -- 32MHz → 4MHz
+signal   opm_data_d  : std_logic_vector(7 downto 0);
+signal   opm_irq_n_d : std_logic;
 
 --for adpcm
 signal	pcm_ce	:std_logic;
@@ -3745,13 +3759,13 @@ begin
     FM:OPM_JT51 generic map(16) port map( -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
     -- FM:OPM generic map(16) port map(
 		DIN		=>dbus(7 downto 0),
-		DOUT	=>opm_odat,
-		DOE		=>opm_doe,
+		DOUT	=> open, --opm_odat,
+		DOE		=>open, --opm_doe,
 		CSn		=>opm_cen,
 		ADR0	=>abus(1),
 		RDn		=>b_rdn,
 		WRn		=>b_wrn(0),
-		INTn	=>opm_intn,
+		INTn	=>open, --opm_intn,
 		
 		sndL	=>opm_sndl,
 		sndR	=>opm_sndr,
@@ -3766,7 +3780,33 @@ begin
 		pclk		=>sysclk,
 		rstn	=>srstn
 	);
+	
+	opm_doe    <= '1' when opm_cen='0' and b_rdn='0' else '0';
+	opm_data_d <= pOPM_DATA;
+	opm_odat   <= opm_data_d;
+	pOPM_DATA(7 downto 0) <= dbus(7 downto 0) when opm_cen='0' and b_wrn(0)='0' else
+                            (others=>'Z');
+	pOPM_A0    <= abus(1);
+	pOPM_RD_n  <= '0' when opm_cen='0' and b_rdn='0' else '1';
+   pOPM_WR_n  <= '0' when opm_cen='0' and b_wrn(0)='0' else '1';
+	opm_irq_n_d <= pOPM_IRQ_n;
+	opm_intn   <= opm_irq_n_d;
+	pOPM_RST   <= not srstn;
+	pOPM_CLK   <= opm_clk_divider(2);
 
+    -- fmclk 4mhz
+    -- On X68000, YM2151 is driven by 4MHz.
+    process(sndclk,srstn)begin
+        if(srstn='0')then
+            opm_clk_divider <= (others => '0');
+        elsif(sndclk' event and sndclk='1')then
+            opm_clk_divider <= opm_clk_divider + 1;
+        end if;
+    end process;
+	
+	--
+	--
+	--
 	pcm_ce<='1' when abus(23 downto 2)="1110100100100000000000" else '0';
 	pcm_wr<=b_wr(0) when pcm_ce='1' else '0';
 	pcm_doe<=b_rd when pcm_ce='1' else '0';

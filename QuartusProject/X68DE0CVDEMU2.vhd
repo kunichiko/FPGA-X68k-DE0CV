@@ -2149,7 +2149,8 @@ end component;
 
 component EM3012
 port(
-    CLK_PHY1  : in std_logic;
+    CLK_M     : in std_logic; -- master clock 4MHz
+    CLK_PHY1  : in std_logic; -- Phy0 clock 2MHz divided by YM2151
     SDATA     : in std_logic;
     SAM_HOLD1 : in std_logic;
     SAM_HOLD2 : in std_logic;
@@ -3832,7 +3833,8 @@ begin
     end process;
 	
 	em3012_0 :EM3012 port map (
-		CLK_PHY1  => pOPM_CLK_PHY1,
+        CLK_M     => opm_clk_divider(2),
+        CLK_PHY1  => pOPM_CLK_PHY1,
         SDATA     => pOPM_SDATA,
         SAM_HOLD1 => pOPM_SAM_HOLD1,
         SAM_HOLD2 => pOPM_SAM_HOLD2,
@@ -3923,6 +3925,9 @@ begin
 	       end case;
 		end if;
 	end process;
+
+--   opm_sndL_sel <= opm_sndL(15) & opm_sndL(15 downto 1);
+--   opm_sndR_sel <= opm_sndR(15) & opm_sndR(15 downto 1);
 
 	mixL	:addsat generic map(16) port map(opm_sndL_sel,pcm_sndL,mix_sndL,open,open);
 	mixR	:addsat generic map(16) port map(opm_sndR_sel,pcm_sndR,mix_sndR,open,open);

@@ -11,7 +11,8 @@ use	IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity EM3012 is
     port(
-        CLK_PHY1  : in std_logic;
+	     CLK_M     : in std_logic; -- master clock 4MHz
+        CLK_PHY1  : in std_logic; -- Phy0 clock 2MHz divided by YM2151
         SDATA     : in std_logic;
         SAM_HOLD1 : in std_logic;
         SAM_HOLD2 : in std_logic;
@@ -42,9 +43,10 @@ signal latch_ack    : std_logic;
 signal sndL_latch   : std_logic_vector(15 downto 0);
 signal sndR_latch   : std_logic_vector(15 downto 0);
 
+signal divide : std_logic;
 begin
 
-    process(CLK_PHY1,rstn)
+    process(CLK_M,rstn)
         variable s : std_logic := '0';
     begin
         if(rstn='0')then
@@ -54,40 +56,45 @@ begin
             sndL_pre <= (others => '1');
             sndR_pre <= (others => '1');
             latch_req <= '0';
-        elsif (CLK_PHY1' event and CLK_PHY1='1') then
-            shift_reg <= SDATA & shift_reg(12 downto 1);
-
-            sam1_d <= SAM_HOLD1;
-            sam2_d <= SAM_HOLD2;
-
-            if (sam1_d = '1' and SAM_HOLD1 = '0') then -- falling edge
-                s := not shift_reg(9);
-                case shift_reg(12 downto 10) is
-                    when "000" => sndR_pre <= s & s & s & s & s & s & s & s & shift_reg(8 downto 1);
-                    when "001" => sndR_pre <= s & s & s & s & s & s & s & shift_reg(8 downto 0);
-                    when "010" => sndR_pre <= s & s & s & s & s & s & shift_reg(8 downto 0) & "0";
-                    when "011" => sndR_pre <= s & s & s & s & s & shift_reg(8 downto 0) & "00";
-                    when "100" => sndR_pre <= s & s & s & s & shift_reg(8 downto 0) & "000";
-                    when "101" => sndR_pre <= s & s & s & shift_reg(8 downto 0) & "0000";
-                    when "110" => sndR_pre <= s & s & shift_reg(8 downto 0) & "00000";
-                    when "111" => sndR_pre <= s & shift_reg(8 downto 0) & "000000";
-                end case;
-                latch_req <= not latch_req;
-            end if;
-
-            if (sam2_d = '1' and SAM_HOLD2 = '0') then -- falling edge
-                s := not shift_reg(9);
-                case shift_reg(12 downto 10) is
-                    when "000" => sndL_pre <= s & s & s & s & s & s & s & s & shift_reg(8 downto 1);
-                    when "001" => sndL_pre <= s & s & s & s & s & s & s & shift_reg(8 downto 0);
-                    when "010" => sndL_pre <= s & s & s & s & s & s & shift_reg(8 downto 0) & "0";
-                    when "011" => sndL_pre <= s & s & s & s & s & shift_reg(8 downto 0) & "00";
-                    when "100" => sndL_pre <= s & s & s & s & shift_reg(8 downto 0) & "000";
-                    when "101" => sndL_pre <= s & s & s & shift_reg(8 downto 0) & "0000";
-                    when "110" => sndL_pre <= s & s & shift_reg(8 downto 0) & "00000";
-                    when "111" => sndL_pre <= s & shift_reg(8 downto 0) & "000000";
-                end case;
-            end if;
+				divide <= '0';
+        elsif (CLK_M' event and CLK_M='1') then
+		      divide <= not divide;
+				
+				if (divide = '0') then 
+					shift_reg <= SDATA & shift_reg(12 downto 1);
+	
+					sam1_d <= SAM_HOLD1;
+					sam2_d <= SAM_HOLD2;
+	
+					if (sam1_d = '1' and SAM_HOLD1 = '0') then -- falling edge
+						 s := not shift_reg(9);
+						 case shift_reg(12 downto 10) is
+							  when "000" => sndR_pre <= s & s & s & s & s & s & s & s & shift_reg(8 downto 1);
+							  when "001" => sndR_pre <= s & s & s & s & s & s & s & shift_reg(8 downto 0);
+							  when "010" => sndR_pre <= s & s & s & s & s & s & shift_reg(8 downto 0) & "0";
+							  when "011" => sndR_pre <= s & s & s & s & s & shift_reg(8 downto 0) & "00";
+							  when "100" => sndR_pre <= s & s & s & s & shift_reg(8 downto 0) & "000";
+							  when "101" => sndR_pre <= s & s & s & shift_reg(8 downto 0) & "0000";
+							  when "110" => sndR_pre <= s & s & shift_reg(8 downto 0) & "00000";
+							  when "111" => sndR_pre <= s & shift_reg(8 downto 0) & "000000";
+						 end case;
+						 latch_req <= not latch_req;
+					end if;
+	
+					if (sam2_d = '1' and SAM_HOLD2 = '0') then -- falling edge
+						 s := not shift_reg(9);
+						 case shift_reg(12 downto 10) is
+							  when "000" => sndL_pre <= s & s & s & s & s & s & s & s & shift_reg(8 downto 1);
+							  when "001" => sndL_pre <= s & s & s & s & s & s & s & shift_reg(8 downto 0);
+							  when "010" => sndL_pre <= s & s & s & s & s & s & shift_reg(8 downto 0) & "0";
+							  when "011" => sndL_pre <= s & s & s & s & s & shift_reg(8 downto 0) & "00";
+							  when "100" => sndL_pre <= s & s & s & s & shift_reg(8 downto 0) & "000";
+							  when "101" => sndL_pre <= s & s & s & shift_reg(8 downto 0) & "0000";
+							  when "110" => sndL_pre <= s & s & shift_reg(8 downto 0) & "00000";
+							  when "111" => sndL_pre <= s & shift_reg(8 downto 0) & "000000";
+						 end case;
+					end if;
+				end if;
         end if;
 
     end process;

@@ -100,9 +100,9 @@ port(
 	pHDMI_DAT1	:out std_logic;
 	pHDMI_DAT2	:out std_logic;
 	pHDMI_CLK	:out std_logic;
-	pHDMI_SCL	:inout std_logic;
-	pHDMI_SDA	:inout std_logic;
-	pHDMI_PWR	:in std_logic;
+--	pHDMI_SCL	:inout std_logic;
+--	pHDMI_SDA	:inout std_logic;
+--	pHDMI_PWR	:in std_logic;
 
 	pDemuSw		:in std_logic;
 	pHang	:out std_logic;
@@ -110,11 +110,9 @@ port(
 	rstn		:in std_logic;
 
 	-- F68k I/O board's ports (kunichiko's experiments)
-	pF68kIO_I2S_MCLK   : out std_logic;
 	pF68kIO_I2S_BICK   : out std_logic;
 	pF68kIO_I2S_DATA   : out std_logic;
 	pF68kIO_I2S_LRCK   : out std_logic;
-	pF68kIO_I2S_MUTE_n : out std_logic;
 	
 	-- to real YM2151
 	pOPM_DATA  : inout std_logic_vector( 7 downto 0);
@@ -123,7 +121,15 @@ port(
 	pOPM_WR_n  : out std_logic;
 	pOPM_IRQ_n : in std_logic;
 	pOPM_RST   : out std_logic;
-	pOPM_CLK   : out std_logic
+	pOPM_CLK   : out std_logic;
+	--
+	pOPM_CLK_PHY1  : in std_logic;
+	pOPM_SDATA     : in std_logic;
+	pOPM_SAM_HOLD1 : in std_logic;
+	pOPM_SAM_HOLD2 : in std_logic;
+
+	pOPM_SEL_L : in std_logic;
+	pOPM_SEL_R : in std_logic
 );
 end X68DE0CVDEMU2;
 
@@ -621,9 +627,13 @@ signal	iowait_opm		:std_logic;
 signal	opm_wstate	:integer range 0 to 3;
 
 --for real YM2151
-signal   opm_clk_divider : std_logic_vector(2 downto 0); -- 32MHz → 4MHz
-signal   opm_data_d  : std_logic_vector(7 downto 0);
-signal   opm_irq_n_d : std_logic;
+signal  opm_clk_divider : std_logic_vector(2 downto 0); -- 32MHz → 4MHz
+signal  opm_data_d  : std_logic_vector(7 downto 0);
+signal  opm_irq_n_d : std_logic;
+
+--for EM3012
+signal  em3012_sndL : std_logic_vector(15 downto 0);
+signal  em3012_sndR : std_logic_vector(15 downto 0);
 
 --for adpcm
 signal	pcm_ce	:std_logic;
@@ -640,6 +650,7 @@ signal	pcm_clkmode	:std_logic;
 signal	pcm_clkdiv	:std_logic_vector(1 downto 0);
 
 --Sound DAC
+signal  opm_sndL_sel,opm_sndR_sel :std_logic_vector(15 downto 0);
 signal	mix_sndL,mix_sndR	:std_logic_vector(15 downto 0);
 signal	sndL,sndR	:std_logic_vector(15 downto 0);
 signal	dacsft		:std_logic;
@@ -2136,6 +2147,22 @@ port(
 );
 end component;
 
+component EM3012
+port(
+    CLK_PHY1  : in std_logic;
+    SDATA     : in std_logic;
+    SAM_HOLD1 : in std_logic;
+    SAM_HOLD2 : in std_logic;
+
+    -- sytem side
+    sndL      : out std_logic_vector(15 downto 0);
+    sndR      : out std_logic_vector(15 downto 0);
+
+    fmclk     : in std_logic;  -- 32MHz
+    rstn	  : in std_logic
+);
+end component;
+
 component e6258
 port(
 	addr	:in std_logic;
@@ -2949,8 +2976,8 @@ begin
 		rstn		=>vid_rstn
 	);
 
-	pHDMI_SCL<='Z';
-	pHDMI_SDA<='Z';
+--	pHDMI_SCL<='Z';
+--	pHDMI_SDA<='Z';
 
 	font	:fontrom port map(dem_fontaddr,vidclk,dem_fontdat);
 	dem_tramamod<= dem_tramaddr(0) & dem_tramaddr(12 downto 1);
@@ -3765,7 +3792,7 @@ begin
 		ADR0	=>abus(1),
 		RDn		=>b_rdn,
 		WRn		=>b_wrn(0),
-		INTn	=>open, --opm_intn,
+		INTn	=> opm_intn,
 		
 		sndL	=>opm_sndl,
 		sndR	=>opm_sndr,
@@ -3788,9 +3815,9 @@ begin
                             (others=>'Z');
 	pOPM_A0    <= abus(1);
 	pOPM_RD_n  <= '0' when opm_cen='0' and b_rdn='0' else '1';
-   pOPM_WR_n  <= '0' when opm_cen='0' and b_wrn(0)='0' else '1';
+    pOPM_WR_n  <= '0' when opm_cen='0' and b_wrn(0)='0' else '1';
 	opm_irq_n_d <= pOPM_IRQ_n;
-	opm_intn   <= opm_irq_n_d;
+	--opm_intn   <= opm_irq_n_d;
 	pOPM_RST   <= not srstn;
 	pOPM_CLK   <= opm_clk_divider(2);
 
@@ -3804,6 +3831,20 @@ begin
         end if;
     end process;
 	
+	em3012_0 :EM3012 port map (
+		CLK_PHY1  => pOPM_CLK_PHY1,
+        SDATA     => pOPM_SDATA,
+        SAM_HOLD1 => pOPM_SAM_HOLD1,
+        SAM_HOLD2 => pOPM_SAM_HOLD2,
+
+        -- system side
+        sndL      => em3012_sndL,
+        sndR      => em3012_sndR,
+
+        fmclk     => sndclk,
+        rstn	  => srstn
+	);
+
 	--
 	--
 	--
@@ -3866,8 +3907,25 @@ begin
 	
 	iowait_opm<='1' when (opm_cen='0' and (b_wrn(0)='0' or b_rdn='0') and opm_wstate/=2) else '0';
 
-	mixL	:addsat generic map(16) port map(opm_sndL(15) & opm_sndL(15 downto 1),pcm_sndL,mix_sndL,open,open);
-	mixR	:addsat generic map(16) port map(opm_sndR(15) & opm_sndR(15 downto 1),pcm_sndR,mix_sndR,open,open);
+	process(sndclk,srstn)
+	begin
+		if(srstn='0')then
+			opm_sndL_sel <= (others => '0');
+			opm_sndR_sel <= (others => '0');
+		elsif(sndclk' event and sndclk='1') then
+		    case pOPM_SEL_L is
+			     when '0' => opm_sndL_sel <= em3012_sndL(15) & em3012_sndL(15 downto 1);
+			     when '1' => opm_sndL_sel <= opm_sndL(15)    & opm_sndL(   15 downto 1);
+	       end case;
+		    case pOPM_SEL_R is
+			     when '0' => opm_sndR_sel <= em3012_sndR(15) & em3012_sndR(15 downto 1);
+			     when '1' => opm_sndR_sel <= opm_sndR(15)    & opm_sndR(   15 downto 1);
+	       end case;
+		end if;
+	end process;
+
+	mixL	:addsat generic map(16) port map(opm_sndL_sel,pcm_sndL,mix_sndL,open,open);
+	mixR	:addsat generic map(16) port map(opm_sndR_sel,pcm_sndR,mix_sndR,open,open);
 
 	dacs	:sftclk generic map(ACFREQ,DACFREQ,1) port map("1",dacsft,sndclk,srstn);
 	
@@ -4270,9 +4328,7 @@ begin
 --		rstn	=>srstn
 --	);
 
-	pF68kIO_I2S_MCLK <= '0';
 	pF68kIO_I2S_BICK <= i2sclk;
-	pF68kIO_I2S_MUTE_n <= '1';
 
 	i2s_sndL(31 downto 16) <= sndL;
 	i2s_sndR(31 downto 16) <= sndR;

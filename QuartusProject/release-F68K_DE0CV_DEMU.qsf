@@ -320,15 +320,10 @@ set_instance_assignment -name IO_STANDARD LVDS_E_3R -to pHDMI_CLK
 set_instance_assignment -name IO_STANDARD LVDS_E_3R -to pHDMI_DAT0
 set_instance_assignment -name IO_STANDARD LVDS_E_3R -to pHDMI_DAT1
 set_instance_assignment -name IO_STANDARD LVDS_E_3R -to pHDMI_DAT2
-set_location_assignment PIN_D17 -to pHDMI_SCL
-set_location_assignment PIN_K20 -to pHDMI_SDA
-set_location_assignment PIN_M16 -to pHDMI_PWR
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to pClk50M
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to pDac_SL
 set_location_assignment PIN_G18 -to pDemuSw
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pDemuSw
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pHDMI_SCL
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pHDMI_SDA
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
 set_global_assignment -name VHDL_FILE X68DE0CVDEMU2.vhd
 set_global_assignment -name SOURCE_FILE "diskemu.v2/software/nios-src.zip"
@@ -535,11 +530,9 @@ set_global_assignment -name VHDL_FILE DMAC/DMA63450.vhd
 set_global_assignment -name VHDL_FILE DMAC/dma1ch.vhd
 set_global_assignment -name VHDL_FILE LIB/delayon.vhd
 set_global_assignment -name HEX_FILE BIOS/IPLROM.hex
-set_location_assignment PIN_K19 -to pF68kIO_I2S_MCLK
 set_location_assignment PIN_R15 -to pF68kIO_I2S_BICK
 set_location_assignment PIN_R16 -to pF68kIO_I2S_DATA
 set_location_assignment PIN_T19 -to pF68kIO_I2S_LRCK
-set_location_assignment PIN_T17 -to pF68kIO_I2S_MUTE_n
 set_global_assignment -name VHDL_FILE sound/OPM_JT51/OPM_JT51.vhd
 set_global_assignment -name VERILOG_FILE sound/OPM_JT51/jt51_1v1.v
 set_global_assignment -name SEARCH_PATH i2s/
@@ -590,14 +583,23 @@ set_location_assignment PIN_T18 -to pOPM_IRQ_n
 set_location_assignment PIN_P18 -to pOPM_RD_n
 set_location_assignment PIN_T20 -to pOPM_RST
 set_location_assignment PIN_R17 -to pOPM_WR_n
-set_location_assignment PIN_L19 -to pOPM_CLK
+set_location_assignment PIN_T17 -to pOPM_CLK
 set_global_assignment -name IOBANK_VCCIO 2.5V -section_id 5B
-set_instance_assignment -name IO_STANDARD "2.5 V" -to pHDMI_PWR
 set_instance_assignment -name IO_STANDARD "2.5 V" -to pMidi_in
-set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_CLK
 set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[7]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[6]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[5]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_DATA[2]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pOPM_IRQ_n
+set_location_assignment PIN_P16 -to pOPM_CLK_PHY1
+set_location_assignment PIN_L19 -to pOPM_SAM_HOLD1
+set_location_assignment PIN_K19 -to pOPM_SAM_HOLD2
+set_location_assignment PIN_L18 -to pOPM_SDATA
+set_location_assignment PIN_D17 -to pOPM_SEL_R
+set_location_assignment PIN_M16 -to pOPM_SEL_L
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pOPM_SEL_L
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pOPM_SEL_R
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_SAM_HOLD1
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_SDATA
+set_instance_assignment -name IO_STANDARD "2.5 V" -to pOPM_SEL_L
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

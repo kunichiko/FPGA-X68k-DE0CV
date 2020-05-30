@@ -3793,7 +3793,7 @@ begin
 		ADR0	=>abus(1),
 		RDn		=>b_rdn,
 		WRn		=>b_wrn(0),
-		INTn	=> opm_intn,
+		INTn	=> open, --opm_intn,
 		
 		sndL	=>opm_sndl,
 		sndR	=>opm_sndr,
@@ -3816,11 +3816,19 @@ begin
                             (others=>'Z');
 	pOPM_A0    <= abus(1);
 	pOPM_RD_n  <= '0' when opm_cen='0' and b_rdn='0' else '1';
-    pOPM_WR_n  <= '0' when opm_cen='0' and b_wrn(0)='0' else '1';
-	opm_irq_n_d <= pOPM_IRQ_n;
-	--opm_intn   <= opm_irq_n_d;
+	pOPM_WR_n  <= '0' when opm_cen='0' and b_wrn(0)='0' else '1';
 	pOPM_RST   <= not srstn;
 	pOPM_CLK   <= opm_clk_divider(2);
+
+	process(sysclk,srstn)begin
+		if(srstn='0')then
+			opm_irq_n_d <= '1';
+			opm_intn    <= '1';
+		elsif(sysclk' event and sysclk='1')then
+			opm_irq_n_d <= pOPM_IRQ_n;
+			opm_intn    <= opm_irq_n_d;
+		end if;
+   end process;
 
     -- fmclk 4mhz
     -- On X68000, YM2151 is driven by 4MHz.

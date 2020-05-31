@@ -2149,7 +2149,6 @@ end component;
 
 component EM3012
 port(
-    CLK_M     : in std_logic; -- master clock 4MHz
     CLK_PHY1  : in std_logic; -- Phy0 clock 2MHz divided by YM2151
     SDATA     : in std_logic;
     SAM_HOLD1 : in std_logic;
@@ -3841,7 +3840,6 @@ begin
     end process;
 	
 	em3012_0 :EM3012 port map (
-        CLK_M     => opm_clk_divider(2),
         CLK_PHY1  => pOPM_CLK_PHY1,
         SDATA     => pOPM_SDATA,
         SAM_HOLD1 => pOPM_SAM_HOLD1,

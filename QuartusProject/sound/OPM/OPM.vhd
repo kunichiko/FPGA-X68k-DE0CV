@@ -733,14 +733,14 @@ begin
 								coutc:=add1234;
 							when others=>
 							end case;
+							op0out<=toutx0;
+							op1out<=toutx1;
+							op2out<=toutx2;
+							op3out<=toutx3;
 							case CHANNELNO is
 							when 0 =>
 								sndadd01<=(others=>'0');
 								sndadd11<=(others=>'0');
-								op0out<=toutx0;
-								op1out<=toutx1;
-								op2out<=toutx2;
-								op3out<=toutx3;
 							when others =>
 								sndadd01<=SUM0;
 								sndadd11<=SUM1;

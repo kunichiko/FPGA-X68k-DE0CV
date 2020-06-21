@@ -330,6 +330,8 @@ signal	nturns		:integer range 0 to 3;
 signal	indexb		:std_logic;
 signal	lindex		:std_logic;
 signal	contdata	:std_logic;
+signal	track0b		:std_logic;
+signal	track0s		:std_logic;
 
 signal	TCclr		:std_logic;
 signal	sTC			:std_logic;
@@ -624,6 +626,8 @@ begin
 	DMARD<='1' when DACKn='0' and RDn='0' else '0';
 	
 	ixflt	:DIGIFILTER generic map(1,'1') port map(index,indexb,fclk,rstn);
+	t0flt	:DIGIFILTER generic map(1,'1') port map(track0,track0b,fclk,rstn);
+	t0flts:DIGIFILTER generic map(1,'1') port map(track0,track0s,sclk,rstn);
 --	process(clk,rstn)begin
 --		if(rstn='0')then
 --			indexb<='0';
@@ -1280,6 +1284,7 @@ begin
 			sCM<='0';
 			sWC<='0';
 			sDD<='0';
+			sMD<='0';
 			iSE<='0';
 			sSH<='0';
 			txdat<=(others=>'0');
@@ -1343,6 +1348,7 @@ begin
 					sDD<='0';
 					sEN<='0';
 					sSH<='0';
+					sMD<='0';
 					contdata<='0';
 					sRQM<='0';
 					sCM<='0';
@@ -1478,7 +1484,11 @@ begin
 							sUS<=US;
 							sIC<="01";
 							sND<='1';
-							sMA<='1';
+							if(DETSECT='0')then
+								sMA<='1';
+							else
+								sMD<='1';
+							end if;
 							PCN<=cPCN;
 							INT<='1';
 							iSE<='0';
@@ -1946,6 +1956,7 @@ begin
 									nturns<=0;
 									crcclr<='1';
 									contdata<='1';
+									DETSECT<='0';
 									execstate<=es_IAM0;
 								end if;
 							else
@@ -3032,7 +3043,11 @@ begin
 							sUS<=US;
 							sIC<="01";
 							sND<='1';
-							sMA<='1';
+							if(DETSECT='0')then
+								sMA<='1';
+							else
+								sMD<='1';
+							end if;
 							PCN<=cPCN;
 							INT<='1';
 							iSE<='0';
@@ -3535,6 +3550,7 @@ begin
 									nturns<=0;
 									crcclr<='1';
 									contdata<='1';
+									DETSECT<='0';
 									execstate<=es_IAM0;
 								end if;
 							else
@@ -4128,11 +4144,10 @@ begin
 	
 	sEXM<='1' when (execstate/=es_IDLE and ND='1') else '0';
 	sNR<=READY;
-	
 	ST0<=sIC &sSE & sEC & sNR & sHD & sUS;
 	ST1<=sEN & '0' & sDE & sOR & '0' & sND & sNW & sMA;
 	ST2<='0' & sCM & sDD & sWC & sSH & sSN & sBC & sMD;
-	ST3<='0' & not WPRT & not READY & not track0 & '1' & sideb & uselb;
+	ST3<='0' & not WPRT & not READY & not track0s & '1' & sideb & uselb;
 	MSR<=sRQM & sDIO & sEXM & sCB & sDxB;
 	
 	RDAT<=	RDDAT_DAT when DACKn='0' else
@@ -4147,11 +4162,17 @@ begin
 	uselb<=US;
 	usel<=uselb;
 	
-	process(sclk,rstn)begin
+	process(sclk,rstn)
+	variable	ext	:std_logic_vector(3 downto 0);
+	begin
 		if(rstn='0')then
 			sTC<='0';
 		elsif(sclk' event and sclk='1')then
-			sTC<=TC;
+			if(TC='1')then
+				sTC<='1';
+			elsif(TCen='1')then
+				sTC<='0';
+			end if;
 		end if;
 	end process;
 	
@@ -4242,7 +4263,7 @@ begin
 		reachtrack	=>seek_end0,
 		busy		=>seek_busy0,
 	
-		track0		=>track0,
+		track0		=>track0b,
 		seek		=>STEP0,
 		sdir		=>SDIR0,
 	
@@ -4263,7 +4284,7 @@ begin
 		reachtrack	=>seek_end1,
 		busy		=>seek_busy1,
 	
-		track0		=>track0,
+		track0		=>track0b,
 		seek		=>STEP1,
 		sdir		=>SDIR1,
 	
@@ -4284,7 +4305,7 @@ begin
 		reachtrack	=>seek_end2,
 		busy		=>seek_busy2,
 	
-		track0		=>track0,
+		track0		=>track0b,
 		seek		=>STEP2,
 		sdir		=>SDIR2,
 	
@@ -4305,7 +4326,7 @@ begin
 		reachtrack	=>seek_end3,
 		busy		=>seek_busy3,
 	
-		track0		=>track0,
+		track0		=>track0b,
 		seek		=>STEP3,
 		sdir		=>SDIR3,
 	

@@ -482,7 +482,7 @@ set_global_assignment -name VHDL_FILE diskemu.v2/fdcopy.vhd
 set_global_assignment -name HEX_FILE diskemu.v2/sramdefault.hex
 set_global_assignment -name VHDL_FILE I2C/I2C_pkg.vhd
 set_global_assignment -name VHDL_FILE I2C/I2CIF.vhd
-set_global_assignment -name VHDL_FILE rtc/I2Crtc.vhd
+set_global_assignment -name VHDL_FILE rtc/I2Crtc_rx8025.vhd
 set_global_assignment -name VHDL_FILE rtc/rtcbody.vhd
 set_global_assignment -name VHDL_FILE SCC/scc.vhd
 set_global_assignment -name VHDL_FILE SCC/sccreg.vhd

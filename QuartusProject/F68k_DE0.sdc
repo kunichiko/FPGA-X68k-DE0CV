@@ -22,12 +22,12 @@
 
 
 # Clock constraints
-
-create_clock -name "pClk50M" -period 20.000ns [get_ports {pClk50M}]
-
+create_clock -name pClk50M -period 20.000 [get_ports {pClk50M}]
+create_clock -name {CRTCX68TXT:CRTC|VTIMINGX68:TIM|clk2sft[1]} -period 25.000 [get_nets {CRTC|TIM|clk2sft[1]}]
+create_clock -name em3802:midi|rxframe:rxunit|DONE -period 1000.000 [get_nets {midi|rxunit|DONE}]
 
 # Automatically constrain PLL and other generated clocks
-derive_pll_clocks -create_base_clocks
+derive_pll_clocks -create_base_clocks -use_net_name
 
 # Automatically calculate clock uncertainty to jitter and other effects.
 derive_clock_uncertainty
@@ -37,4 +37,3 @@ derive_clock_uncertainty
 # tco constraints
 
 # tpd constraints
-

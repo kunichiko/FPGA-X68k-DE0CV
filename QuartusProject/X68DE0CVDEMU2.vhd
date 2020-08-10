@@ -3599,8 +3599,10 @@ begin
 	SASI_IACK<='0';
 	pFD_DS0<='0' when FD_DE(0)='0' else 'Z';
 	pFD_DS1<='0' when FD_DE(1)='0' else 'Z';
-	pFD_MOTOR0<='0' when FDD_MOTORn(0)='0' else 'Z';
-	pFD_MOTOR1<='0' when FDD_MOTORn(1)='0' else 'Z';
+	--pFD_MOTOR0<='0' when FDD_MOTORn(0)='0' else 'Z';
+	--pFD_MOTOR1<='0' when FDD_MOTORn(1)='0' else 'Z';
+	pFD_MOTOR0<='0' when (FDD_MOTORn(0)='0' or FDD_MOTORn(1)='0') else 'Z';
+	pFD_MOTOR1<='Z';
 	
 --	nv	:nvram port map(
 --		addr	=>abus(13 downto 1),

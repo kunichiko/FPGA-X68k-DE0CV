@@ -99,12 +99,12 @@ set_location_assignment PIN_V13 -to pDip[1]
 set_location_assignment PIN_U13 -to pDip[0]
 set_location_assignment PIN_H18 -to pFd_DENn
 set_location_assignment PIN_A15 -to pFd_DIRn
-set_location_assignment PIN_H10 -to pFd_DS0
+set_location_assignment PIN_J19 -to pFd_DS0
 set_location_assignment PIN_G11 -to pFd_DS1
 set_location_assignment PIN_F14 -to pFd_DSKCHG
 set_location_assignment PIN_J18 -to pFd_INDEXn
-set_location_assignment PIN_J19 -to pFd_MOTOR0
-set_location_assignment PIN_J11 -to pFd_MOTOR1
+set_location_assignment PIN_J11 -to pFd_MOTOR0
+set_location_assignment PIN_H10 -to pFd_MOTOR1
 set_location_assignment PIN_E15 -to pFd_RDATAn
 set_location_assignment PIN_E16 -to pFd_SIDE1n
 set_location_assignment PIN_L8 -to pFd_STEPn

@@ -63,9 +63,9 @@ port(
 	pFd_SIDE1n		:out std_logic;
 	pFd_DSKCHG		:in std_logic;
 	pFd_DS0			:out std_logic;
-	pFd_MOTOR0		:out std_logic;
 	pFd_DS1			:out std_logic;
-	pFd_MOTOR1		:out std_logic;
+	pFd_MOTORON		:out std_logic;
+	pFd_PIN14		:out std_logic;
 
     -- DIP switch, Lamp ports
     pDip        : in std_logic_vector( 9 downto 0);     -- 0=ON,  1=OFF(default on shipment)
@@ -3601,8 +3601,8 @@ begin
 	pFD_DS1<='0' when FD_DE(1)='0' else 'Z';
 	--pFD_MOTOR0<='0' when FDD_MOTORn(0)='0' else 'Z';
 	--pFD_MOTOR1<='0' when FDD_MOTORn(1)='0' else 'Z';
-	pFD_MOTOR0<='0' when (FDD_MOTORn(0)='0' or FDD_MOTORn(1)='0') else 'Z';
-	pFD_MOTOR1<='Z';
+	pFD_MOTORON<='0' when (FDD_MOTORn(0)='0' or FDD_MOTORn(1)='0') else 'Z';
+	pFD_PIN14<='Z';
 	
 --	nv	:nvram port map(
 --		addr	=>abus(13 downto 1),

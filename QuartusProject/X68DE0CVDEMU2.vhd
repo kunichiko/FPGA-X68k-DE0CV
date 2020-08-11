@@ -3788,13 +3788,13 @@ begin
     FM:OPM_JT51 generic map(16) port map( -- If you want to use OPM_JT51.vhd, replace OPM with OPM_JT51
     -- FM:OPM generic map(16) port map(
 		DIN		=>dbus(7 downto 0),
-		DOUT	=> open, --opm_odat,
-		DOE		=>open, --opm_doe,
+		DOUT	=> opm_odat,
+		DOE		=>opm_doe,
 		CSn		=>opm_cen,
 		ADR0	=>abus(1),
 		RDn		=>b_rdn,
 		WRn		=>b_wrn(0),
-		INTn	=> open, --opm_intn,
+		INTn	=> opm_intn,
 		
 		sndL	=>opm_sndl,
 		sndR	=>opm_sndr,
@@ -3810,13 +3810,13 @@ begin
 		rstn	=>srstn
 	);
 	
-	opm_doe    <= '1' when opm_cen='0' and b_rdn='0' else '0';
+	--opm_doe    <= '1' when opm_cen='0' and b_rdn='0' else '0';
 	opm_data_d <= pOPM_DATA;
-	opm_odat   <= opm_data_d;
+	--opm_odat   <= opm_data_d;
 	pOPM_DATA(7 downto 0) <= dbus(7 downto 0) when opm_cen='0' and b_wrn(0)='0' else
                             (others=>'Z');
 	pOPM_A0    <= abus(1);
-	pOPM_RD_n  <= '0' when opm_cen='0' and b_rdn='0' else '1';
+	pOPM_RD_n  <= '1'; --'0' when opm_cen='0' and b_rdn='0' else '1';
 	pOPM_WR_n  <= '0' when opm_cen='0' and b_wrn(0)='0' else '1';
 	pOPM_RST   <= not srstn;
 	pOPM_CLK   <= opm_clk_divider(2);
@@ -3824,10 +3824,10 @@ begin
 	process(sysclk,srstn)begin
 		if(srstn='0')then
 			opm_irq_n_d <= '1';
-			opm_intn    <= '1';
+			--opm_intn    <= '1';
 		elsif(sysclk' event and sysclk='1')then
 			opm_irq_n_d <= pOPM_IRQ_n;
-			opm_intn    <= opm_irq_n_d;
+			--opm_intn    <= opm_irq_n_d;
 		end if;
    end process;
 

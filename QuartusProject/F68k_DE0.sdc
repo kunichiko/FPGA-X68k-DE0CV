@@ -25,6 +25,7 @@
 create_clock -name pClk50M -period 20.000 [get_ports {pClk50M}]
 create_clock -name {CRTCX68TXT:CRTC|VTIMINGX68:TIM|clk2sft[1]} -period 25.000 [get_nets {CRTC|TIM|clk2sft[1]}]
 create_clock -name em3802:midi|rxframe:rxunit|DONE -period 1000.000 [get_nets {midi|rxunit|DONE}]
+create_clock -name pOPM_CLK_PHY -period 500.000 [get_ports {pOPM_CLK_PHY1}]
 
 # Automatically constrain PLL and other generated clocks
 derive_pll_clocks -create_base_clocks -use_net_name

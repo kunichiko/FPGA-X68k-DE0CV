@@ -6,7 +6,8 @@ entity em3802 is
 generic(
 	sysclk	:integer	:=10000;
 	oscm		:integer	:=1000;
-	oscf		:integer	:=614
+	oscf		:integer	:=614;
+	rstlen	:integer	:=32
 );
 port(
 	ADDR	:in std_logic_vector(2 downto 0);
@@ -34,7 +35,7 @@ end em3802;
 
 architecture rtl of em3802 is
 signal	reggroup	:std_logic_vector(3 downto 0);
-signal	rstcount	:integer range 0 to 31;
+signal	rstcount	:integer range 0 to rstlen-1;
 signal	crsten	:std_logic;
 signal	crstn		:std_logic;
 
@@ -126,6 +127,8 @@ signal	txdata		:std_logic_vector(12 downto 0);
 signal	txemp			:std_logic;
 signal	txwr			:std_logic;
 signal	txbusy		:std_logic;
+signal	rstcmd		:std_logic;
+
 component datfifo
 generic(
 	datwidth	:integer	:=8;
@@ -197,8 +200,7 @@ component txframe
 end component;
 
 begin
-	txfifoclr <= '0';
-
+	
 	txfifo	:datfifo generic map(8,16) port map(
 		datin		=>txfifowdat,
 		datwr		=>txfifowr,
@@ -233,14 +235,32 @@ begin
 		rstn		=>rstn
 	);
 
+	process(clk,rstn)begin
+		if(rstn='0')then
+			rstcount<=rstlen-1;
+			rstcmd<='0';
+		elsif(clk' event and clk='1')then
+			if(crsten='1')then
+				if(rstcount>0)then
+					rstcount<=rstcount-1;
+					rstcmd<='0';
+				else
+					rstcmd<='1';
+				end if;
+			else
+				rstcmd<='0';
+			end if;
+		end if;
+	end process;
+	
+	crstn<=rstn and (not rstcmd);
+	
 	process(clk,rstn)
 	variable ldatwr	:std_logic;
 	begin
 		if(rstn='0')then
 			reggroup<=(others=>'0');
-			rstcount<=31;
 			crsten<='0';
-			crstn<='1';
 			intclr<=(others=>'0');
 			inten<=(others=>'0');
 			intvectoff<=(others=>'0');
@@ -315,6 +335,59 @@ begin
 			PCCLR<='0';
 			GTLD<='0';
 			MTLD<='0';
+			if(rstcmd='1')then
+				intclr<=(others=>'0');
+				inten<=(others=>'0');
+				intvectoff<=(others=>'0');
+				R05<=(others=>'0');
+				R14<=(others=>'0');
+				R25<=(others=>'0');
+				R26<=(others=>'0');
+				R27<=(others=>'0');
+				R44<=(others=>'0');
+				R45<=(others=>'0');
+				R66<=(others=>'0');
+				rmsg_tx<='0';
+				rmsg_sync<='0';
+				rmsg_cc<='0';
+				rmsg_pc<='0';
+				rmsg_rc<='0';
+				rmsg_content<=(others=>'0');
+				fifo_IRx<='0';
+				rxrate<=(others=>'0');
+				rxsrc<='0';
+				RxC<='0';
+				RxOVC<='0';
+				FLTE<='0';
+				BLKC<='0';
+				RxOLC<='0';
+				AHE<='0';
+				RxE<='0';
+				TxC<='0';
+				BRKE<='0';
+				TxIDLC<='0';
+				TxE<='0';
+				txfifowdat<=(others=>'0');
+				txfifowr<='0';
+				ME<='0';
+				CFC<='0';
+				DE<='0';
+				APD<='0';
+				PN<='0';
+				PDFC<='0';
+				CCLD<='0';
+				CCLDVAL<=(others=>'0');
+				PCADD<='0';
+				PCCLR<='0';
+				INTRATE<=(others=>'0');
+				PCADDVAL<=(others=>'0');
+				GTLDVAL<=(others=>'0');
+				GTLD<='0';
+				MTLDVAL<=(others=>'0');
+				MTLD<='0';
+				GPOE<=(others=>'0');
+				GPOUT<=(others=>'0');
+			end if;
 			if(DATWR='1' and ldatwr='0')then
 				case ADDR is
 				when "001" =>
@@ -475,12 +548,13 @@ begin
 	
 	R34(7)<=not rxfifoemp;
 	rxfifoclr<=RxC;
+	txfifoclr<=TxC;
 	R36<=rxfifordat;
 	
-	process(clk,rstn)
+	process(clk,crstn)
 	variable rd,lrd	:std_logic;
 	begin
-		if(rstn='0')then
+		if(crstn='0')then
 			lrd:='0';
 			rxfiford<='0';
 		elsif(clk' event and clk='1')then
@@ -501,8 +575,8 @@ begin
 	R54(6)<=not txfifofull;
 	R54(5 downto 3)<=(others=>'0');
 	
-	process(clk,rstn)begin
-		if(rstn='0')then
+	process(clk,crstn)begin
+		if(crstn='0')then
 			countm<=divm-1;
 			sftm<='0';
 		elsif(clk' event and clk='1')then
@@ -516,8 +590,8 @@ begin
 		end if;
 	end process;
 	
-	process(clk,rstn)begin
-		if(rstn='0')then
+	process(clk,crstn)begin
+		if(crstn='0')then
 			countf<=divf-1;
 			sftf<='0';
 		elsif(clk' event and clk='1')then
@@ -531,8 +605,8 @@ begin
 		end if;
 	end process;
 	
-	process(clk,rstn)begin
-		if(rstn='0')then
+	process(clk,crstn)begin
+		if(crstn='0')then
 			rxdivcount<=0;
 		elsif(clk' event and clk='1')then
 			rxsft<='0';
@@ -621,8 +695,8 @@ begin
 		end if;
 	end process;
 	
-	process(clk,clk)begin
-		if(rstn='0')then
+	process(clk,crstn)begin
+		if(crstn='0')then
 			srxbit<='1';
 		elsif(clk' event and clk='1')then
 			if(RxE='1')then
@@ -669,7 +743,7 @@ begin
 		SFTRST	=>'0',
 				
 		clk		=>clk,
-		rstn		=>rstn
+		rstn		=>crstn
 	);
 	rxbyte<=rxdata(7 downto 0) when RxCL='0' else ('0' & rxdata(6 downto 0));
 	process(rxdone,RxCL,RxPE,RxPL,RxEO,RxSL,RxST)
@@ -750,8 +824,8 @@ begin
 	end process;
 	
 	rxfifowr<=rxdone and ((not rxstoperr) and (not rxparerr) and (not rxstop2err) and (not rxfifofull));
-	process(clk,rstn)begin
-		if(rstn='0')then
+	process(clk,crstn)begin
+		if(crstn='0')then
 			R34(6 downto 1)<=(others=>'0');
 		elsif(clk' event and clk='1')then
 			if(rxfifofull='1' and rxdone='1')then
@@ -775,8 +849,8 @@ begin
 	
 	rxfifowdat<=rxbyte;
 
-	process(clk,rstn)begin
-		if(rstn='0')then
+	process(clk,crstn)begin
+		if(crstn='0')then
 			txdivcount<=0;
 		elsif(clk' event and clk='1')then
 			txsft<='0';
@@ -865,12 +939,12 @@ begin
 		end if;
 	end process;
 	
-	process(clk,rstn)
+	process(clk,crstn)
 	variable vlen	:integer range 1 to 13;
 	variable	par	:std_logic;
 	variable par4	:std_logic_vector(3 downto 0);
 	begin
-		if(rstn='0')then
+		if(crstn='0')then
 			txwr<='0';
 			txdata<=(others=>'0');
 			txfiford<='0';
@@ -932,7 +1006,7 @@ begin
 		BUFEMP	=>txemp,
 		
 		clk		=>clk,
-		rstn		=>rstn
+		rstn		=>crstn
 	);
 
 	

@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE 5CEBA4F23C7
 set_global_assignment -name TOP_LEVEL_ENTITY ramtest
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "00:44:14  JULY 15, 2015"
-set_global_assignment -name LAST_QUARTUS_VERSION "17.0.2 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
 set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVCMOS"
 set_global_assignment -name CYCLONE_CONFIGURATION_DEVICE EPCS4
@@ -58,7 +58,6 @@ set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE ../ramtest.stp
 set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
 set_global_assignment -name FORCE_CONFIGURATION_VCCIO ON
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
 set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
@@ -244,7 +243,7 @@ set_location_assignment PIN_P14 -to pSeg5[3]
 set_location_assignment PIN_T14 -to pSeg5[2]
 set_location_assignment PIN_M8 -to pSeg5[1]
 set_location_assignment PIN_N9 -to pSeg5[0]
-set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
 set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
@@ -429,68 +428,6 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLE
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_0
-set_global_assignment -name VHDL_FILE ../ramtest.vhd
-set_global_assignment -name VHDL_FILE ../cycV/CACHEMEMW.vhd
-set_global_assignment -name QIP_FILE ../cycV/CACHEMEMW.qip
-set_global_assignment -name QIP_FILE ../cycV/vnmeml.qip
-set_global_assignment -name QIP_FILE ../cycV/VLINEBUF.qip
-set_global_assignment -name QIP_FILE ../cycV/txtpram.qip
-set_global_assignment -name QIP_FILE ../cycV/nvmemu.qip
-set_global_assignment -name QIP_FILE ../cycV/nvmeml.qip
-set_global_assignment -name QIP_FILE ../cycV/nvmem.qip
-set_global_assignment -name QIP_FILE ../cycV/mainpll.qip
-set_global_assignment -name QIP_FILE ../cycV/CACHEMEMWQ.qip
-set_global_assignment -name QIP_FILE ../cycV/CACHEMEMWH.qip
-set_global_assignment -name QIP_FILE ../cycV/CACHEMEM.qip
-set_global_assignment -name QIP_FILE ../cycV/CACHEFLAG.qip
-set_global_assignment -name VHDL_FILE ../cycV/vnmeml.vhd
-set_global_assignment -name VHDL_FILE ../cycV/VLINEBUF.vhd
-set_global_assignment -name VHDL_FILE ../cycV/txtpram.vhd
-set_global_assignment -name VHDL_FILE ../cycV/nvmemu.vhd
-set_global_assignment -name VHDL_FILE ../cycV/nvmeml.vhd
-set_global_assignment -name VHDL_FILE ../cycV/nvmem.vhd
-set_global_assignment -name VHDL_FILE ../cycV/CACHEMEMWQ.vhd
-set_global_assignment -name VHDL_FILE ../cycV/CACHEMEMWH.vhd
-set_global_assignment -name VHDL_FILE ../cycV/CACHEMEM.vhd
-set_global_assignment -name VHDL_FILE ../cycV/CACHEFLAG.vhd
-set_global_assignment -name VHDL_FILE ../cereg.vhd
-set_global_assignment -name VHDL_FILE ../cacheextr.vhd
-set_global_assignment -name VHDL_FILE ../rastercopy.vhd
-set_global_assignment -name VHDL_FILE ../vcreg.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE ../memcont.vwf
-set_global_assignment -name VHDL_FILE ../cachecont.vhd
-set_global_assignment -name VHDL_FILE ../memcont.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE ../SDRAMC.vwf
-set_global_assignment -name VHDL_FILE ../../LIB/g_srff.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEG.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/signext.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/CRCGENN.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/sftdiv.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/sftgen.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/sftclk.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEGn.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/PARITYG.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/PARGEN.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/unchchata.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/delayer.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/digifilters.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/digifilter.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/deltasigmas.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/clkdiv.vhd
-set_global_assignment -name QIP_FILE ../mainpll.qip
-set_global_assignment -name VHDL_FILE ../SDRAMC.vhd
-set_global_assignment -name VHDL_FILE ../X68mmap.vhd
-set_global_assignment -name VHDL_FILE ../vrcack.vhd
-set_global_assignment -name VHDL_FILE ../vcaddr_pkg.vhd
-set_global_assignment -name SIGNALTAP_FILE ../vcreg.stp
-set_global_assignment -name VHDL_FILE ../X68mmapCV.vhd
-set_global_assignment -name QIP_FILE ../asmicont.qip
-set_global_assignment -name VHDL_FILE ../romcopy.vhd
-set_global_assignment -name SIGNALTAP_FILE ../romcopy.stp
-set_global_assignment -name QIP_FILE ../mainpllCV.qip
-set_global_assignment -name SIP_FILE ../mainpllCV.sip
-set_global_assignment -name VHDL_FILE ../cacheext.vhd
-set_global_assignment -name SIGNALTAP_FILE ../ramtest.stp
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[50] -to dir.ds_inir0 -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[51] -to dir.ds_inir1 -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[52] -to dir.ds_read -section_id auto_signaltap_0
@@ -904,5 +841,68 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=00
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=783" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=63947" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=11874" -section_id auto_signaltap_0
-set_global_assignment -name SLD_FILE db/ramtest_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
+set_global_assignment -name VHDL_FILE ../ramtest.vhd
+set_global_assignment -name VHDL_FILE ../cycV/CACHEMEMW.vhd
+set_global_assignment -name QIP_FILE ../cycV/CACHEMEMW.qip
+set_global_assignment -name QIP_FILE ../cycV/vnmeml.qip
+set_global_assignment -name QIP_FILE ../cycV/VLINEBUF.qip
+set_global_assignment -name QIP_FILE ../cycV/txtpram.qip
+set_global_assignment -name QIP_FILE ../cycV/nvmemu.qip
+set_global_assignment -name QIP_FILE ../cycV/nvmeml.qip
+set_global_assignment -name QIP_FILE ../cycV/nvmem.qip
+set_global_assignment -name QIP_FILE ../cycV/mainpll.qip
+set_global_assignment -name QIP_FILE ../cycV/CACHEMEMWQ.qip
+set_global_assignment -name QIP_FILE ../cycV/CACHEMEMWH.qip
+set_global_assignment -name QIP_FILE ../cycV/CACHEMEM.qip
+set_global_assignment -name QIP_FILE ../cycV/CACHEFLAG.qip
+set_global_assignment -name VHDL_FILE ../cycV/vnmeml.vhd
+set_global_assignment -name VHDL_FILE ../cycV/VLINEBUF.vhd
+set_global_assignment -name VHDL_FILE ../cycV/txtpram.vhd
+set_global_assignment -name VHDL_FILE ../cycV/nvmemu.vhd
+set_global_assignment -name VHDL_FILE ../cycV/nvmeml.vhd
+set_global_assignment -name VHDL_FILE ../cycV/nvmem.vhd
+set_global_assignment -name VHDL_FILE ../cycV/CACHEMEMWQ.vhd
+set_global_assignment -name VHDL_FILE ../cycV/CACHEMEMWH.vhd
+set_global_assignment -name VHDL_FILE ../cycV/CACHEMEM.vhd
+set_global_assignment -name VHDL_FILE ../cycV/CACHEFLAG.vhd
+set_global_assignment -name VHDL_FILE ../cereg.vhd
+set_global_assignment -name VHDL_FILE ../cacheextr.vhd
+set_global_assignment -name VHDL_FILE ../rastercopy.vhd
+set_global_assignment -name VHDL_FILE ../vcreg.vhd
+set_global_assignment -name VECTOR_WAVEFORM_FILE ../memcont.vwf
+set_global_assignment -name VHDL_FILE ../cachecont.vhd
+set_global_assignment -name VHDL_FILE ../memcont.vhd
+set_global_assignment -name VECTOR_WAVEFORM_FILE ../SDRAMC.vwf
+set_global_assignment -name VHDL_FILE ../../LIB/g_srff.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEG.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/signext.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/CRCGENN.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/sftdiv.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/sftgen.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/sftclk.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEGn.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/PARITYG.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/PARGEN.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/unchchata.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/delayer.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/digifilters.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/digifilter.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/deltasigmas.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/clkdiv.vhd
+set_global_assignment -name QIP_FILE ../mainpll.qip
+set_global_assignment -name VHDL_FILE ../SDRAMC.vhd
+set_global_assignment -name VHDL_FILE ../X68mmap.vhd
+set_global_assignment -name VHDL_FILE ../vrcack.vhd
+set_global_assignment -name VHDL_FILE ../vcaddr_pkg.vhd
+set_global_assignment -name SIGNALTAP_FILE ../vcreg.stp
+set_global_assignment -name VHDL_FILE ../X68mmapCV.vhd
+set_global_assignment -name QIP_FILE ../asmicont.qip
+set_global_assignment -name VHDL_FILE ../romcopy.vhd
+set_global_assignment -name SIGNALTAP_FILE ../romcopy.stp
+set_global_assignment -name QIP_FILE ../mainpllCV.qip
+set_global_assignment -name SIP_FILE ../mainpllCV.sip
+set_global_assignment -name VHDL_FILE ../cacheext.vhd
+set_global_assignment -name SIGNALTAP_FILE ../ramtest.stp
+set_global_assignment -name SLD_FILE db/ramtest_auto_stripped.stp

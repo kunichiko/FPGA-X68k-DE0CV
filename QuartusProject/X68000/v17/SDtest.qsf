@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE EP3C16F484C6
 set_global_assignment -name TOP_LEVEL_ENTITY SDtest
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "08:54:29  SEPTEMBER 02, 2015"
-set_global_assignment -name LAST_QUARTUS_VERSION "17.0.2 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
 set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
 set_global_assignment -name DEVICE_FILTER_PIN_COUNT 484
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
@@ -266,32 +266,10 @@ set_location_assignment PIN_V22 -to pCOM_CTS
 set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
 set_location_assignment PIN_G21 -to pClk50M
 set_global_assignment -name FORCE_CONFIGURATION_VCCIO ON
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
 set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
 set_location_assignment PIN_C8 -to pMemAdr[12]
-set_global_assignment -name VHDL_FILE ../../SPI/SPI_IF.vhd
-set_global_assignment -name VHDL_FILE ../SASIIF/sasisd.vhd
-set_global_assignment -name VHDL_FILE ../SASIIF/sasiio.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/g_srff.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEG.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/signext.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/CRCGENN.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/sftdiv.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/sftgen.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/sftclk.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEGn.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/PARITYG.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/PARGEN.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/unchchata.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/delayer.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/digifilters.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/digifilter.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/deltasigmas.vhd
-set_global_assignment -name VHDL_FILE ../../LIB/clkdiv.vhd
-set_global_assignment -name QIP_FILE ../mainpll.qip
-set_global_assignment -name VHDL_FILE ../SDtest.vhd
 set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
 set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
@@ -359,7 +337,6 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemLdq
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemRas_n
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemUdq
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemWe_n
-set_global_assignment -name SIGNALTAP_FILE ../SDtest.stp
 set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to "SFTCLK:I2CCLK|SFT" -section_id auto_signaltap_0
@@ -703,4 +680,27 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
+set_global_assignment -name VHDL_FILE ../../SPI/SPI_IF.vhd
+set_global_assignment -name VHDL_FILE ../SASIIF/sasisd.vhd
+set_global_assignment -name VHDL_FILE ../SASIIF/sasiio.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/g_srff.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEG.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/signext.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/CRCGENN.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/sftdiv.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/sftgen.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/sftclk.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/HEX2SEGn.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/PARITYG.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/PARGEN.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/unchchata.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/delayer.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/digifilters.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/digifilter.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/deltasigmas.vhd
+set_global_assignment -name VHDL_FILE ../../LIB/clkdiv.vhd
+set_global_assignment -name QIP_FILE ../mainpll.qip
+set_global_assignment -name VHDL_FILE ../SDtest.vhd
+set_global_assignment -name SIGNALTAP_FILE ../SDtest.stp
 set_global_assignment -name SLD_FILE db/SDtest_auto_stripped.stp

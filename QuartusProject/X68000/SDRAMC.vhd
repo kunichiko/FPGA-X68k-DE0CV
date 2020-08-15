@@ -37,6 +37,7 @@ port(
 	rd			:in std_logic;
 	wr			:in std_logic;
 	refrsh		:in std_logic;
+	abort		:in std_logic	:='0';
 	busy		:out std_logic;
 	
 	initdone	:out std_logic;
@@ -341,6 +342,8 @@ begin
 						end if;
 						curaddr<=curaddr+addr1;
 						if((tmpaddr or blkmask)=(endaddr or blkmask))then
+							clkstate<=clkstate+1;
+						elsif(abort='1')then
 							clkstate<=clkstate+1;
 						end if;
 						de<='1';

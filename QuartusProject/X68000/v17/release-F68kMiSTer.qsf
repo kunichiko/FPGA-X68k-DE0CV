@@ -39,7 +39,7 @@ set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:03:51  MAY 10, 2020"
 
 set_global_assignment -name TOP_LEVEL_ENTITY sys_top
 
-set_global_assignment -name LAST_QUARTUS_VERSION "17.0.2 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
 
 set_global_assignment -name GENERATE_RBF_FILE ON
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
@@ -250,10 +250,7 @@ set_location_assignment PIN_AG23 -to BTN_RESET
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name SEARCH_PATH "h:\\fpga\\mister\\sys\\pll_cfg"
-set_global_assignment -name SEARCH_PATH "h:\\fpga\\mister\\sys"
 set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE x68kmist.stp
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ARDUINO_IO[*]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to IO_S*
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to USER_IO[*]
@@ -303,13 +300,13 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to BTN_*
 set_instance_assignment -name ALLOW_SYNCH_CTRL_USAGE OFF -to *|SDRAM_*
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_*
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SDRAM_*
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name QIP_FILE ../../MiSTer/sys/pll_hdmi/pll_hdmi_0002.qip -library pll_hdmi
-set_global_assignment -name TEXT_FILE ../../diskemu.v2/doc/diskemu.txt
+set_global_assignment -name RAW_BINARY_FILE "output_files/release-F68kMiSTer.rbf"
 set_global_assignment -name TEXT_FILE ../Doc/readme_MiSTer.txt
-set_global_assignment -name SOURCE_FILE "../../diskemu.v2/software/nios-src.zip"
 set_global_assignment -name SOURCE_FILE ../BIOS/boot.rom
-set_global_assignment -name VHDL_FILE ../X68MiSTerDEMU2.vhd
 set_global_assignment -name SYSTEMVERILOG_FILE ../MiSTer/X68000.sv
+set_global_assignment -name VHDL_FILE ../X68MiSTer.vhd
 set_global_assignment -name VERILOG_FILE build_id.v
 set_global_assignment -name VERILOG_FILE ../../MiSTer/sys/pll_hdmi/pll_hdmi_0002.v -library pll_hdmi
 set_global_assignment -name QIP_FILE ../../MiSTer/sys/sys.qip
@@ -319,8 +316,8 @@ set_global_assignment -name VHDL_FILE ../cachecont.vhd
 set_global_assignment -name VHDL_FILE ../cachesel.vhd
 set_global_assignment -name VHDL_FILE ../contrast.vhd
 set_global_assignment -name VHDL_FILE ../contcont.vhd
-set_global_assignment -name VHDL_FILE ../cacheext.vhd
 set_global_assignment -name VHDL_FILE ../cacheextr.vhd
+set_global_assignment -name VHDL_FILE ../cacheext.vhd
 set_global_assignment -name VHDL_FILE ../cereg.vhd
 set_global_assignment -name VHDL_FILE ../INTcont.vhd
 set_global_assignment -name VHDL_FILE ../IOcont.vhd
@@ -333,7 +330,6 @@ set_global_assignment -name VHDL_FILE ../SDRAMC.vhd
 set_global_assignment -name MIF_FILE ../SRAMU.mif
 set_global_assignment -name MIF_FILE ../SRAML.mif
 set_global_assignment -name VHDL_FILE ../txtpal.vhd
-set_global_assignment -name SIGNALTAP_FILE ../txtpal.stp
 set_global_assignment -name QIP_FILE ../testram.qip
 set_global_assignment -name VHDL_FILE ../vrcack.vhd
 set_global_assignment -name VHDL_FILE ../wrreg.vhd
@@ -351,6 +347,7 @@ set_global_assignment -name VHDL_FILE ../../USART/txframe.vhd
 set_global_assignment -name VHDL_FILE ../../USART/rxframe.vhd
 set_global_assignment -name VHDL_FILE ../../sound/adpcm6258/tbl6258.vhd
 set_global_assignment -name VHDL_FILE ../../sound/adpcm6258/e6258.vhd
+set_global_assignment -name MIF_FILE ../../sound/adpcm6258/tbl6258.mif
 set_global_assignment -name VHDL_FILE ../../sound/adpcm6258/calcadpcm.vhd
 set_global_assignment -name VHDL_FILE ../../sound/OPM/parrmwram.vhd
 set_global_assignment -name VHDL_FILE ../../sound/OPM/OPMsreg.vhd
@@ -377,9 +374,11 @@ set_global_assignment -name QIP_FILE ../../sound/sinwrom.qip
 set_global_assignment -name VHDL_FILE ../../sound/sintbl.vhd
 set_global_assignment -name VHDL_FILE ../../sound/sinnrom.vhd
 set_global_assignment -name QIP_FILE ../../sound/sinnrom.qip
+set_global_assignment -name MIF_FILE ../../sound/sinw.mif
+set_global_assignment -name MIF_FILE ../../sound/sinn.mif
+set_global_assignment -name MIF_FILE ../../sound/cosn.mif
 set_global_assignment -name VHDL_FILE ../../sound/mult16.vhd
 set_global_assignment -name VHDL_FILE ../../sound/midiif/em3802.vhd
-set_global_assignment -name SIGNALTAP_FILE ../../sound/midiif/em3802.stp
 set_global_assignment -name VHDL_FILE ../../CPU/tg68/VHDL/TG68.vhd
 set_global_assignment -name VHDL_FILE ../../CPU/tg68/VHDL/TG68_fast.vhd
 set_global_assignment -name VECTOR_WAVEFORM_FILE ../../CPU/tg68/VHDL/TG68.vwf
@@ -390,6 +389,8 @@ set_global_assignment -name SOURCE_FILE ../MFP/KBIF/ktble0.cmp
 set_global_assignment -name VHDL_FILE ../MFP/KBIF/ktble0.vhd
 set_global_assignment -name SOURCE_FILE ../MFP/KBIF/ktbln.cmp
 set_global_assignment -name VHDL_FILE ../MFP/KBIF/ktbln.vhd
+set_global_assignment -name HEX_FILE ../MFP/KBIF/ktbln.hex
+set_global_assignment -name HEX_FILE ../MFP/KBIF/ktble0.hex
 set_global_assignment -name VHDL_FILE ../MFP/MFPint.vhd
 set_global_assignment -name VHDL_FILE ../MFP/MFPtimer.vhd
 set_global_assignment -name VHDL_FILE ../MFP/MFPtimerS.vhd
@@ -428,14 +429,23 @@ set_global_assignment -name VHDL_FILE ../../FDC/dskchk.vhd
 set_global_assignment -name VHDL_FILE ../../FDC/dskchk2d.vhd
 set_global_assignment -name VHDL_FILE ../FDtiming.vhd
 set_global_assignment -name VHDL_FILE ../SASIIF/sasiif.vhd
-set_global_assignment -name QSYS_FILE ../../diskemu.v2/diskemu.qsys
-set_global_assignment -name QIP_FILE ../../diskemu.v2/software/diskemu/mem_init/meminit.qip
-set_global_assignment -name VHDL_FILE ../../diskemu.v2/FDemu.vhd
-set_global_assignment -name VHDL_FILE ../../diskemu.v2/diskemuunit.vhd
-set_global_assignment -name VHDL_FILE ../../diskemu.v2/mkgapsync.vhd
-set_global_assignment -name VHDL_FILE ../../diskemu.v2/stepwait.vhd
-set_global_assignment -name VHDL_FILE ../../diskemu.v2/fdcopy.vhd
-set_global_assignment -name HEX_FILE ../../diskemu.v2/sramdefaultbe.hex
+set_global_assignment -name HEX_FILE ../../diskemu_mister/sramdefault.hex
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/wrotecont.vhd
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/tracktable.vhd
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/sramram.vhd
+set_global_assignment -name QIP_FILE ../../diskemu_mister/sramram.qip
+set_global_assignment -name SOURCE_FILE ../../diskemu_mister/sramram.cmp
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/sramcont.vhd
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/sectram.vhd
+set_global_assignment -name QIP_FILE ../../diskemu_mister/sectram.qip
+set_global_assignment -name SOURCE_FILE ../../diskemu_mister/sectram.cmp
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/sasidev.vhd
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/mkgapsync.vhd
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/fecbuf.vhd
+set_global_assignment -name QIP_FILE ../../diskemu_mister/fecbuf.qip
+set_global_assignment -name SOURCE_FILE ../../diskemu_mister/fecbuf.cmp
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/FDemu.vhd
+set_global_assignment -name VHDL_FILE ../../diskemu_mister/diskemu_mister.vhd
 set_global_assignment -name VHDL_FILE ../../rtc/rp5c15_MiSTer.vhd
 set_global_assignment -name VHDL_FILE ../../rtc/rtcbody.vhd
 set_global_assignment -name VHDL_FILE ../SCC/scc.vhd
@@ -491,4 +501,5 @@ set_global_assignment -name VHDL_FILE ../../LIB/clktx.vhd
 set_global_assignment -name VHDL_FILE ../../LIB/datfifo.vhd
 set_global_assignment -name VHDL_FILE ../../LIB/datlatch.vhd
 set_global_assignment -name VHDL_FILE ../../LIB/e8255.vhd
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SEARCH_PATH ../../mister/sys/pll_cfg
+set_global_assignment -name SEARCH_PATH ../../mister/sys

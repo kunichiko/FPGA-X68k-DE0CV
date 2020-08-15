@@ -94,6 +94,7 @@ signal	MAR,DAR,BAR	:std_logic_vector(31 downto 0);
 signal	MTC,BTC		:std_logic_vector(15 downto 0);
 
 signal	MTC_dec		:std_logic;
+signal	MTC_dec2		:std_logic;
 signal	MTC_load	:std_logic;
 signal	MTC_BTC		:std_logic;
 
@@ -103,6 +104,7 @@ signal	MAR_incw	:std_logic;
 signal	MAR_decw	:std_logic;
 signal	MAR_incl	:std_logic;
 signal	MAR_decl	:std_logic;
+signal	MAR_dec3	:std_logic;
 signal	MAR_loadh	:std_logic;
 signal	MAR_loadl	:std_logic;
 signal	MAR_BAR		:std_logic;
@@ -111,6 +113,9 @@ signal	DAR_incb		:std_logic;
 signal	DAR_decb		:std_logic;
 signal	DAR_incw		:std_logic;
 signal	DAR_decw		:std_logic;
+signal	DAR_incl		:std_logic;
+signal	DAR_decl		:std_logic;
+signal	DAR_dec3		:std_logic;
 
 signal	BTC_dec		:std_logic;
 
@@ -128,6 +133,7 @@ signal	int_comp	:std_logic;
 signal	CHactive	:std_logic;
 signal	CONTMODE	:std_logic;
 signal	reqwait	:std_logic;
+signal	packen	:std_logic;
 
 type state_t is(
 	ST_IDLE,
@@ -296,6 +302,8 @@ begin
 			end if;
 			if(MTC_dec='1')then
 				MTC<=MTC-x"0001";
+			elsif(MTC_dec2='1')then
+				MTC<=MTC-x"0002";
 			elsif(MTC_load='1')then
 				MTC<=b_indatl;
 			elsif(MTC_BTC='1')then
@@ -333,6 +341,8 @@ begin
 				MAR<=MAR-x"00000001";
 			elsif(MAR_decw='1')then
 				MAR<=MAR-x"00000002";
+			elsif(MAR_dec3='1')then
+				MAR<=MAR-x"00000003";
 			elsif(MAR_decl='1')then
 				MAR<=MAR-x"00000004";
 			elsif(MAR_loadh='1')then
@@ -364,7 +374,13 @@ begin
 					DAR(7 downto 0)<=regwdat(7 downto 0);
 				end if;
 			end if;
-			if(DAR_incw='1')then
+			if(DAR_incl='1')then
+				DAR<=DAR+x"00000004";
+			elsif(DAR_decl='1')then
+				DAR<=DAR-x"00000004";
+			elsif(DAR_dec3='1')then
+				DAR<=DAR-x"00000003";
+			elsif(DAR_incw='1')then
 				DAR<=DAR+x"00000002";
 			elsif(DAR_decw='1')then
 				DAR<=DAR-x"00000002";
@@ -501,6 +517,13 @@ begin
 		end if;
 	end process;
 	
+	packen<=	'0' when OCR_SIZE/="00" else
+				'0' when DCR_DPS='0' else
+				'0' when MTC<x"0002" else
+				'1' when DAR(0)='0' and MAR(0)='0' and SCR_DAC(1)='0' and SCR_MAC(1)='0' else
+				'1' when DAR(0)='1' and MAR(0)='1' and SCR_DAC(1)='1' and SCR_MAC(1)='1' else
+				'0';
+	
 	process(clk,rstn)begin
 		if(rstn='0')then
 			STATE<=ST_IDLE;
@@ -520,6 +543,7 @@ begin
 			bytecnt<=0;
 			
 			MTC_dec		<='0';
+			MTC_dec2		<='0';
 			MTC_load	<='0';
 			MTC_BTC		<='0';
 
@@ -537,6 +561,8 @@ begin
 			DAR_decb		<='0';
 			DAR_incw		<='0';
 			DAR_decw		<='0';
+			DAR_incl		<='0';
+			DAR_decl		<='0';
 
 			BTC_dec		<='0';
 
@@ -553,6 +579,7 @@ begin
 			reqwait<='0';
 		elsif(clk' event and clk='1')then
 			MTC_dec		<='0';
+			MTC_dec2		<='0';
 			MTC_load	<='0';
 			MTC_BTC		<='0';
 			MAR_incb	<='0';
@@ -561,6 +588,7 @@ begin
 			MAR_decw	<='0';
 			MAR_incl	<='0';
 			MAR_decl	<='0';
+			MAR_dec3	<='0';
 			MAR_loadh	<='0';
 			MAR_loadl	<='0';
 			MAR_BAR		<='0';
@@ -568,6 +596,9 @@ begin
 			DAR_decb		<='0';
 			DAR_incw		<='0';
 			DAR_decw		<='0';
+			DAR_incl		<='0';
+			DAR_decl		<='0';
+			DAR_dec3		<='0';
 			BTC_dec		<='0';
 			BAR_loadh	<='0';
 			BAR_loadl	<='0';
@@ -693,7 +724,7 @@ begin
 									TXDAT(7 downto 0)<=b_indat(7 downto 0);
 								end if;
 							end if;
-							if(OCR_SIZE="01" or OCR_SIZE="10")then
+							if(OCR_SIZE="01" or OCR_SIZE="10" or packen='1')then
 								TXDAT(15 downto 0)<=b_indat;
 							end if;
 							STATE<=ST_CHDIR;
@@ -704,7 +735,7 @@ begin
 					b_rwn<='0';
 					STATE<=ST_SETDADDR;
 				when ST_SETDADDR =>
-					if(OCR_SIZE="01" or OCR_SIZE="10")then
+					if(OCR_SIZE="01" or OCR_SIZE="10" or packen='1')then
 						b_uds<='0';
 						b_lds<='0';
 						b_outdat<=TXDAT(15 downto 0);
@@ -745,8 +776,12 @@ begin
 					if(DCR_DPS='1')then	--16bit
 						case OCR_SIZE is
 						when "00" | "01" | "11" =>
-							MTC_dec<='1';
-							if(MTC=x"0001")then
+							if(packen='1')then
+								MTC_dec2<='1';
+							else
+								MTC_dec<='1';
+							end if;
+							if(MTC=x"0001" or (packen='1' and MTC=x"0002"))then
 								if(CCR_CNT='1')then	
 									S_BTCset<='1';
 									STATE<=ST_NBLOCK;
@@ -763,6 +798,8 @@ begin
 						when "10" =>
 							bytecnt<=bytecnt+2;
 							if(bytecnt=2)then
+								MAR_decw<='1';
+								DAR_decw<='1';
 								bytecnt<=0;
 								MTC_dec<='1';
 								if(MTC=x"0001")then
@@ -780,6 +817,8 @@ begin
 									STATE<=ST_CONT;
 								end if;
 							else
+								MAR_incw<='1';
+								DAR_incw<='1';
 								STATE<=ST_BUSWAIT;
 								reqwait<='1';
 							end if;
@@ -830,6 +869,8 @@ begin
 						when "10" =>
 							bytecnt<=bytecnt+1;
 							if(bytecnt=3)then
+								MAR_dec3<='1';
+								DAR_dec3<='1';
 								bytecnt<=0;
 								MTC_dec<='1';
 								if(MTC=x"0001")then
@@ -838,6 +879,8 @@ begin
 									STATE<=ST_CONT;
 								end if;
 							else
+								MAR_incb<='1';
+								DAR_incb<='1';
 								STATE<=ST_BUSWAIT;
 								reqwait<='1';
 							end if;
@@ -980,21 +1023,33 @@ begin
 				when ST_CONT =>
 					case SCR_MAC is
 					when "01" =>
-						case OCR_SIZE is
-						when "00" | "11" =>
-							MAR_incb<='1';
-						when "01" | "10" =>
+						if(packen='1')then
 							MAR_incw<='1';
-						when others =>
-						end case;
+						else
+							case OCR_SIZE is
+							when "00" | "11" =>
+								MAR_incb<='1';
+							when "01" =>
+								MAR_incw<='1';
+							when "10" =>
+								MAR_incl<='1';
+							when others =>
+							end case;
+						end if;
 					when "10" =>
-						case OCR_SIZE is
-						when "00" | "11" =>
-							MAR_decb<='1';
-						when "01" | "10" =>
+						if(packen='1')then
 							MAR_decw<='1';
-						when others =>
-						end case;
+						else
+							case OCR_SIZE is
+							when "00" | "11" =>
+								MAR_decb<='1';
+							when "01" =>
+								MAR_decw<='1';
+							when "10" =>
+								MAR_decl<='1';
+							when others =>
+							end case;
+						end if;
 					when others =>
 					end case;
 					
@@ -1002,16 +1057,20 @@ begin
 					when "01" =>
 						if(DCR_DPS='0')then
 							DAR_incw<='1';
-						elsif(OCR_SIZE="01" or OCR_SIZE="10")then
+						elsif(OCR_SIZE="01" or packen='1')then
 							DAR_incw<='1';
+						elsif(OCR_SIZE="10")then
+							DAR_incl<='1';
 						else
 							DAR_incb<='1';
 						end if;
 					when "10" =>
 						if(DCR_DPS='0')then
 							DAR_decw<='1';
-						elsif(OCR_SIZE="01" or OCR_SIZE="10")then
+						elsif(OCR_SIZE="01" or packen='1')then
 							DAR_decw<='1';
+						elsif(OCR_SIZE="10")then
+							DAR_decl<='1';
 						else
 							DAR_decb<='1';
 						end if;

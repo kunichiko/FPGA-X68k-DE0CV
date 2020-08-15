@@ -13,71 +13,72 @@ port(
 	b_addr	:in std_logic_vector(awidth-1 downto 0);
 	b_wdat	:in std_logic_vector(15 downto 0);
 	b_rdat	:out std_logic_vector(15 downto 0);
-	b_rd	:in std_logic;
-	b_wr	:in std_logic_vector(1 downto 0);
-	b_rmw	:in std_logic_vector(1 downto 0);
-	b_rmwmsk:in std_logic_vector(15 downto 0);
-	b_ack	:out std_logic;
+	b_rd		:in std_logic;
+	b_wr		:in std_logic_vector(1 downto 0);
+	b_rmw		:in std_logic_vector(1 downto 0);
+	b_rmwmsk	:in std_logic_vector(15 downto 0);
+	b_ack		:out std_logic;
 
-	b_csaddr:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
-	b_cdaddr:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
-	b_cpy	:in std_logic_vector(3 downto 0)	:=(others=>'0');
+	b_csaddr	:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
+	b_cdaddr	:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
+	b_cplane	:in std_logic_vector(3 downto 0)	:=(others=>'0');
+	b_cpy		:in std_logic;
 	b_cack	:out std_logic;
 
 	g00_addr:in std_logic_vector(awidth-1 downto 0);
 	g00_rd	:in std_logic;
-	g00_rdat:out std_logic_vector(15 downto 0);
+	g00_rdat	:out std_logic_vector(15 downto 0);
 	g00_ack	:out std_logic;
 
-	g01_addr:in std_logic_vector(awidth-1 downto 0);
+	g01_addr	:in std_logic_vector(awidth-1 downto 0);
 	g01_rd	:in std_logic;
-	g01_rdat:out std_logic_vector(15 downto 0);
+	g01_rdat	:out std_logic_vector(15 downto 0);
 	g01_ack	:out std_logic;
 
-	g02_addr:in std_logic_vector(awidth-1 downto 0);
+	g02_addr	:in std_logic_vector(awidth-1 downto 0);
 	g02_rd	:in std_logic;
-	g02_rdat:out std_logic_vector(15 downto 0);
+	g02_rdat	:out std_logic_vector(15 downto 0);
 	g02_ack	:out std_logic;
 
-	g03_addr:in std_logic_vector(awidth-1 downto 0);
+	g03_addr	:in std_logic_vector(awidth-1 downto 0);
 	g03_rd	:in std_logic;
-	g03_rdat:out std_logic_vector(15 downto 0);
+	g03_rdat	:out std_logic_vector(15 downto 0);
 	g03_ack	:out std_logic;
 
-	g10_addr:in std_logic_vector(awidth-1 downto 0);
+	g10_addr	:in std_logic_vector(awidth-1 downto 0);
 	g10_rd	:in std_logic;
-	g10_rdat:out std_logic_vector(15 downto 0);
+	g10_rdat	:out std_logic_vector(15 downto 0);
 	g10_ack	:out std_logic;
 
-	g11_addr:in std_logic_vector(awidth-1 downto 0);
+	g11_addr	:in std_logic_vector(awidth-1 downto 0);
 	g11_rd	:in std_logic;
-	g11_rdat:out std_logic_vector(15 downto 0);
+	g11_rdat	:out std_logic_vector(15 downto 0);
 	g11_ack	:out std_logic;
 
-	g12_addr:in std_logic_vector(awidth-1 downto 0);
+	g12_addr	:in std_logic_vector(awidth-1 downto 0);
 	g12_rd	:in std_logic;
-	g12_rdat:out std_logic_vector(15 downto 0);
+	g12_rdat	:out std_logic_vector(15 downto 0);
 	g12_ack	:out std_logic;
 
-	g13_addr:in std_logic_vector(awidth-1 downto 0);
+	g13_addr	:in std_logic_vector(awidth-1 downto 0);
 	g13_rd	:in std_logic;
-	g13_rdat:out std_logic_vector(15 downto 0);
+	g13_rdat	:out std_logic_vector(15 downto 0);
 	g13_ack	:out std_logic;
 
 	t0_addr	:in std_logic_vector(awidth-3 downto 0);
-	t0_rd	:in std_logic;
-	t0_rdat0:out std_logic_vector(15 downto 0);
-	t0_rdat1:out std_logic_vector(15 downto 0);
-	t0_rdat2:out std_logic_vector(15 downto 0);
-	t0_rdat3:out std_logic_vector(15 downto 0);
+	t0_rd		:in std_logic;
+	t0_rdat0	:out std_logic_vector(15 downto 0);
+	t0_rdat1	:out std_logic_vector(15 downto 0);
+	t0_rdat2	:out std_logic_vector(15 downto 0);
+	t0_rdat3	:out std_logic_vector(15 downto 0);
 	t0_ack	:out std_logic;
 	
 	t1_addr	:in std_logic_vector(awidth-3 downto 0);
-	t1_rd	:in std_logic;
-	t1_rdat0:out std_logic_vector(15 downto 0);
-	t1_rdat1:out std_logic_vector(15 downto 0);
-	t1_rdat2:out std_logic_vector(15 downto 0);
-	t1_rdat3:out std_logic_vector(15 downto 0);
+	t1_rd		:in std_logic;
+	t1_rdat0	:out std_logic_vector(15 downto 0);
+	t1_rdat1	:out std_logic_vector(15 downto 0);
+	t1_rdat2	:out std_logic_vector(15 downto 0);
+	t1_rdat3	:out std_logic_vector(15 downto 0);
 	t1_ack	:out std_logic;
 
 	g0_caddr	:in std_logic_vector(awidth-1 downto 7);
@@ -95,39 +96,40 @@ port(
 	fde_addr	:in std_logic_vector(awidth-1 downto 0)	:=(others=>'0');
 	fde_rdat	:out std_logic_vector(15 downto 0);
 	fde_wdat	:in std_logic_vector(15 downto 0)	:=(others=>'0');
-	fde_wr		:in std_logic	:='0';
+	fde_wr	:in std_logic	:='0';
 	fde_tlen	:in std_logic_vector(13 downto 0)	:=(others=>'1');
 	
-	fec_addr	:out std_logic_vector(7 downto 0);
-	fec_rdat	:out std_logic_vector(15 downto 0);
-	fec_wdat	:in std_logic_vector(15 downto 0)	:=(others=>'0');
-	fec_we	:out std_logic;
+	fec_addr		:out std_logic_vector(7 downto 0);
+	fec_rdat		:out std_logic_vector(15 downto 0);
+	fec_wdat		:in std_logic_vector(15 downto 0)	:=(others=>'0');
+	fec_we		:out std_logic;
 	fec_addrh	:in std_logic_vector(awidth-9 downto 0)	:=(others=>'0');
 	fec_rd		:in std_logic	:='0';
 	fec_wr		:in std_logic	:='0';
-	fec_busy	:out std_logic;
+	fec_busy		:out std_logic;
 
-	ramaddrh	:out std_logic_vector(awidth-9 downto 0);
+	ramaddrh		:out std_logic_vector(awidth-9 downto 0);
 	rambgnaddr	:out std_logic_vector(7 downto 0);
 	ramendaddr	:out std_logic_vector(7 downto 0);
 	rambwidth	:out integer range 1 to 8;
 	ramaddrrc	:in std_logic_vector(7 downto 0);
 	ramaddrwc	:in std_logic_vector(7 downto 0);
-	ramrd		:out std_logic;
-	ramwr		:out std_logic;
+	ramrd			:out std_logic;
+	ramwr			:out std_logic;
 	ramrefrsh	:out std_logic;
 	rambusy		:in std_logic;
-	ramde		:in std_logic;
+	ramde			:in std_logic;
 	ramrdat		:in std_logic_vector(15 downto 0);
 	ramwdat		:out std_logic_vector(15 downto 0);
-	ramwe		:out std_logic_vector(1 downto 0);
+	ramwe			:out std_logic_vector(1 downto 0);
+	ramabort		:out std_logic;
 	
 	ini_end	:out std_logic;
-	sclk	:in std_logic;
-	vclk	:in std_logic;
-	fclk	:in std_logic;
-	rclk	:in std_logic;
-	rstn	:in std_logic
+	sclk		:in std_logic;
+	vclk		:in std_logic;
+	fclk		:in std_logic;
+	rclk		:in std_logic;
+	rstn		:in std_logic
 );
 end cachecont;
 
@@ -140,20 +142,15 @@ signal	lb_cdaddr	:std_logic_vector(awidth-brsize-1 downto 0);
 signal	lb_rd		:std_logic;
 signal	lb_wr		:std_logic_vector(1 downto 0);
 signal	lb_rmw		:std_logic_vector(1 downto 0);
-signal	lb_cpy		:std_logic_vector(3 downto 0);
 signal	sb_addr		:std_logic_vector(awidth-1 downto 0);
-signal	sb_csaddr	:std_logic_vector(awidth-brsize-1 downto 0);
-signal	sb_cdaddr	:std_logic_vector(awidth-brsize-1 downto 0);
 signal	sb_rd		:std_logic;
 signal	sb_wr		:std_logic_vector(1 downto 0);
 signal	sb_rmw		:std_logic_vector(1 downto 0);
-signal	sb_cpy		:std_logic_vector(3 downto 0);
 signal	brcache_sel	:integer range 0 to brblocks-1;
 signal	bwcache_sel	:std_logic;
-type braddr_t is array(brblocks-1 downto 0) of std_logic_vector(awidth-brsize-1 downto 0);
+type braddr_t is array(brblocks-1 downto 0) of std_logic_vector(awidth-brsize downto 0);
 signal	braddr		:braddr_t;
-signal	braddrs		:braddr_t;
-signal	braddr_sel	:std_logic_vector(awidth-brsize-1 downto 0);
+signal	braddr_sel	:std_logic_vector(awidth-brsize downto 0);
 signal	brwr		:std_logic_vector(brblocks-1 downto 0);
 type brwrb_t is array(brblocks-1 downto 0) of std_logic_vector(1 downto 0);
 signal	brwrb		:brwrb_t;
@@ -182,9 +179,7 @@ signal	brcache_extwr	:std_logic_vector(brblocks-1 downto 0);
 signal	waddrmin	:std_logic_vector(brsize-1 downto 0);
 signal	waddrmax	:std_logic_vector(brsize-1 downto 0);
 signal	wminmaxclr	:std_logic;
-signal	wminmaxcend	:std_logic;
 signal	wminmaxall	:std_logic;
-signal	wminmaxaend	:std_logic;
 type	brdat_t	is array(brblocks-1 downto 0) of std_logic_vector(7 downto 0);
 signal	brdath	:brdat_t;
 signal	brdatl	:brdat_t;
@@ -219,13 +214,14 @@ signal	bcnext		:integer range 0 to brblocks-1;
 signal	bcget		:std_logic;
 signal	rmw_rdat	:std_logic_vector(15 downto 0);
 
-signal	bcbusy		:std_logic;
+signal	sb_cpy,lsb_cpy	:std_logic;
+signal	bcpend		:std_logic;
 signal	b_cwr0		:std_logic;
 signal	b_cwr1		:std_logic;
 signal	ramaddrwcb	:std_logic_vector(7 downto 0);
 signal	ramaddrwex	:std_logic_vector(7 downto 0);
 signal	bcackx		:std_logic;
-signal	wrflag		:std_logic;
+signal	cpbusy		:std_logic;
 signal	bcmask		:std_logic_vector(3 downto 0);
 signal	biwdata0	:std_logic_Vector(0 downto 0);
 signal	biwdata1	:std_logic_Vector(0 downto 0);
@@ -306,7 +302,6 @@ signal	ramaddrwcf	:std_logic_vector(7 downto 0);
 constant bcazero	:std_logic_vector(brsize-1 downto 0)	:=(others=>'0');
 
 signal	bfaddr		:std_logic_vector(brsize-1 downto 0);
-signal	vrcain		:std_logic;
 signal	vrcawr		:std_logic;
 signal	b_cdaddra	:std_logic_vector(awidth-1 downto 0);
 signal	g00rwdat	:std_logic_vector(15 downto 0);
@@ -326,6 +321,13 @@ signal	sfec_addrh	:std_logic_vector(awidth-9 downto 0);
 signal	lfec_addrh	:std_logic_vector(awidth-9 downto 0);
 signal	t0_addra		:std_logic_vector(awidth-1 downto 0);
 signal	t1_addra		:std_logic_vector(awidth-1 downto 0);
+signal	aborted	:std_logic;
+signal	wren		:std_logic;
+signal	swren		:std_logic;
+signal	lwren		:std_logic;
+
+signal	sbwack	:std_logic;
+signal	sbrmwack	:std_logic;
 
 signal	refcount		:integer range 0 to refcnt-1;
 signal	lastvid		:std_logic;
@@ -364,7 +366,7 @@ type rmwstate_t is(
 );
 signal	rmw_state	:rmwstate_t;
 
-component cacheextr
+component cacheext
 generic(
 	awidth	:integer	:=8
 );
@@ -455,6 +457,17 @@ port(
 );
 end component;
 
+component clktx
+port(
+	txin	:in std_logic;
+	txout	:out std_logic;
+	
+	fclk	:in std_logic;
+	sclk	:in std_logic;
+	rstn	:in std_logic
+);
+end component;
+
 begin
 
 	braddr_sel<=braddr(brcache_sel);
@@ -476,19 +489,13 @@ begin
 	process(rclk,rstn)begin
 		if(rstn='0')then
 			lb_addr<=(others=>'0');
-			lb_csaddr<=(others=>'0');
-			lb_cdaddr<=(others=>'0');
 			lb_rd<='0';
 			lb_wr<=(others=>'0');
 			lb_rmw<=(others=>'0');
-			lb_cpy<=(others=>'0');
 			sb_addr<=(others=>'0');
-			sb_csaddr<=(others=>'0');
-			sb_cdaddr<=(others=>'0');
 			sb_rd<='0';
 			sb_wr<=(others=>'0');
 			sb_rmw<=(others=>'0');
-			sb_cpy<=(others=>'0');
 			st_addr<=(others=>'0');
 			lt_addr<=(others=>'0');
 			sfec_addrh<=(others=>'0');
@@ -497,20 +504,11 @@ begin
 			lb_rd<=b_rd;
 			lb_wr<=b_wr;
 			lb_rmw<=b_rmw;
-			lb_cpy<=b_cpy;
 			lb_addr<=b_addr;
-			lb_csaddr<=b_csaddr;
-			lb_cdaddr<=b_cdaddr;
 			lt_addr<=fde_addr(awidth-1 downto 8);
 			lfec_addrh<=fec_addrh;
 			if(lb_addr=b_addr)then
 				sb_addr<=lb_addr;
-			end if;
-			if(lb_csaddr=b_csaddr)then
-				sb_csaddr<=b_csaddr;
-			end if;
-			if(lb_cdaddr=b_cdaddr)then
-				sb_cdaddr<=b_cdaddr;
 			end if;
 			if(lb_rd=b_rd)then
 				sb_rd<=lb_rd;
@@ -520,9 +518,6 @@ begin
 			end if;
 			if(lb_rmw=b_rmw)then
 				sb_rmw<=lb_rmw;
-			end if;
-			if(lb_cpy=b_cpy)then
-				sb_cpy<=lb_cpy;
 			end if;
 			if(lt_addr=fde_addr(awidth-1 downto 8))then
 				st_addr<=lt_addr;
@@ -536,7 +531,7 @@ begin
 	process(sb_addr,braddr)begin
 		braddrnone<='1';
 		for i in 0 to brblocks-1 loop
-			if(sb_addr(awidth-1 downto brsize)=braddr(i))then
+			if(braddr(i)=('0' & sb_addr(awidth-1 downto brsize)))then
 				braddrnone<='0';
 			end if;
 		end loop;
@@ -589,6 +584,8 @@ begin
 	fde_wr0<=fde_wr when fde_addr0s=fde_addr(awidth-1 downto 8) else '0';
 	fde_wr1<=fde_wr when fde_addr1s=fde_addr(awidth-1 downto 8) else '0';
 	
+	wren<='1' when b_wr/="00" or b_rmw/="00" else '0';
+	
 	process(rclk,rstn)
 	variable nxtaddr	:std_logic_vector(awidth-9 downto 0);
 	variable f0_wrote,f1_wrote	:std_logic;
@@ -624,7 +621,7 @@ begin
 			RAM_STATE<=ST_IDLE;
 			wminmaxclr<='0';
 			wminmaxall<='0';
-			wrflag<='0';
+			cpbusy<='0';
 			bcmask<=(others=>'0');
 			brcache_clr<=(others=>'0');
 			bwcache_clr0<='0';
@@ -632,7 +629,7 @@ begin
 			refcount<=refint-1;
 			lastvid<='0';
 			bcackx<='0';
-			bcbusy<='0';
+			bcpend<='0';
 			bcget<='0';
 			fde_sel<='0';
 			fec_busy<='0';
@@ -642,6 +639,10 @@ begin
 			f1_wrote:='0';
 			lfec_rd:="000";
 			lfec_wr:="000";
+			ramabort<='0';
+			aborted<='0';
+			swren<='0';
+			lwren<='0';
 		elsif(rclk' event and rclk='1')then
 			brcache_clr<=(others=>'0');
 			bwcache_clr0<='0';
@@ -649,11 +650,15 @@ begin
 			ramrd<='0';
 			ramwr<='0';
 			ramrefrsh<='0';
+			ramabort<='0';
 			bcackx<='0';
+			wminmaxclr<='0';
+			wminmaxall<='0';
 			bcget<='0';
-			if(b_wr/="00" or b_rmw/="00")then
-				wrflag<='1';
-			end if;
+			swren<=wren;
+			lwren<=swren;
+			lsb_cpy<=sb_cpy;
+			sb_cpy<=b_cpy;
 			if(fde_wr0='1')then
 				f0_wrote:='1';
 			elsif(fde_wr1='1')then
@@ -666,6 +671,9 @@ begin
 			if(lfec_wr="011")then
 				fec_wrq<='1';
 				fec_busy<='1';
+			end if;
+			if(lsb_cpy='1' and sb_cpy='0')then
+				bcpend<='1';
 			end if;
 			lfec_rd:=lfec_rd(1 downto 0) & fec_rd;
 			lfec_wr:=lfec_wr(1 downto 0) & fec_wr;
@@ -700,7 +708,7 @@ begin
 					ramendaddr<=not g02_addr(7) & "0000000";
 					ramrd<='1';
 					lastvid<='1';
-				elsif(g03_addr(awidth-1 downto 7)/=g03addrh and g03_rd='1' and rambusy='0')then
+				elsif(g03_addr(awidth-1 downto 7)/=g03addrh and g03_rd='1' and lastvid='0' and rambusy='0')then
 					g03addrh<=g03_addr(awidth-1 downto 7);
 					ramaddrh<=g03_addr(awidth-1 downto 8);
 					RAM_STATE<=ST_G03READ;
@@ -740,7 +748,7 @@ begin
 					ramendaddr<=not g12_addr(7) & "0000000";
 					ramrd<='1';
 					lastvid<='1';
-				elsif(g13_addr(awidth-1 downto 7)/=g13addrh and g13_rd='1' and rambusy='0')then
+				elsif(g13_addr(awidth-1 downto 7)/=g13addrh and g13_rd='1' and lastvid='0' and rambusy='0')then
 					g13addrh<=g13_addr(awidth-1 downto 7);
 					ramaddrh<=g13_addr(awidth-1 downto 8);
 					RAM_STATE<=ST_G13READ;
@@ -756,7 +764,7 @@ begin
 					ramendaddr<=(others=>'0');
 					ramrd<='1';
 					lastvid<='1';
-				elsif(g0_caddr/=g0caddrh and g0_clear='1' and lastvid='0' and rambusy='0')then
+				elsif(g0_caddr/=g0caddrh and g0_clear='1' and lastvid='0' and lastvid='0' and rambusy='0')then
 					g0caddrh<=g0_caddr;
 					ramaddrh<=g0_caddr(awidth-1 downto 8);
 					RAM_STATE<=ST_G0CLR;
@@ -780,7 +788,7 @@ begin
 					ramendaddr<=g2_caddr(7) & "1111111";
 					ramwr<='1';
 					lastvid<='1';
-				elsif(g3_caddr/=g3caddrh and g3_clear='1' and rambusy='0')then
+				elsif(g3_caddr/=g3caddrh and g3_clear='1' and lastvid='0' and rambusy='0')then
 					g3caddrh<=g3_caddr;
 					ramaddrh<=g3_caddr(awidth-1 downto 8);
 					RAM_STATE<=ST_G3CLR;
@@ -804,45 +812,55 @@ begin
 						f1_wrote:='0';
 					end if;
 					RAM_STATE<=ST_FDEWRITE;
-				elsif((sb_cdaddr/=bwaddr_sel or wrflag='1') and sb_cpy/="0000" and rambusy='0' and bwcache_busy='0')then
-					wrflag<='0';
-					ramaddrh<=bwaddr_sel(awidth-brsize-1 downto 8-brsize);
-					bwcache_sel<=not bwcache_sel;
-					if(bwcache_sel='0')then
-						bwaddr1<=sb_cdaddr;
-						bwcache_clr1<='1';
+				elsif(bcpend='1' and rambusy='0' and bwcache_busy='0')then
+					if(cpbusy='0')then
+						if(bwcache_sel='0')then
+							bwaddr1<=(others=>'1');		--ROM area
+--							bwaddr1<=b_cdaddr;
+--							bwcache_clr1<='1';
+						else
+							bwaddr0<=(others=>'1');		--ROM area
+--							bwaddr0<=b_cdaddr;
+--							bwcache_clr0<='1';
+						end if;
+						ramaddrh<=bwaddr_sel(awidth-brsize-1 downto 8-brsize);
+						rambgnaddr(brsize-1 downto 0)<=waddrmin;
+						ramendaddr(brsize-1 downto 0)<=waddrmax;
+						if(brsize<8)then
+							rambgnaddr(7 downto brsize)<=bwaddr_sel(7-brsize downto 0);
+							ramendaddr(7 downto brsize)<=bwaddr_sel(7-brsize downto 0);
+						end if;
+						bwcache_sel<=not bwcache_sel;
+						ramwr<='1';
+						lastvid<='0';
+						RAM_STATE<=ST_BWRITE;
+--						wminmaxclr<='1';
+						cpbusy<='1';
 					else
-						bwaddr0<=sb_cdaddr;
-						bwcache_clr0<='1';
+						bcmask<=b_cplane;
+						if(bwcache_sel='0')then
+							bwaddr0<=b_cdaddr;
+							bwcache_clr0<='1';
+						else
+							bwaddr1<=b_cdaddr;
+							bwcache_clr1<='1';
+						end if;
+						ramaddrh<=b_csaddr(awidth-brsize-1 downto 8-brsize);
+						rambgnaddr(brsize-1 downto 0)<=(others=>'0');
+						ramendaddr(brsize-1 downto 0)<=(others=>'0');
+						if(brsize<8)then
+							rambgnaddr(7 downto brsize)<=b_csaddr(7-brsize downto 0);
+							ramendaddr(7 downto brsize)<=(b_csaddr(7-brsize downto 0)+1);
+						end if;
+						RAM_STATE<=ST_BCREAD;
+						wminmaxall<='1';
+						ramrd<='1';
+						lastvid<='0';
+						bcpend<='0';
+						cpbusy<='0';
 					end if;
-					rambgnaddr(brsize-1 downto 0)<=waddrmin;
-					ramendaddr(brsize-1 downto 0)<=waddrmax;
-					if(brsize<8)then
-						rambgnaddr(7 downto brsize)<=bwaddr_sel(7-brsize downto 0);
-						ramendaddr(7 downto brsize)<=bwaddr_sel(7-brsize downto 0);
-					end if;
-					wminmaxclr<='1';
-					ramwr<='1';
-					bcbusy<='1';
-					lastvid<='0';
-					RAM_STATE<=ST_BWRITE;
-				elsif(sb_cpy/="0000" and rambusy='0' and bcbusy='1')then
-					bcmask<=sb_cpy;
-					ramaddrh<=sb_csaddr(awidth-brsize-1 downto 8-brsize);
-					rambgnaddr(brsize-1 downto 0)<=(others=>'0');
-					ramendaddr(brsize-1 downto 0)<=(others=>'0');
-					if(brsize<8)then
-						rambgnaddr(7 downto brsize)<=sb_csaddr(7-brsize downto 0);
-						ramendaddr(7 downto brsize)<=(sb_csaddr(7-brsize downto 0)+1);
-					end if;
-					RAM_STATE<=ST_BCREAD;
-					wminmaxall<='1';
-					ramrd<='1';
-					bcbusy<='0';
-					lastvid<='0';
 				elsif(sb_addr(awidth-1 downto brsize)/=bwaddr_sel and (sb_wr/="00" or sb_rmw/="00") and rambusy='0' and bwcache_busy='0')then
 					ramaddrh<=bwaddr_sel(awidth-brsize-1 downto 8-brsize);
-					bwcache_sel<=not bwcache_sel;
 					if(bwcache_sel='0')then
 						bwaddr1<=sb_addr(awidth-1 downto brsize);
 						bwcache_clr1<='1';
@@ -856,6 +874,7 @@ begin
 						rambgnaddr(7 downto brsize)<=bwaddr_sel(7-brsize downto 0);
 						ramendaddr(7 downto brsize)<=bwaddr_sel(7-brsize downto 0);
 					end if;
+					bwcache_sel<=not bwcache_sel;
 					wminmaxclr<='1';
 					ramwr<='1';
 					lastvid<='0';
@@ -864,10 +883,15 @@ begin
 					ramaddrh<=sb_addr(awidth-1 downto 8);
 					rambgnaddr<=sb_addr(7 downto 0);
 					ramendaddr<=sb_addr(7 downto 0);
-					brcache_sel<=bcnext;
-					braddr(bcnext)<=sb_addr(awidth-1 downto brsize);
-					brcache_clr(bcnext)<='1';
-					bcget<='1';
+					if(aborted='1')then
+						aborted<='0';
+						braddr(brcache_sel)<='0' & b_addr(awidth-1 downto brsize);
+					else
+						brcache_sel<=bcnext;
+						braddr(bcnext)<='0' & b_addr(awidth-1 downto brsize);
+						brcache_clr(bcnext)<='1';
+						bcget<='1';
+					end if;
 					ramrd<='1';
 					lastvid<='0';
 					RAM_STATE<=ST_BREAD;
@@ -893,7 +917,7 @@ begin
 					lastvid<='0';
 					RAM_STATE<=ST_REFRSH;
 				end if;
-			when ST_BREAD | ST_G00READ | ST_G01READ | ST_G02READ | ST_G03READ | ST_T0READ | ST_G10READ | ST_G11READ | ST_G12READ | ST_G13READ | ST_T1READ | 
+			when ST_G00READ | ST_G01READ | ST_G02READ | ST_G03READ | ST_T0READ | ST_G10READ | ST_G11READ | ST_G12READ | ST_G13READ | ST_T1READ | 
 					ST_G0CLR | ST_G1CLR | ST_G2CLR | ST_G3CLR | ST_FDEREAD | ST_FECREAD | ST_FECWRITE | ST_REFRSH =>
 				if(rambusy='0')then
 					if(RAM_STATE/=ST_REFRSH)then
@@ -906,6 +930,16 @@ begin
 					if(RAM_STATE=ST_FDEREAD)then
 						fde_sel<=not fde_sel;
 					end if;
+				end if;
+			when ST_BREAD =>
+				if(rambusy='0')then
+					refcount<=refcount-1;
+					RAM_STATE<=ST_IDLE;
+				elsif(braddrnone='1' and (sb_rd='1' or sb_rmw/="00") and brcache_busy='0')then
+					brcache_clr(brcache_sel)<='1';
+					braddr(brcache_sel)<=(others=>'1');
+					ramabort<='1';
+					aborted<='1';
 				end if;
 			when st_FDEWRITE =>
 				if(rambusy='0')then
@@ -928,18 +962,12 @@ begin
 					ramrd<='1';
 				end if;
 			when ST_BWRITE =>
-				if(wminmaxcend='1')then
-					wminmaxclr<='0';
-				end if;
-				if(wminmaxclr='0' and rambusy='0')then
+				if(rambusy='0')then
 					refcount<=refcount-1;
 					RAM_STATE<=ST_IDLE;
 				end if;
 			when ST_BCREAD =>
-				if(wminmaxaend='1')then
-					wminmaxall<='0';
-				end if;
-				if(wminmaxclr='0' and rambusy='0')then
+				if(rambusy='0')then
 					refcount<=refcount-1;
 					bcackx<='1';
 					RAM_STATE<=ST_IDLE;
@@ -957,17 +985,17 @@ begin
 		brwr(i)<=	'0' when brcache_sel/=i else
 					'0' when RAM_STATE/=ST_BREAD else
 					ramde;
-		brwrb(i)<=	"00" when braddr(i)/=b_addr(awidth-1 downto brsize) else
+		brwrb(i)<=	"00" when braddr(i)/=('0' & b_addr(awidth-1 downto brsize)) else
 					b_rmw when brmwack='1' else
 					b_wr when bwack='1' else
 					"00";
 	end generate;
 
 
-	brwdath<=	bwwdat(15 downto 8) when braddr_sel=bwaddr_sel and bwwes(1)='1' else
+	brwdath<=	bwwdat(15 downto 8) when braddr_sel=('0' & bwaddr_sel) and bwwes(1)='1' else
 				ramrdat(15 downto 8);
 				
-	brwdatl<=	bwwdat(7 downto 0) when braddr_sel=bwaddr_sel and bwwes(0)='1' else
+	brwdatl<=	bwwdat(7 downto 0) when braddr_sel=('0' & bwaddr_sel) and bwwes(0)='1' else
 				ramrdat(7 downto 0);
 	
 	
@@ -976,12 +1004,12 @@ begin
 	bfaddr<=b_addr(brsize-1 downto 0);
 
 	bcgen	:for i in 0 to brblocks-1 generate
-		brcache_extF0	:cacheextr generic map(brsize) port map(ramaddrrc(brsize-1 downto 0),brcache_extwr(i),brcache_clr(i),brcache_busyv(i),bfaddr,brcache_ext(i),'1',rclk,sclk,rstn);
+		brcache_extF0	:cacheext generic map(brsize) port map(ramaddrrc(brsize-1 downto 0),brcache_extwr(i),brcache_clr(i),brcache_busyv(i),bfaddr,brcache_ext(i),'1',rclk,sclk,rstn);
 		BRcache0h:CACHEMEMN generic map(brsize,8)port map(ramaddrrc(brsize-1 downto 0),b_addr(brsize-1 downto 0),rclk,sclk,brwdath,b_wdatm(15 downto 8),brwr(i),brwrb(i)(1),open,brdath(i));
 		BRcache0l:CACHEMEMN generic map(brsize,8)port map(ramaddrrc(brsize-1 downto 0),b_addr(brsize-1 downto 0),rclk,sclk,brwdatl,b_wdatm(7 downto 0),brwr(i),brwrb(i)(0),open,brdatl(i));
 	end generate;
 	
-	process(brcache_busy)
+	process(brcache_busyv)
 	variable tmp	:std_logic;
 	begin
 		tmp:='0';
@@ -994,7 +1022,7 @@ begin
 	process(brdath,brdatl,braddr,b_addr)begin
 		b_rdatb<=(others=>'1');
 		for i in brblocks-1 downto 0 loop
-			if(braddr(i)=b_addr(awidth-1 downto brsize))then
+			if(braddr(i)=('0' & b_addr(awidth-1 downto brsize)))then
 				b_rdatb<=brdath(i) & brdatl(i);
 			end if;
 		end loop;
@@ -1005,28 +1033,16 @@ begin
 	process(braddr,b_addr)begin
 		bcreadno<=0;
 		for i in brblocks-1 downto 0 loop
-			if(braddr(i)=b_addr(awidth-1 downto brsize))then
+			if(braddr(i)=('0' & b_addr(awidth-1 downto brsize)))then
 				bcreadno<=i;
 			end if;
 		end loop;
 	end process;
 	
-	process(sclk,rstn)begin
-		if(rstn='0')then
-			for i in 0 to brblocks-1 loop
-				braddrs(i)<=(others=>'0');
-			end loop;
-		elsif(sclk' event and sclk='1')then
-			for i in 0 to brblocks-1 loop
-				braddrs(i)<=braddr(i);
-			end loop;
-		end if;
-	end process;
-
 	process(b_rd,b_addr,braddr,brcache_ext)begin
 		brack<='0';
 		for i in brblocks-1 downto 0 loop
-			if(b_rd='1' and b_addr(awidth-1 downto brsize)=braddr(i) and brcache_ext(i)='1')then
+			if(b_rd='1' and braddr(i)=('0' & b_addr(awidth-1 downto brsize)) and brcache_ext(i)='1')then
 				brack<='1';
 			end if;
 		end loop;
@@ -1043,59 +1059,35 @@ begin
 		end if;
 	end process;
 	
-	process(rclk,rstn)
-	variable vsclk	:integer range 0 to 2;
-	variable lsclk,ssclk	:std_logic;
-	begin
+	bctx	:clktx port map(bcackx,b_cack,rclk,sclk,rstn);
+
+	process(sclk,rstn)begin
 		if(rstn='0')then
-			vsclk:=0;
-			lsclk:='1';
-			b_cack<='0';
-		elsif(rclk' event and rclk='1')then
-			if(bcackx='1')then
-				vsclk:=2;
-			elsif(lsclk='0' and ssclk='1')then
-				if(vsclk>0)then
-					vsclk:=vsclk-1;
-					if(vsclk=1)then
-						b_cack<='1';
-					else
-						b_cack<='0';
-					end if;
-				else
-					b_cack<='0';
-				end if;
-			end if;
-			lsclk:=ssclk;
-			ssclk:=sclk;
+			sbwack<='0';
+			sbrmwack<='0';
+		elsif(sclk' event and sclk='1')then
+			sbwack<=bwack;
+			sbrmwack<=brmwack;
 		end if;
 	end process;
 	
-	process(sclk,rstn)
+	process(rclk,rstn)
 	variable vmin,vmax	:std_logic_vector(brsize-1 downto 0);
 	begin
 		if(rstn='0')then
-			wminmaxcend<='0';
 			waddrmin<=(others=>'1');
 			waddrmax<=(others=>'0');
-		elsif(sclk' event and sclk='1')then
+		elsif(rclk' event and rclk='1')then
 			vmin:=waddrmin;
 			vmax:=waddrmax;
 			if(wminmaxclr='1')then
 				vmin:=(others=>'1');
 				vmax:=(others=>'0');
-				wminmaxcend<='1';
-			else
-				wminmaxcend<='0';
-			end if;
-			if(wminmaxall='1')then
+			elsif(wminmaxall='1')then
 				vmin:=(others=>'0');
 				vmax:=(others=>'1');
-				wminmaxaend<='1';
-			else
-				wminmaxaend<='0';
 			end if;
-			if((bwack='1' and b_wr/="00") or (brmwack='1' and b_rmw/="00"))then
+			if((sbwack='1' and b_wr/="00") or (sbrmwack='1' and b_rmw/="00"))then
 				if(vmin>b_addr(brsize-1 downto 0))then
 					vmin:=b_addr(brsize-1 downto 0);
 				end if;
@@ -1135,10 +1127,10 @@ begin
 	bwwr0m<=bwwr0 or (b_cwr0 & b_cwr0);
 	bwwr1m<=bwwr1 or (b_cwr1 & b_cwr1);
 	BWewaddr<= ramaddrrc when RAM_STATE=ST_BCREAD else b_addr(7 downto 0);
-	BWext0h	:cacheextr generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr0m(1),bwcache_clr0,bwcache_busy0,ramaddrwc(brsize-1 downto 0),bwwe0(1),'0',rclk,rclk,rstn);
-	BWext0l	:cacheextr generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr0m(0),bwcache_clr0,open,         ramaddrwc(brsize-1 downto 0),bwwe0(0),'0',rclk,rclk,rstn);
-	BWext1h	:cacheextr generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr1m(1),bwcache_clr1,bwcache_busy1,ramaddrwc(brsize-1 downto 0),bwwe1(1),'0',rclk,rclk,rstn);
-	BWext1l	:cacheextr generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr1m(0),bwcache_clr1,open,         ramaddrwc(brsize-1 downto 0),bwwe1(0),'0',rclk,rclk,rstn);
+	BWext0h	:cacheext generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr0m(1),bwcache_clr0,bwcache_busy0,ramaddrwc(brsize-1 downto 0),bwwe0(1),'0',rclk,rclk,rstn);
+	BWext0l	:cacheext generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr0m(0),bwcache_clr0,open,         ramaddrwc(brsize-1 downto 0),bwwe0(0),'0',rclk,rclk,rstn);
+	BWext1h	:cacheext generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr1m(1),bwcache_clr1,bwcache_busy1,ramaddrwc(brsize-1 downto 0),bwwe1(1),'0',rclk,rclk,rstn);
+	BWext1l	:cacheext generic map(brsize) port map(ramaddrwex(brsize-1 downto 0),bwwr1m(0),bwcache_clr1,open,         ramaddrwc(brsize-1 downto 0),bwwe1(0),'0',rclk,rclk,rstn);
 	bwcache_busy<=bwcache_busy0 or bwcache_busy1;
 	
 	BWcache0h	:CACHEMEMN generic map(brsize,8)port map(ramaddrwcb(brsize-1 downto 0),b_addr(brsize-1 downto 0),rclk,sclk,ramrdat(15 downto 8),b_wdatm(15 downto 8),b_cwr0,bwwr0(1),bwwdat0h,open);
@@ -1163,7 +1155,7 @@ begin
 	begin
 		tmp:='1';
 		for i in 0 to brblocks-1 loop
-			if(b_addr(awidth-1 downto brsize)=braddr(i) and brcache_ext(i)='0')then
+			if(braddr(i)=('0' & b_addr(awidth-1 downto brsize)) and brcache_ext(i)='0')then
 				tmp:='0';
 			end if;
 		end loop;
@@ -1184,7 +1176,7 @@ begin
 			when rmw_IDLE =>
 				tmp:='0';
 				for i in 0 to brblocks-1 loop
-					if(b_addr(awidth-1 downto brsize)=braddr(i) and brcache_ext(i)='1')then
+					if(braddr(i)=('0' & b_addr(awidth-1 downto brsize)) and brcache_ext(i)='1')then
 						tmp:='1';
 					end if;
 				end loop;
@@ -1209,10 +1201,8 @@ begin
 	
 	brmwack<='1' when rmw_state=rmw_WRITE else '0';
 			
-	vrcain<=b_cpy(3) or b_cpy(2) or b_cpy(1) or b_cpy(0);
 	vrcawr<=b_cwr0 or b_cwr1;
 	b_cdaddra<=b_cdaddr & bcazero;
---	bcack	:vrcack generic map(awidth,8)port map(vrcain,b_cdaddra,bwaddr_sel,ramaddrrc,vrcawr,bcackx,sclk,rstn);
 
 	g00rwdath<=	
 				(others=>'0') when RAM_STATE=ST_G0CLR else

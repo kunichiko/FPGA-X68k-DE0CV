@@ -51,7 +51,7 @@ signal	adrrd,ladrrd	:std_logic_vector(3 downto 0);
 signal	RDDAT_DAT	:std_logic_vector(7 downto 0);
 signal	RDDAT_STA	:std_logic_vector(7 downto 0);
 signal	ACKb,lACK	:std_logic;
-signal	lREQ		:std_logic;
+signal	sREQ,lREQ	:std_logic;
 signal	SELb		:std_logic;
 signal	HSwait		:std_logic;
 signal	inirst		:std_logic;
@@ -180,20 +180,22 @@ begin
 		if(rstn='0')then
 			drq<='0';
 			lACK<='0';
+			sREQ<='0';
 			lREQ<='0';
 			HSwait<='0';
 		elsif(clk' event and clk='1')then
-			lREQ<=REQ;
+			lREQ<=sREQ;
+			sREQ<=REQ;
 			lACK<=ACKb;
 			if(BUSRST='1')then
 				drq<='0';
 				HSwait<='0';
-			elsif(REQ='1' and lREQ='0')then
+			elsif(sREQ='1' and lREQ='0')then
 				drq<='1';
 			elsif(CMDRD='1' or CMDWR='1')then
 				drq<='0';
 				HSwait<='1';
-			elsif(REQ='0')then
+			elsif(sREQ='0')then
 				HSwait<='0';
 			end if;
 		end if;
@@ -244,7 +246,7 @@ begin
 		end if;
 	end process;
 	
-	RDDAT_STA<=	"000" & MSG & CD & IO & BSY & REQ;
+	RDDAT_STA<=	"000" & MSG & CD & IO & BSY & sREQ;
 	rdat<=	IDAT when adrrd="0001" else
 			RDDAT_STA when adrrd="0010" else
 			(others=>'0');
@@ -262,7 +264,7 @@ begin
 				ACKb<='0';
 			elsif(CMDWR='1' or CMDRD='1')then
 				ACKb<='1';
-			elsif(REQ='0')then
+			elsif(sREQ='0')then
 				ACKb<='0';
 			end if;
 		end if;

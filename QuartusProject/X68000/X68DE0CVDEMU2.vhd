@@ -12,7 +12,7 @@ generic(
 	FCFREQ		:integer	:=30000;		--FDC clock
 	ACFREQ		:integer	:=32000;		--Audio clock
 	DACFREQ		:integer	:=16000;		--Audio DAC freq
-	DEBUG			:std_logic_vector(7 downto 0)	:="00110010"	--nop,SPRBGONOFF,OPMCH_ONOFF,PAUSE_ONOFF,GRP_ONOFF,SCR_ONOFF,ADPCM_ONOFF,CYCLERESET
+	DEBUG			:std_logic_vector(7 downto 0)	:="00010010"	--nop,SPRBGONOFF,OPMCH_ONOFF,PAUSE_ONOFF,GRP_ONOFF,SCR_ONOFF,ADPCM_ONOFF,CYCLERESET
 );
 port(
 	pClk50M		:in std_logic;
@@ -179,7 +179,8 @@ signal	ram_ack	:std_logic;
 constant trambase	:std_logic_vector(RAMAWIDTH-1 downto 0)	:="00"& x"e00000";
 signal	ram_cpys:std_logic_vector(RAMAWIDTH-brsize-2 downto 0);
 signal	ram_cpyd:std_logic_vector(RAMAWIDTH-brsize-2 downto 0);
-signal	ram_cpy	:std_logic_vector(3 downto 0);
+signal	ram_cplane:std_logic_vector(3 downto 0);
+signal	ram_cpy	:std_logic;
 signal	ram_cpya:std_logic;
 signal	ram_inidone:std_logic;
 signal	buserr	:std_logic;
@@ -525,7 +526,7 @@ signal	vr_AP		:std_logic_vector(3 downto 0);
 signal	vr_txtmask	:std_logic_vector(15 downto 0);
 signal	vr_rcpysrc	:std_logic_vector(7 downto 0);
 signal	vr_rcpydst	:std_logic_vector(7 downto 0);
-signal	vr_rcpyprane:std_logic_vector(3 downto 0);
+signal	vr_rcpyplane:std_logic_vector(3 downto 0);
 signal	vr_rcpybgn	:std_logic;
 signal	vr_rcpyend	:std_logic;
 signal	vr_rcpybusy	:std_logic;
@@ -785,9 +786,10 @@ port(
 	b_rmwmsk:in std_logic_vector(15 downto 0);
 	b_ack	:out std_logic;
 
-	b_csaddr:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
-	b_cdaddr:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
-	b_cpy	:in std_logic_vector(3 downto 0)	:=(others=>'0');
+	b_csaddr	:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
+	b_cdaddr	:in std_logic_vector(awidth-brsize-1 downto 0)	:=(others=>'0');
+	b_cplane	:in std_logic_vector(3 downto 0)	:=(others=>'0');
+	b_cpy		:in std_logic;
 	b_cack	:out std_logic;
 	
 	g00_addr:in std_logic_vector(awidth-1 downto 0);
@@ -1129,7 +1131,7 @@ generic(
 port(
 	src		:in std_logic_vector(7 downto 0);
 	dst		:in std_logic_vector(7 downto 0);
-	prane	:in std_logic_vector(3 downto 0);
+	plane	:in std_logic_vector(3 downto 0);
 	start	:in std_logic;
 	stop	:in std_logic;
 	busy	:out std_logic;
@@ -1137,7 +1139,8 @@ port(
 	t_base	:in std_logic_vector(arange-1 downto 0);
 	srcaddr	:out std_logic_vector(arange-1 downto 0);
 	dstaddr	:out std_logic_vector(arange-1 downto 0);
-	cpy		:out std_logic_vector(3 downto 0);
+	cplane	:out std_logic_vector(3 downto 0);
+	cpy		:out std_logic;
 	ack		:in std_logic;
 	
 	clk		:in std_logic;
@@ -2080,32 +2083,6 @@ port(
 );
 end component;
 
---component jt51
---port(
---	clk	:in std_logic;								--input				clk,	// main clock
---	rst	:in std_logic;								--input				rst,	// reset
---	cs_n	:in std_logic;								--input				cs_n,	// chip select
---	wr_n	:in std_logic;								--input				wr_n,	// write
---	a0		:in std_logic;								--input				a0,
---	d_in	:in std_logic_vector(7 downto 0);	--input		[7:0]	d_in, // data in
---	d_out	:out std_logic_vector(7 downto 0);	--output 		[7:0]	d_out, // data out
---	ct1	:out std_logic;							--output 				ct1,
---	ct2	:out std_logic;							--output 				ct2,
---	irq_n	:out std_logic;							--output 				irq_n,	// I do not synchronize this signal
---	p1		:out std_logic;							--output	reg 		p1,
---	--// Low resolution output (same as real chip)
---	sample	:out std_logic;						--output				sample,	// marks new output sample
---	left	:out std_logic_vector(15 downto 0);	--output	signed	[15:0] left,
---	right	:out std_logic_vector(15 downto 0);	--output	signed	[15:0] right,
---	--// Full resolution output
---	xleft	:out std_logic_vector(15 downto 0);	--output	signed	[15:0] xleft,
---	xright :out std_logic_vector(15 downto 0);--output	signed	[15:0] xright,
---	--// unsigned outputs for sigma delta converters, full resolution
---	dacleft:out std_logic_vector(15 downto 0);							--output	[15:0] dacleft,
---	dacright:out std_logic_vector(15 downto 0)							--output	[15:0] dacright
---);
---end component;
-
 component OPM
 generic(
 	res		:integer	:=9
@@ -2457,7 +2434,18 @@ end component;
 
 begin
 	pllrst<=not pwr_rstn;
-	clkgen	:mainpllCVdemu port map(pClk50M,pllrst,ramclk,sysclk,vidclk,pMemClk,fdcclk,sndclk,emuclk,plllock);
+	clkgen	:mainpllCVdemu port map(
+		refclk   =>pClk50M,
+		rst      =>pllrst,
+		outclk_0 =>ramclk,
+		outclk_1 =>sysclk,
+		outclk_2 =>vidclk,
+		outclk_3 =>pMemClk,
+		outclk_4 =>fdcclk,
+		outclk_5 =>sndclk,
+		outclk_6 =>emuclk,
+		locked   =>plllock
+	);
 --	pMemClk<=not ramclk;
 
 	sr	:sftclk    generic map(100000000,1,1) port map("1",srst,sysclk,rstn);
@@ -2487,6 +2475,8 @@ begin
 		pclk	=>pClk50M,
 		prstn	=>rstn
 	);
+	
+	pLed(1)<=dma_bconte;
 	
 	mpu_clke<=(not dma_bconte);
 	MPU	:TG68 port map(
@@ -2735,6 +2725,7 @@ begin
 		
 		b_csaddr	=>ram_cpys,
 		b_cdaddr	=>ram_cpyd,
+		b_cplane	=>ram_cplane,
 		b_cpy		=>ram_cpy,
 		b_cack		=>ram_cpya,
 	
@@ -3003,7 +2994,7 @@ begin
 		MEN			=>vr_MEN,
 		SA			=>vr_SA,
 		AP			=>vr_AP,
-		CP			=>vr_rcpyprane,
+		CP			=>vr_rcpyplane,
 		csrc		=>vr_rcpysrc,
 		cdst		=>vr_rcpydst,
 		RCbgn		=>vr_rcpybgn,
@@ -3170,7 +3161,7 @@ begin
 	
 		gclrbgn	=>vr_fcbgn,
 		gclrend	=>vr_fcend,
-		gclrpage=>vr_rcpyprane,
+		gclrpage=>vr_rcpyplane,
 		gclrbusy=>vr_fcbusy,
 
 		vidclk	=>vidclk,
@@ -3186,7 +3177,7 @@ begin
 	) port map(
 		src		=>vr_rcpysrc,
 		dst		=>vr_rcpydst,
-		prane	=>vr_rcpyprane,
+		plane	=>vr_rcpyplane,
 		start	=>vr_rcpybgn,
 --		stop	=>vr_rcpyend,
 		stop	=>'0',
@@ -3195,6 +3186,7 @@ begin
 		t_base	=>trambase(RAMAWIDTH-1 downto brsize+1),	
 		srcaddr	=>ram_cpys,
 		dstaddr	=>ram_cpyd,
+		cplane	=>ram_cplane,
 		cpy		=>ram_cpy,
 		ack		=>ram_cpya,
 		
@@ -4006,30 +3998,6 @@ begin
 	);
 
 	SASI_CS<='1' when abus(23 downto 3)=(x"e9600" & '0') else '0';
---	HDIF	:sasisd port map(
---		cs		=>SASI_CS,
---		addr	=>abus(2 downto 1),
---		rd		=>b_rd,
---		wr		=>b_wr(0),
---		wdat	=>dbus(7 downto 0),
---		rdat	=>SASI_RDAT,
---		doe		=>SASI_DOE,
---		int		=>SASI_INT,
---		iack	=>SASI_IACK,
---		drq		=>SASI_DRQ,
---		dack	=>SASI_DACK,
---		
---		SCLK	=>SDC_SCLK,
---		SDI		=>SDC_DO,
---		SDO		=>SDC_DI,
---		SD_CS	=>SDC_CS,
---		
---		BUSY	=>SASI_BUSY,
---
---		sdsft	=>I2CCLKEN,
---		clk		=>sysclk,
---		rstn	=>srstn
---	);
 	
 	SASI	:sasiif port map(
 		cs		=>SASI_CS,
@@ -4184,7 +4152,7 @@ begin
 	
 	SASI_BUSY<=SASI_BSY;
 	
-	pLed(6 downto 1)<=INT7 & INT6 & INT5 & INT4 & INT3 & INT1;
+	pLed(6 downto 2)<=INT7 & INT6 & INT5 & INT3 & INT1;
 	
 	monseg<=mpu_addr(23 downto 0);
 	

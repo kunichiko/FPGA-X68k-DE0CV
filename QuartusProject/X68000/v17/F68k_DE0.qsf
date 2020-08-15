@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE EP3C16F484C6
 set_global_assignment -name TOP_LEVEL_ENTITY X68DE0
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "9.1 SP2"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:09:34  MARCH 05, 2015"
-set_global_assignment -name LAST_QUARTUS_VERSION "17.0.2 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
 set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
 set_global_assignment -name DEVICE_FILTER_PIN_COUNT 484
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVCMOS"
@@ -338,12 +338,13 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemLdq
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemRas_n
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemUdq
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to pMemWe_n
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
 set_global_assignment -name FITTER_EARLY_TIMING_ESTIMATE_MODE REALISTIC
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
 set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
 set_location_assignment PIN_C8 -to pMemAdr[12]
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
 set_global_assignment -name VHDL_FILE ../SPRITE/pcgram.vhd
 set_global_assignment -name QIP_FILE ../SPRITE/pcgram.qip
 set_global_assignment -name VHDL_FILE ../ramreg.vhd
@@ -496,4 +497,3 @@ set_global_assignment -name SIGNALTAP_FILE ../mpu_FDC.stp
 set_global_assignment -name SIGNALTAP_FILE ../FDC2.stp
 set_global_assignment -name QIP_FILE ../mainpllCV.qip
 set_global_assignment -name SIP_FILE ../mainpllCV.sip
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

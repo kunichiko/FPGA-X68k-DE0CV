@@ -140,6 +140,8 @@ port(
 	gclrpage:in std_logic_vector(3 downto 0);
 	gclrbusy:out std_logic;
 	
+	dbgin		:in std_logic_vector(3 downto 0);
+	
 	vidclk		:in std_logic;
 	sysclk	:in std_logic;
 	rstn	:in std_logic
@@ -202,6 +204,8 @@ signal	g1hodly1:std_logic_vector(3 downto 0);
 signal	g2hodly1:std_logic_vector(3 downto 0);
 signal	g3hodly1:std_logic_vector(3 downto 0);
 signal	datsel,datseld:std_logic_vector(1 downto 0);
+signal	sprite_ind	:std_logic_vector(7 downto 0);
+signal	t_ddatd		:std_logic_vector(3 downto 0);
 
 signal	thaddr_offset	:std_logic_vector(9 downto 0);
 signal	tvaddr_offset	:std_logic_vector(9 downto 0);
@@ -260,9 +264,11 @@ signal	nxt_g0r0c16addrh:std_logic_vector(17 downto 9);
 signal	cur_g0r0c16addrh:std_logic_vector(17 downto 9);
 signal	cur_g0r0c16addrl:std_logic_vector(8 downto 0);
 
-signal	gdoten,gdotend		:std_logic;
-signal	tdoten,tdotend		:std_logic;
-signal	sdoten,sdotend		:std_logic;
+signal	g_ddaten		:std_logic;
+signal	g_ddatend	:std_logic;
+signal	gdoten		:std_logic;
+signal	tdoten		:std_logic;
+signal	sdoten		:std_logic;
 signal	exbit,exbitd		:std_logic;
 signal	xhtotal		:std_logic_vector(7 downto 0);
 signal	xhvbgn		:std_logic_vector(7 downto 0);
@@ -309,11 +315,16 @@ constant azero	:std_logic_vector(arange-1 downto 0)	:=(others=>'0');
 begin
 
 	xhtotal<=	htotal	when hfreq='1' else htotal(6 downto 0) & '0';
-	xhvbgn<=	hvbgn	when hfreq='1' else hvbgn(6 downto 0) & '0';
-	xhvend<=	hvend	when hfreq='1' else hvend(6 downto 0) & '0';
+	xhvbgn<=		hvbgn		when hfreq='1' else hvbgn(6 downto 0) & '0';
+	xhvend<=		hvend		when hfreq='1' else hvend(6 downto 0) & '0';
 	xvtotal<=	vtotal	when hfreq='1' else vtotal(8 downto 0) & '0';
-	xvvbgn<=	vvbgn	when hfreq='1' else vvbgn(8 downto 0) & '0';
-	xvvend<=	vvend	when hfreq='1' else vvend(8 downto 0) & '0';
+	xvvbgn<=		vvbgn		when hfreq='1' else vvbgn(8 downto 0) & '0';
+	xvvend<=		vvend		when hfreq='1' else vvend(8 downto 0) & '0';
+
+	g_ddaten<=	'1' when g4_ddat/="0000" and gmode="00" else
+					'1' when g8_ddat/=x"00" and gmode="01" else
+					'1' when g16_ddat/=x"0000" and gmode(1)='1' else
+					'0';
 
 	process(vidclk)begin
 		if(vidclk' event and vidclk='1')then
@@ -325,11 +336,11 @@ begin
 			g2hodly1<=g2haddr_offset(3 downto 0);
 			g3hodly1<=g3haddr_offset(3 downto 0);
 			datseld<=datsel;
-			gdotend<=gdoten;
-			tdotend<=tdoten;
-			sdotend<=sdoten;
 			lhviden<=hviden;
 			exbitd<=exbit;
+			sprite_ind<=sprite_in;
+			t_ddatd<=t_ddat;
+			g_ddatend<=g_ddaten;
 		end if;
 	end process;
 	
@@ -338,35 +349,35 @@ begin
 				haddr;
 
 	vaddrmod<=	'0' & vaddr(9 downto 1)	when vres='0' else
-				vaddr;
-				
+					vaddr;
+
 	thaddr_offset<=t_hoffset+haddrmod;
 	tvaddr_offset<=t_voffset+vaddrmod;
 	nxt_taddr<=t_base(arange-1 downto 2)+(azero(arange-1 downto 19) & tvaddr_offset & "000000");
 	cur_taddr<=cur_taddrh & thaddr_offset(9 downto 4);
 	
-	t_ddat<=t_rdat3(15) & t_rdat2(15) & t_rdat1(15) & t_rdat0(15) when thodly1(3 downto 0)=x"0" else
-			t_rdat3(14) & t_rdat2(14) & t_rdat1(14) & t_rdat0(14) when thodly1(3 downto 0)=x"1" else
-			t_rdat3(13) & t_rdat2(13) & t_rdat1(13) & t_rdat0(13) when thodly1(3 downto 0)=x"2" else
-			t_rdat3(12) & t_rdat2(12) & t_rdat1(12) & t_rdat0(12) when thodly1(3 downto 0)=x"3" else
-			t_rdat3(11) & t_rdat2(11) & t_rdat1(11) & t_rdat0(11) when thodly1(3 downto 0)=x"4" else
-			t_rdat3(10) & t_rdat2(10) & t_rdat1(10) & t_rdat0(10) when thodly1(3 downto 0)=x"5" else
-			t_rdat3( 9) & t_rdat2( 9) & t_rdat1( 9) & t_rdat0( 9) when thodly1(3 downto 0)=x"6" else
-			t_rdat3( 8) & t_rdat2( 8) & t_rdat1( 8) & t_rdat0( 8) when thodly1(3 downto 0)=x"7" else
-			t_rdat3( 7) & t_rdat2( 7) & t_rdat1( 7) & t_rdat0( 7) when thodly1(3 downto 0)=x"8" else
-			t_rdat3( 6) & t_rdat2( 6) & t_rdat1( 6) & t_rdat0( 6) when thodly1(3 downto 0)=x"9" else
-			t_rdat3( 5) & t_rdat2( 5) & t_rdat1( 5) & t_rdat0( 5) when thodly1(3 downto 0)=x"a" else
-			t_rdat3( 4) & t_rdat2( 4) & t_rdat1( 4) & t_rdat0( 4) when thodly1(3 downto 0)=x"b" else
-			t_rdat3( 3) & t_rdat2( 3) & t_rdat1( 3) & t_rdat0( 3) when thodly1(3 downto 0)=x"c" else
-			t_rdat3( 2) & t_rdat2( 2) & t_rdat1( 2) & t_rdat0( 2) when thodly1(3 downto 0)=x"d" else
-			t_rdat3( 1) & t_rdat2( 1) & t_rdat1( 1) & t_rdat0( 1) when thodly1(3 downto 0)=x"e" else
-			t_rdat3( 0) & t_rdat2( 0) & t_rdat1( 0) & t_rdat0( 0) when thodly1(3 downto 0)=x"f" else
-			x"0";
+	t_ddat<=	t_rdat3(15) & t_rdat2(15) & t_rdat1(15) & t_rdat0(15) when thodly1(3 downto 0)=x"0" else
+				t_rdat3(14) & t_rdat2(14) & t_rdat1(14) & t_rdat0(14) when thodly1(3 downto 0)=x"1" else
+				t_rdat3(13) & t_rdat2(13) & t_rdat1(13) & t_rdat0(13) when thodly1(3 downto 0)=x"2" else
+				t_rdat3(12) & t_rdat2(12) & t_rdat1(12) & t_rdat0(12) when thodly1(3 downto 0)=x"3" else
+				t_rdat3(11) & t_rdat2(11) & t_rdat1(11) & t_rdat0(11) when thodly1(3 downto 0)=x"4" else
+				t_rdat3(10) & t_rdat2(10) & t_rdat1(10) & t_rdat0(10) when thodly1(3 downto 0)=x"5" else
+				t_rdat3( 9) & t_rdat2( 9) & t_rdat1( 9) & t_rdat0( 9) when thodly1(3 downto 0)=x"6" else
+				t_rdat3( 8) & t_rdat2( 8) & t_rdat1( 8) & t_rdat0( 8) when thodly1(3 downto 0)=x"7" else
+				t_rdat3( 7) & t_rdat2( 7) & t_rdat1( 7) & t_rdat0( 7) when thodly1(3 downto 0)=x"8" else
+				t_rdat3( 6) & t_rdat2( 6) & t_rdat1( 6) & t_rdat0( 6) when thodly1(3 downto 0)=x"9" else
+				t_rdat3( 5) & t_rdat2( 5) & t_rdat1( 5) & t_rdat0( 5) when thodly1(3 downto 0)=x"a" else
+				t_rdat3( 4) & t_rdat2( 4) & t_rdat1( 4) & t_rdat0( 4) when thodly1(3 downto 0)=x"b" else
+				t_rdat3( 3) & t_rdat2( 3) & t_rdat1( 3) & t_rdat0( 3) when thodly1(3 downto 0)=x"c" else
+				t_rdat3( 2) & t_rdat2( 2) & t_rdat1( 2) & t_rdat0( 2) when thodly1(3 downto 0)=x"d" else
+				t_rdat3( 1) & t_rdat2( 1) & t_rdat1( 1) & t_rdat0( 1) when thodly1(3 downto 0)=x"e" else
+				t_rdat3( 0) & t_rdat2( 0) & t_rdat1( 0) & t_rdat0( 0) when thodly1(3 downto 0)=x"f" else
+				x"0";
 	
 	g0haddr_offset<=	g0_hoffset+haddrmod when memres='1' else
-						'0' & (g0_hoffset(8 downto 0)+haddrmod(8 downto 0));
+							'0' & (g0_hoffset(8 downto 0)+haddrmod(8 downto 0));
 	g0vaddr_offset<=	g0_voffset+vaddrmod when memres='1' else
-						'0' & (g0_voffset(8 downto 0)+vaddrmod(8 downto 0));
+							'0' & (g0_voffset(8 downto 0)+vaddrmod(8 downto 0));
 	g1haddr_offset<='0' & (g1_hoffset+haddrmod(8 downto 0));
 	g1vaddr_offset<='0' & (g1_voffset+vaddrmod(8 downto 0));
 	g2haddr_offset<='0' & (g2_hoffset+haddrmod(8 downto 0));
@@ -750,7 +761,7 @@ begin
 			vaddrm<=vaddrx;
 		end if;
 	end process;
-			
+	
 	rastnum<=	vaddrm when hfreq='1' else
 					('0' & vaddrm(9 downto 1));-- when xinter='0' else
 --					('0' & vaddrm(9 downto 1)) + vtotal;
@@ -759,14 +770,19 @@ begin
 	
 	addrx<=haddrmod(9 downto 0);
 	addry<=vaddrmod(9 downto 0);
-	tdoten<='0' when t_ddat="0000" or txten='0' else '1';
-	sdoten<='0' when sprite_in(3 downto 0)="0000" or spren='0' else '1';
-	gdoten<='0' when grpen='0' else
---			'0' when g4_ddat="0000" and gmode="00" else
---			'0' when g8_ddat=x"00" and gmode="01" else
---			'0' when g16_ddat=x"0000" and gmode(1)='1' else
-			'0' when gpalin=x"0000" else
-			'1';
+--	tdoten<='0' when txten='0' or t_ddatd="0000" or tpalin=x"0000" else '1';
+	tdoten<='0' when txten='0' or (tpalin=x"0000" and t_ddatd="0000") else '1';
+	sdoten<=	'0' when spren='0' else
+				'0' when sprite_ind(3 downto 0)=x"0" or (spalin=x"0000" and sprite_ind(3 downto 0)=x"f") else
+				'1';
+	gdoten<=	'0' when grpen='0' else
+				'0' when gpalin=x"0000" and g_ddatend='0' else
+--				'0' when gpalin=x"0000" and g4_ddat="0000" and gmode="00" else
+--				'0' when gpalin=x"0000" and g8_ddat=x"00" and gmode="01" else
+--				'0' when gpalin=x"0000" and g16_ddat=x"0000" and gmode(1)='1' else
+--				'0' when gpalin=x"0000" else
+--				'0' when gmixdat=x"0000" else
+				'1';
 	tpalno<="0000" & t_ddat;
 	spalno<=sprite_in;
 	
@@ -778,57 +794,58 @@ begin
 				mixdst	when exon='1' and hp='1' and exbitd='1' else
 				gpalin;
 
-	wdatpr0<=	tpalin	when pri_tx="00" and txten='1' else
+	wdatpr0<=tpalin	when pri_tx="00" and txten='1' else
 				spalin	when pri_sp="00" and spren='1' else
 				gmixdat	when pri_gr="00" and grpen='1' else
 				(others=>'0');
-	wdatpr1<=	tpalin	when pri_tx="01" and txten='1' else
+	wdatpr1<=tpalin	when pri_tx="01" and txten='1' else
 				spalin	when pri_sp="01" and spren='1' else
 				gmixdat	when pri_gr="01" and grpen='1' else
 				(others=>'0');
-	wdatpr2<=	tpalin	when pri_tx="10" and txten='1' else
+	wdatpr2<=tpalin	when pri_tx="10" and txten='1' else
 				spalin	when pri_sp="10" and spren='1' else
 				gmixdat	when pri_gr="10" and grpen='1' else
 				(others=>'0');
 	msrcpr1<=	tpalin	when pri_tx="01" and txten='1' else
-					spalin	when pri_tx="01" and spren='1' else
+					spalin	when pri_sp="01" and spren='1' else
 					(others=>'0');
 	msrcpr2<=	tpalin	when pri_tx="10" and txten='1' else
-					spalin	when pri_tx="10" and spren='1' else
+					spalin	when pri_sp="10" and spren='1' else
 					(others=>'0');
-	msenpr1<=	tdotend when pri_tx="01" else
-					sdotend when pri_sp="01" else
+	msenpr1<=	tdoten when pri_tx="01" else
+					sdoten when pri_sp="01" else
 					'0';
-	msenpr2<=	tdotend when pri_tx="10" else
-					sdotend when pri_sp="10" else
+	msenpr2<=	tdoten when pri_tx="10" else
+					sdoten when pri_sp="10" else
 					'0';
 	mixsrc<=	tpal0in when ah='1' else
 				msrcpr1	when (msrcpr1/=x"0000" and msenpr1='1' and pri_gr="00") else
 				msrcpr2	when (msrcpr2/=x"0000" and msenpr2='1') else
 				tpal0in;
 	
-	wenpr0<=	tdotend	when pri_tx="00" else
-				sdotend	when pri_sp="00" else
+	wenpr0<=	tdoten	when pri_tx="00" else
+				sdoten	when pri_sp="00" else
 				gdoten	when pri_gr="00" else
 				'0';
-	wenpr1<=	tdotend	when pri_tx="01" else
-				sdotend	when pri_sp="01" else
+	wenpr1<=	tdoten	when pri_tx="01" else
+				sdoten	when pri_sp="01" else
 				gdoten	when pri_gr="01" else
 				'0';
-	wenpr2<=	tdotend	when pri_tx="10" else
-				sdotend	when pri_sp="10" else
+	wenpr2<=	tdoten	when pri_tx="10" else
+				sdoten	when pri_sp="10" else
 				gdoten	when pri_gr="10" else
 				'0';
 
 	lbwdat<=	(others=>'0') when lvviden='0' or lhviden='0' else
-				gpalin	when exon='1' and hp='0' and exbitd='1' else
-				wdatpr0	when wdatpr0/=x"0000" and wenpr0='1' else
-				wdatpr1	when wdatpr1/=x"0000" and wenpr1='1' else
-				wdatpr2	when wdatpr2/=x"0000" and wenpr2='1' else
+				gpalin	when exon='1' and hp='0' and exbitd='1' else	--ex priority
+--				wdatpr0	when wdatpr0/=x"0000" and wenpr0='1' else
+--				wdatpr1	when wdatpr1/=x"0000" and wenpr1='1' else
+--				wdatpr2	when wdatpr2/=x"0000" and wenpr2='1' else
+--				tpal0in;
+				wdatpr0	when wenpr0='1' else
+				wdatpr1	when wenpr1='1' else
+				wdatpr2	when wenpr2='1' else
 				tpal0in;
---				wdatpr0	when wenpr0='1' else
---				wdatpr1	when wenpr1='1' else
---				wdatpr2	when wenpr2='1' else
 --				(others=>'0');
 	
 				
@@ -899,14 +916,14 @@ begin
 	t1_rd<=		nxt_trd	when ramsel='1' else
 					cur_trd;
 	
-	g0en<=	'0' when grpen='0' else
+	g0en<='0' when grpen='0' else
 			'1';
-	g1en<=	'0' when grpen='0' else
+	g1en<='0' when grpen='0' else
 			'1';
-	g2en<=	'0' when grpen='0' else
+	g2en<='0' when grpen='0' else
 			'0' when memres='1' else
 			'1';
-	g3en<=	'0' when grpen='0' else
+	g3en<='0' when grpen='0' else
 			'0' when memres='1' else
 			'1';
 	ten<=	'0' when txten='0' else

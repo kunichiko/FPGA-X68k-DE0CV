@@ -340,7 +340,7 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to pDac_SR
 set_instance_assignment -name SLEW_RATE 0 -to pDac_SL
 set_instance_assignment -name SLEW_RATE 0 -to pDac_SR
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
-set_global_assignment -name VERILOG_FILE ../../sound/OPM_JT51/jt51_1v1.v
+set_global_assignment -name VHDL_FILE ../../sound/EM3012.vhd
 set_global_assignment -name VERILOG_FILE ../../sound/OPM_JT51/jt51/hdl/jt51_timers.v
 set_global_assignment -name VERILOG_FILE ../../sound/OPM_JT51/jt51/hdl/jt51_sh.v
 set_global_assignment -name VERILOG_FILE ../../sound/OPM_JT51/jt51/hdl/jt51_reg.v

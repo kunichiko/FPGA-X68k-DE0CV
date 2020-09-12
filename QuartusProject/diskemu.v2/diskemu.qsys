@@ -24,7 +24,7 @@
    {
       datum baseAddress
       {
-         value = "291976";
+         value = "292200";
          type = "String";
       }
    }
@@ -40,7 +40,7 @@
    {
       datum baseAddress
       {
-         value = "291968";
+         value = "292192";
          type = "String";
       }
    }
@@ -49,6 +49,118 @@
       datum _sortIndex
       {
          value = "29";
+         type = "int";
+      }
+   }
+   element fdcpy_busy
+   {
+      datum _sortIndex
+      {
+         value = "59";
+         type = "int";
+      }
+   }
+   element fdcpy_emunit
+   {
+      datum _sortIndex
+      {
+         value = "52";
+         type = "int";
+      }
+   }
+   element fdcpy_error
+   {
+      datum _sortIndex
+      {
+         value = "60";
+         type = "int";
+      }
+   }
+   element fdcpy_fdmode
+   {
+      datum _sortIndex
+      {
+         value = "49";
+         type = "int";
+      }
+   }
+   element fdcpy_head
+   {
+      datum _sortIndex
+      {
+         value = "54";
+         type = "int";
+      }
+   }
+   element fdcpy_mfm
+   {
+      datum _sortIndex
+      {
+         value = "50";
+         type = "int";
+      }
+   }
+   element fdcpy_rddisk
+   {
+      datum _sortIndex
+      {
+         value = "58";
+         type = "int";
+      }
+   }
+   element fdcpy_recarib
+   {
+      datum _sortIndex
+      {
+         value = "55";
+         type = "int";
+      }
+   }
+   element fdcpy_seek
+   {
+      datum _sortIndex
+      {
+         value = "56";
+         type = "int";
+      }
+   }
+   element fdcpy_track
+   {
+      datum _sortIndex
+      {
+         value = "53";
+         type = "int";
+      }
+   }
+   element fdcpy_unit
+   {
+      datum _sortIndex
+      {
+         value = "51";
+         type = "int";
+      }
+   }
+   element fdcpy_wrdisk
+   {
+      datum _sortIndex
+      {
+         value = "57";
+         type = "int";
+      }
+   }
+   element fddsel
+   {
+      datum _sortIndex
+      {
+         value = "61";
+         type = "int";
+      }
+   }
+   element fdwgate
+   {
+      datum _sortIndex
+      {
+         value = "62";
          type = "int";
       }
    }
@@ -112,7 +224,7 @@
    {
       datum baseAddress
       {
-         value = "291984";
+         value = "292208";
          type = "String";
       }
    }
@@ -372,275 +484,19 @@
          type = "int";
       }
    }
-   element pio_FDMODEIN.s1
-   {
-      datum baseAddress
-      {
-         value = "291696";
-         type = "String";
-      }
-   }
-   element pio_FDEBUSY.s1
-   {
-      datum baseAddress
-      {
-         value = "291472";
-         type = "String";
-      }
-   }
-   element pio_FDSEL1.s1
-   {
-      datum baseAddress
-      {
-         value = "291648";
-         type = "String";
-      }
-   }
-   element pio_SDCS.s1
-   {
-      datum baseAddress
-      {
-         value = "291760";
-         type = "String";
-      }
-   }
-   element vram.s1
-   {
-      datum baseAddress
-      {
-         value = "278528";
-         type = "String";
-      }
-   }
-   element pio_SASIIO.s1
-   {
-      datum baseAddress
-      {
-         value = "291856";
-         type = "String";
-      }
-   }
-   element pio_SASISEL.s1
-   {
-      datum baseAddress
-      {
-         value = "291920";
-         type = "String";
-      }
-   }
-   element pio_NVSAVE.s1
-   {
-      datum baseAddress
-      {
-         value = "291744";
-         type = "String";
-      }
-   }
-   element pio_FDEMUEN.s1
-   {
-      datum baseAddress
-      {
-         value = "291520";
-         type = "String";
-      }
-   }
-   element pio_FDRAMADDR.s1
-   {
-      datum baseAddress
-      {
-         value = "291712";
-         type = "String";
-      }
-   }
-   element pio_FDRAMWR.s1
-   {
-      datum baseAddress
-      {
-         value = "291488";
-         type = "String";
-      }
-   }
-   element pio_SASIRST.s1
-   {
-      datum baseAddress
-      {
-         value = "291808";
-         type = "String";
-      }
-   }
-   element pio_FDEJECT.s1
-   {
-      datum baseAddress
-      {
-         value = "291632";
-         type = "String";
-      }
-   }
-   element txt_cursoren.s1
-   {
-      datum baseAddress
-      {
-         value = "291536";
-         type = "String";
-      }
-   }
-   element txt_cursorC.s1
-   {
-      datum baseAddress
-      {
-         value = "291568";
-         type = "String";
-      }
-   }
-   element pio_SASIMSG.s1
-   {
-      datum baseAddress
-      {
-         value = "291824";
-         type = "String";
-      }
-   }
-   element pio_FDRAMRD.s1
-   {
-      datum baseAddress
-      {
-         value = "291504";
-         type = "String";
-      }
-   }
-   element pio_FDMOTOR.s1
-   {
-      datum baseAddress
-      {
-         value = "291424";
-         type = "String";
-      }
-   }
-   element mainmem.s1
-   {
-      datum baseAddress
-      {
-         value = "131072";
-         type = "String";
-      }
-   }
-   element pio_SASIOUT.s1
-   {
-      datum baseAddress
-      {
-         value = "291936";
-         type = "String";
-      }
-   }
-   element pio_INITDONE.s1
-   {
-      datum baseAddress
-      {
-         value = "291728";
-         type = "String";
-      }
-   }
-   element model.s1
-   {
-      datum baseAddress
-      {
-         value = "291776";
-         type = "String";
-      }
-   }
-   element pio_FDMODEOUT.s1
-   {
-      datum baseAddress
-      {
-         value = "291600";
-         type = "String";
-      }
-   }
-   element pio_SASIREQ.s1
-   {
-      datum baseAddress
-      {
-         value = "291888";
-         type = "String";
-      }
-   }
-   element pio_FDSEL0.s1
-   {
-      datum baseAddress
-      {
-         value = "291664";
-         type = "String";
-      }
-   }
    element pio_FDINDISK.s1
    {
       datum baseAddress
       {
-         value = "291616";
+         value = "291840";
          type = "String";
       }
    }
-   element pio_SASIIN.s1
+   element fdcpy_track.s1
    {
       datum baseAddress
       {
-         value = "291952";
-         type = "String";
-      }
-   }
-   element FDRAM.s1
-   {
-      datum baseAddress
-      {
-         value = "290816";
-         type = "String";
-      }
-   }
-   element pio_SASIACK.s1
-   {
-      datum baseAddress
-      {
-         value = "291872";
-         type = "String";
-      }
-   }
-   element pio_FDMODESET.s1
-   {
-      datum baseAddress
-      {
-         value = "291440";
-         type = "String";
-      }
-   }
-   element pio_FDWPROT.s1
-   {
-      datum baseAddress
-      {
-         value = "291584";
-         type = "String";
-      }
-   }
-   element pio_FDWROTE.s1
-   {
-      datum baseAddress
-      {
-         value = "291680";
-         type = "String";
-      }
-   }
-   element pio_FDRAMBUSY.s1
-   {
-      datum baseAddress
-      {
-         value = "291456";
-         type = "String";
-      }
-   }
-   element pio_SASIBSY.s1
-   {
-      datum baseAddress
-      {
-         value = "291904";
+         value = "291568";
          type = "String";
       }
    }
@@ -652,19 +508,27 @@
          type = "String";
       }
    }
-   element txt_cursorL.s1
+   element fdcpy_unit.s1
    {
       datum baseAddress
       {
-         value = "291552";
+         value = "291600";
          type = "String";
       }
    }
-   element pio_SPIHS.s1
+   element pio_SASIIN.s1
    {
       datum baseAddress
       {
-         value = "291792";
+         value = "292176";
+         type = "String";
+      }
+   }
+   element fdcpy_mfm.s1
+   {
+      datum baseAddress
+      {
+         value = "291616";
          type = "String";
       }
    }
@@ -672,7 +536,367 @@
    {
       datum baseAddress
       {
-         value = "291840";
+         value = "292064";
+         type = "String";
+      }
+   }
+   element fdcpy_busy.s1
+   {
+      datum baseAddress
+      {
+         value = "291472";
+         type = "String";
+      }
+   }
+   element fdcpy_wrdisk.s1
+   {
+      datum baseAddress
+      {
+         value = "291504";
+         type = "String";
+      }
+   }
+   element pio_FDSEL0.s1
+   {
+      datum baseAddress
+      {
+         value = "291888";
+         type = "String";
+      }
+   }
+   element pio_SASIBSY.s1
+   {
+      datum baseAddress
+      {
+         value = "292128";
+         type = "String";
+      }
+   }
+   element fddsel.s1
+   {
+      datum baseAddress
+      {
+         value = "291440";
+         type = "String";
+      }
+   }
+   element pio_FDMODEIN.s1
+   {
+      datum baseAddress
+      {
+         value = "291920";
+         type = "String";
+      }
+   }
+   element pio_SASIRST.s1
+   {
+      datum baseAddress
+      {
+         value = "292032";
+         type = "String";
+      }
+   }
+   element fdcpy_emunit.s1
+   {
+      datum baseAddress
+      {
+         value = "291584";
+         type = "String";
+      }
+   }
+   element fdcpy_seek.s1
+   {
+      datum baseAddress
+      {
+         value = "291520";
+         type = "String";
+      }
+   }
+   element vram.s1
+   {
+      datum baseAddress
+      {
+         value = "278528";
+         type = "String";
+      }
+   }
+   element pio_SASIREQ.s1
+   {
+      datum baseAddress
+      {
+         value = "292112";
+         type = "String";
+      }
+   }
+   element txt_cursoren.s1
+   {
+      datum baseAddress
+      {
+         value = "291760";
+         type = "String";
+      }
+   }
+   element fdcpy_rddisk.s1
+   {
+      datum baseAddress
+      {
+         value = "291488";
+         type = "String";
+      }
+   }
+   element fdcpy_fdmode.s1
+   {
+      datum baseAddress
+      {
+         value = "291632";
+         type = "String";
+      }
+   }
+   element pio_SASISEL.s1
+   {
+      datum baseAddress
+      {
+         value = "292144";
+         type = "String";
+      }
+   }
+   element pio_SASIOUT.s1
+   {
+      datum baseAddress
+      {
+         value = "292160";
+         type = "String";
+      }
+   }
+   element pio_FDEBUSY.s1
+   {
+      datum baseAddress
+      {
+         value = "291696";
+         type = "String";
+      }
+   }
+   element pio_INITDONE.s1
+   {
+      datum baseAddress
+      {
+         value = "291952";
+         type = "String";
+      }
+   }
+   element fdcpy_head.s1
+   {
+      datum baseAddress
+      {
+         value = "291552";
+         type = "String";
+      }
+   }
+   element fdcpy_recarib.s1
+   {
+      datum baseAddress
+      {
+         value = "291536";
+         type = "String";
+      }
+   }
+   element pio_FDRAMRD.s1
+   {
+      datum baseAddress
+      {
+         value = "291728";
+         type = "String";
+      }
+   }
+   element model.s1
+   {
+      datum baseAddress
+      {
+         value = "292000";
+         type = "String";
+      }
+   }
+   element pio_SASIACK.s1
+   {
+      datum baseAddress
+      {
+         value = "292096";
+         type = "String";
+      }
+   }
+   element pio_FDWPROT.s1
+   {
+      datum baseAddress
+      {
+         value = "291808";
+         type = "String";
+      }
+   }
+   element fdcpy_error.s1
+   {
+      datum baseAddress
+      {
+         value = "291456";
+         type = "String";
+      }
+   }
+   element fdwgate.s1
+   {
+      datum baseAddress
+      {
+         value = "291424";
+         type = "String";
+      }
+   }
+   element pio_FDRAMBUSY.s1
+   {
+      datum baseAddress
+      {
+         value = "291680";
+         type = "String";
+      }
+   }
+   element pio_FDMOTOR.s1
+   {
+      datum baseAddress
+      {
+         value = "291648";
+         type = "String";
+      }
+   }
+   element pio_SPIHS.s1
+   {
+      datum baseAddress
+      {
+         value = "292016";
+         type = "String";
+      }
+   }
+   element mainmem.s1
+   {
+      datum baseAddress
+      {
+         value = "131072";
+         type = "String";
+      }
+   }
+   element pio_FDMODESET.s1
+   {
+      datum baseAddress
+      {
+         value = "291664";
+         type = "String";
+      }
+   }
+   element txt_cursorC.s1
+   {
+      datum baseAddress
+      {
+         value = "291792";
+         type = "String";
+      }
+   }
+   element pio_SDCS.s1
+   {
+      datum baseAddress
+      {
+         value = "291984";
+         type = "String";
+      }
+   }
+   element pio_FDWROTE.s1
+   {
+      datum baseAddress
+      {
+         value = "291904";
+         type = "String";
+      }
+   }
+   element FDRAM.s1
+   {
+      datum baseAddress
+      {
+         value = "290816";
+         type = "String";
+      }
+   }
+   element pio_FDSEL1.s1
+   {
+      datum baseAddress
+      {
+         value = "291872";
+         type = "String";
+      }
+   }
+   element txt_cursorL.s1
+   {
+      datum baseAddress
+      {
+         value = "291776";
+         type = "String";
+      }
+   }
+   element pio_FDEJECT.s1
+   {
+      datum baseAddress
+      {
+         value = "291856";
+         type = "String";
+      }
+   }
+   element pio_SASIIO.s1
+   {
+      datum baseAddress
+      {
+         value = "292080";
+         type = "String";
+      }
+   }
+   element pio_FDEMUEN.s1
+   {
+      datum baseAddress
+      {
+         value = "291744";
+         type = "String";
+      }
+   }
+   element pio_FDMODEOUT.s1
+   {
+      datum baseAddress
+      {
+         value = "291824";
+         type = "String";
+      }
+   }
+   element pio_FDRAMWR.s1
+   {
+      datum baseAddress
+      {
+         value = "291712";
+         type = "String";
+      }
+   }
+   element pio_NVSAVE.s1
+   {
+      datum baseAddress
+      {
+         value = "291968";
+         type = "String";
+      }
+   }
+   element pio_FDRAMADDR.s1
+   {
+      datum baseAddress
+      {
+         value = "291936";
+         type = "String";
+      }
+   }
+   element pio_SASIMSG.s1
+   {
+      datum baseAddress
+      {
+         value = "292048";
          type = "String";
       }
    }
@@ -972,6 +1196,76 @@
    internal="pio_FDMOTOR.external_connection"
    type="conduit"
    dir="end" />
+ <interface
+   name="fdcpy_fdmode"
+   internal="fdcpy_fdmode.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_mfm"
+   internal="fdcpy_mfm.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_unit"
+   internal="fdcpy_unit.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_emunit"
+   internal="fdcpy_emunit.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_track"
+   internal="fdcpy_track.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_head"
+   internal="fdcpy_head.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_recarib"
+   internal="fdcpy_recarib.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_seek"
+   internal="fdcpy_seek.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_wrdisk"
+   internal="fdcpy_wrdisk.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_rddisk"
+   internal="fdcpy_rddisk.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_busy"
+   internal="fdcpy_busy.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdcpy_error"
+   internal="fdcpy_error.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fddsel"
+   internal="fddsel.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="fdwgate"
+   internal="fdwgate.external_connection"
+   type="conduit"
+   dir="end" />
  <module kind="clock_source" version="13.1" enabled="1" name="clk_0">
   <parameter name="clockFrequency" value="60000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -1120,10 +1414,10 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='mainmem.s1' start='0x20000' end='0x38000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x46800' end='0x47000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='mainmem.s1' start='0x20000' end='0x38000' /><slave name='nvsram.s1' start='0x40000' end='0x44000' /><slave name='vram.s1' start='0x44000' end='0x46000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x46800' end='0x47000' /><slave name='FDRAM.s1' start='0x47000' end='0x47200' /><slave name='kbfifo.out_csr' start='0x47200' end='0x47220' /><slave name='spi_fast.spi_control_port' start='0x47220' end='0x47240' /><slave name='spi_slow.spi_control_port' start='0x47240' end='0x47260' /><slave name='pio_FDMOTOR.s1' start='0x47260' end='0x47270' /><slave name='pio_FDMODESET.s1' start='0x47270' end='0x47280' /><slave name='pio_FDRAMBUSY.s1' start='0x47280' end='0x47290' /><slave name='pio_FDEBUSY.s1' start='0x47290' end='0x472A0' /><slave name='pio_FDRAMWR.s1' start='0x472A0' end='0x472B0' /><slave name='pio_FDRAMRD.s1' start='0x472B0' end='0x472C0' /><slave name='pio_FDEMUEN.s1' start='0x472C0' end='0x472D0' /><slave name='txt_cursoren.s1' start='0x472D0' end='0x472E0' /><slave name='txt_cursorL.s1' start='0x472E0' end='0x472F0' /><slave name='txt_cursorC.s1' start='0x472F0' end='0x47300' /><slave name='pio_FDWPROT.s1' start='0x47300' end='0x47310' /><slave name='pio_FDMODEOUT.s1' start='0x47310' end='0x47320' /><slave name='pio_FDINDISK.s1' start='0x47320' end='0x47330' /><slave name='pio_FDEJECT.s1' start='0x47330' end='0x47340' /><slave name='pio_FDSEL1.s1' start='0x47340' end='0x47350' /><slave name='pio_FDSEL0.s1' start='0x47350' end='0x47360' /><slave name='pio_FDWROTE.s1' start='0x47360' end='0x47370' /><slave name='pio_FDMODEIN.s1' start='0x47370' end='0x47380' /><slave name='pio_FDRAMADDR.s1' start='0x47380' end='0x47390' /><slave name='pio_INITDONE.s1' start='0x47390' end='0x473A0' /><slave name='pio_NVSAVE.s1' start='0x473A0' end='0x473B0' /><slave name='pio_SDCS.s1' start='0x473B0' end='0x473C0' /><slave name='model.s1' start='0x473C0' end='0x473D0' /><slave name='pio_SPIHS.s1' start='0x473D0' end='0x473E0' /><slave name='pio_SASIRST.s1' start='0x473E0' end='0x473F0' /><slave name='pio_SASIMSG.s1' start='0x473F0' end='0x47400' /><slave name='pio_SASICD.s1' start='0x47400' end='0x47410' /><slave name='pio_SASIIO.s1' start='0x47410' end='0x47420' /><slave name='pio_SASIACK.s1' start='0x47420' end='0x47430' /><slave name='pio_SASIREQ.s1' start='0x47430' end='0x47440' /><slave name='pio_SASIBSY.s1' start='0x47440' end='0x47450' /><slave name='pio_SASISEL.s1' start='0x47450' end='0x47460' /><slave name='pio_SASIOUT.s1' start='0x47460' end='0x47470' /><slave name='pio_SASIIN.s1' start='0x47470' end='0x47480' /><slave name='sysid.control_slave' start='0x47480' end='0x47488' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x47488' end='0x47490' /><slave name='kbfifo.out' start='0x47490' end='0x47494' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='mainmem.s1' start='0x20000' end='0x38000' /><slave name='nvsram.s1' start='0x40000' end='0x44000' /><slave name='vram.s1' start='0x44000' end='0x46000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x46800' end='0x47000' /><slave name='FDRAM.s1' start='0x47000' end='0x47200' /><slave name='kbfifo.out_csr' start='0x47200' end='0x47220' /><slave name='spi_fast.spi_control_port' start='0x47220' end='0x47240' /><slave name='spi_slow.spi_control_port' start='0x47240' end='0x47260' /><slave name='fdwgate.s1' start='0x47260' end='0x47270' /><slave name='fddsel.s1' start='0x47270' end='0x47280' /><slave name='fdcpy_error.s1' start='0x47280' end='0x47290' /><slave name='fdcpy_busy.s1' start='0x47290' end='0x472A0' /><slave name='fdcpy_rddisk.s1' start='0x472A0' end='0x472B0' /><slave name='fdcpy_wrdisk.s1' start='0x472B0' end='0x472C0' /><slave name='fdcpy_seek.s1' start='0x472C0' end='0x472D0' /><slave name='fdcpy_recarib.s1' start='0x472D0' end='0x472E0' /><slave name='fdcpy_head.s1' start='0x472E0' end='0x472F0' /><slave name='fdcpy_track.s1' start='0x472F0' end='0x47300' /><slave name='fdcpy_emunit.s1' start='0x47300' end='0x47310' /><slave name='fdcpy_unit.s1' start='0x47310' end='0x47320' /><slave name='fdcpy_mfm.s1' start='0x47320' end='0x47330' /><slave name='fdcpy_fdmode.s1' start='0x47330' end='0x47340' /><slave name='pio_FDMOTOR.s1' start='0x47340' end='0x47350' /><slave name='pio_FDMODESET.s1' start='0x47350' end='0x47360' /><slave name='pio_FDRAMBUSY.s1' start='0x47360' end='0x47370' /><slave name='pio_FDEBUSY.s1' start='0x47370' end='0x47380' /><slave name='pio_FDRAMWR.s1' start='0x47380' end='0x47390' /><slave name='pio_FDRAMRD.s1' start='0x47390' end='0x473A0' /><slave name='pio_FDEMUEN.s1' start='0x473A0' end='0x473B0' /><slave name='txt_cursoren.s1' start='0x473B0' end='0x473C0' /><slave name='txt_cursorL.s1' start='0x473C0' end='0x473D0' /><slave name='txt_cursorC.s1' start='0x473D0' end='0x473E0' /><slave name='pio_FDWPROT.s1' start='0x473E0' end='0x473F0' /><slave name='pio_FDMODEOUT.s1' start='0x473F0' end='0x47400' /><slave name='pio_FDINDISK.s1' start='0x47400' end='0x47410' /><slave name='pio_FDEJECT.s1' start='0x47410' end='0x47420' /><slave name='pio_FDSEL1.s1' start='0x47420' end='0x47430' /><slave name='pio_FDSEL0.s1' start='0x47430' end='0x47440' /><slave name='pio_FDWROTE.s1' start='0x47440' end='0x47450' /><slave name='pio_FDMODEIN.s1' start='0x47450' end='0x47460' /><slave name='pio_FDRAMADDR.s1' start='0x47460' end='0x47470' /><slave name='pio_INITDONE.s1' start='0x47470' end='0x47480' /><slave name='pio_NVSAVE.s1' start='0x47480' end='0x47490' /><slave name='pio_SDCS.s1' start='0x47490' end='0x474A0' /><slave name='model.s1' start='0x474A0' end='0x474B0' /><slave name='pio_SPIHS.s1' start='0x474B0' end='0x474C0' /><slave name='pio_SASIRST.s1' start='0x474C0' end='0x474D0' /><slave name='pio_SASIMSG.s1' start='0x474D0' end='0x474E0' /><slave name='pio_SASICD.s1' start='0x474E0' end='0x474F0' /><slave name='pio_SASIIO.s1' start='0x474F0' end='0x47500' /><slave name='pio_SASIACK.s1' start='0x47500' end='0x47510' /><slave name='pio_SASIREQ.s1' start='0x47510' end='0x47520' /><slave name='pio_SASIBSY.s1' start='0x47520' end='0x47530' /><slave name='pio_SASISEL.s1' start='0x47530' end='0x47540' /><slave name='pio_SASIOUT.s1' start='0x47540' end='0x47550' /><slave name='pio_SASIIN.s1' start='0x47550' end='0x47560' /><slave name='sysid.control_slave' start='0x47560' end='0x47568' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x47568' end='0x47570' /><slave name='kbfifo.out' start='0x47570' end='0x47574' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="60000000" />
   <parameter name="deviceFamilyName" value="Cyclone V" />
-  <parameter name="internalIrqMaskSystemInfo" value="1151" />
+  <parameter name="internalIrqMaskSystemInfo" value="4095" />
   <parameter name="customInstSlavesSystemInfo" value="&lt;info/&gt;" />
   <parameter name="deviceFeaturesSystemInfo">ADDRESS_STALL 1 ADVANCED_INFO 0 ANY_QFP 0 CELL_LEVEL_BACK_ANNOTATION_DISABLED 0 COMPILER_SUPPORT 1 DSP 0 DSP_SHIFTER_BLOCK 0 DUMP_ASM_LAB_BITS_FOR_POWER 0 EMUL 1 ENABLE_ADVANCED_IO_ANALYSIS_GUI_FEATURES 1 ENABLE_PIN_PLANNER 0 ENGINEERING_SAMPLE 0 EPCS 1 ESB 0 FAKE1 0 FAKE2 0 FAKE3 0 FAMILY_LEVEL_INSTALLATION_ONLY 0 FASTEST 0 FINAL_TIMING_MODEL 0 FITTER_USE_FALLING_EDGE_DELAY 1 GENERATE_DC_ON_CURRENT_WARNING_FOR_INTERNAL_CLAMPING_DIODE 1 HARDCOPY 0 HAS_18_BIT_MULTS 1 HAS_ACE_SUPPORT 1 HAS_ACTIVE_PARALLEL_FLASH_SUPPORT 0 HAS_ADJUSTABLE_OUTPUT_IO_TIMING_MEAS_POINT 1 HAS_ADVANCED_IO_INVERTED_CORNER 1 HAS_ADVANCED_IO_POWER_SUPPORT 1 HAS_ADVANCED_IO_TIMING_SUPPORT 1 HAS_ALM_SUPPORT 1 HAS_ATOM_AND_ROUTING_POWER_MODELED_TOGETHER 0 HAS_AUTO_DERIVE_CLOCK_UNCERTAINTY_SUPPORT 1 HAS_AUTO_FIT_SUPPORT 1 HAS_BALANCED_OPT_TECHNIQUE_SUPPORT 1 HAS_BENEFICIAL_SKEW_SUPPORT 0 HAS_BITLEVEL_DRIVE_STRENGTH_CONTROL 1 HAS_BSDL_FILE_GENERATION 1 HAS_CDB_RE_NETWORK_PRESERVATION_SUPPORT 0 HAS_CGA_SUPPORT 1 HAS_CHECK_NETLIST_SUPPORT 1 HAS_CLOCK_REGION_CHECKER_ENABLED 1 HAS_CORE_JUNCTION_TEMP_DERATING 0 HAS_CROSSTALK_SUPPORT 0 HAS_CUSTOM_REGION_SUPPORT 1 HAS_DAP_JTAG_FROM_HPS 0 HAS_DATA_DRIVEN_ACVQ_HSSI_SUPPORT 1 HAS_DDB_FDI_SUPPORT 1 HAS_DESIGN_ANALYZER_SUPPORT 1 HAS_DETAILED_IO_RAIL_POWER_MODEL 1 HAS_DETAILED_LEIM_STATIC_POWER_MODEL 0 HAS_DETAILED_LE_POWER_MODEL 1 HAS_DETAILED_ROUTING_MUX_STATIC_POWER_MODEL 0 HAS_DETAILED_THERMAL_CIRCUIT_PARAMETER_SUPPORT 1 HAS_DEVICE_MIGRATION_SUPPORT 1 HAS_DIAGONAL_MIGRATION_SUPPORT 0 HAS_EMIF_TOOLKIT_SUPPORT 1 HAS_ERROR_DETECTION_SUPPORT 1 HAS_FAMILY_VARIANT_MIGRATION_SUPPORT 0 HAS_FANOUT_FREE_NODE_SUPPORT 1 HAS_FAST_FIT_SUPPORT 1 HAS_FITTER_EARLY_TIMING_ESTIMATE_SUPPORT 0 HAS_FITTER_ECO_SUPPORT 1 HAS_FIT_NETLIST_OPT_RETIME_SUPPORT 1 HAS_FIT_NETLIST_OPT_SUPPORT 1 HAS_FORMAL_VERIFICATION_SUPPORT 1 HAS_FPGA_XCHANGE_SUPPORT 1 HAS_FSAC_LUTRAM_REGISTER_PACKING_SUPPORT 1 HAS_FULL_DAT_MIN_TIMING_SUPPORT 1 HAS_FULL_INCREMENTAL_DESIGN_SUPPORT 1 HAS_FUNCTIONAL_SIMULATION_SUPPORT 0 HAS_FUNCTIONAL_VERILOG_SIMULATION_SUPPORT 1 HAS_FUNCTIONAL_VHDL_SIMULATION_SUPPORT 0 HAS_GLITCH_FILTERING_SUPPORT 1 HAS_HARDCOPYII_SUPPORT 0 HAS_HC_READY_SUPPORT 0 HAS_HIGH_SPEED_LOW_POWER_TILE_SUPPORT 0 HAS_HOLD_TIME_AVOIDANCE_ACROSS_CLOCK_SPINE_SUPPORT 1 HAS_HSPICE_WRITER_SUPPORT 1 HAS_HSSI_POWER_CALCULATOR 1 HAS_IBISO_WRITER_SUPPORT 0 HAS_ICD_DATA_IP 0 HAS_INCREMENTAL_DAT_SUPPORT 1 HAS_INCREMENTAL_SYNTHESIS_SUPPORT 1 HAS_INTERFACE_PLANNER_SUPPORT 1 HAS_IO_ASSIGNMENT_ANALYSIS_SUPPORT 1 HAS_IO_DECODER 1 HAS_IO_PLACEMENT_OPTIMIZATION_SUPPORT 1 HAS_IO_SMART_RECOMPILE_SUPPORT 0 HAS_JITTER_SUPPORT 1 HAS_JTAG_SLD_HUB_SUPPORT 1 HAS_LIMITED_TCL_FITTER_SUPPORT 1 HAS_LOGICAL_FLOORPLANNER_SUPPORT 0 HAS_LOGIC_LOCK_SUPPORT 1 HAS_MICROPROCESSOR 0 HAS_MIF_SMART_COMPILE_SUPPORT 1 HAS_MINMAX_TIMING_MODELING_SUPPORT 1 HAS_MIN_TIMING_ANALYSIS_SUPPORT 1 HAS_MUX_RESTRUCTURE_SUPPORT 1 HAS_NEW_HC_FLOW_SUPPORT 0 HAS_NEW_SERDES_MAX_RESOURCE_COUNT_REPORTING_SUPPORT 0 HAS_NEW_VPR_SUPPORT 1 HAS_NONSOCKET_TECHNOLOGY_MIGRATION_SUPPORT 0 HAS_NO_HARDBLOCK_PARTITION_SUPPORT 0 HAS_NO_JTAG_USERCODE_SUPPORT 0 HAS_OPERATING_SETTINGS_AND_CONDITIONS_REPORTING_SUPPORT 1 HAS_PAD_LOCATION_ASSIGNMENT_SUPPORT 0 HAS_PARTIAL_RECONFIG_SUPPORT 1 HAS_PASSIVE_PARALLEL_SUPPORT 0 HAS_PHYSICAL_NETLIST_OUTPUT 0 HAS_PHYSICAL_ROUTING_SUPPORT 1 HAS_PIN_SPECIFIC_VOLTAGE_SUPPORT 1 HAS_PLDM_REF_SUPPORT 0 HAS_POWER_BINNING_LIMITS_DATA 1 HAS_POWER_ESTIMATION_SUPPORT 1 HAS_PRELIMINARY_CLOCK_UNCERTAINTY_NUMBERS 0 HAS_PRE_FITTER_FPP_SUPPORT 1 HAS_PRE_FITTER_LUTRAM_NETLIST_CHECKER_ENABLED 1 HAS_PVA_SUPPORT 1 HAS_RAPID_RECOMPILE_SUPPORT 0 HAS_RCF_SUPPORT 1 HAS_RCF_SUPPORT_FOR_DEBUGGING 0 HAS_RED_BLACK_SEPARATION_SUPPORT 0 HAS_RE_LEVEL_TIMING_GRAPH_SUPPORT 1 HAS_RISEFALL_DELAY_SUPPORT 1 HAS_SIGNAL_PROBE_SUPPORT 1 HAS_SIGNAL_TAP_SUPPORT 1 HAS_SIMULATOR_SUPPORT 0 HAS_SPLIT_IO_SUPPORT 1 HAS_SPLIT_LC_SUPPORT 1 HAS_STRICT_PRESERVATION_SUPPORT 1 HAS_SYNTH_FSYN_NETLIST_OPT_SUPPORT 1 HAS_SYNTH_NETLIST_OPT_RETIME_SUPPORT 0 HAS_SYNTH_NETLIST_OPT_SUPPORT 1 HAS_TCL_FITTER_SUPPORT 0 HAS_TECHNOLOGY_MIGRATION_SUPPORT 0 HAS_TEMPLATED_REGISTER_PACKING_SUPPORT 1 HAS_TIME_BORROWING_SUPPORT 0 HAS_TIMING_DRIVEN_SYNTHESIS_SUPPORT 1 HAS_TIMING_INFO_SUPPORT 1 HAS_TIMING_OPERATING_CONDITIONS 1 HAS_TIMING_SIMULATION_SUPPORT 0 HAS_TITAN_BASED_MAC_REGISTER_PACKER_SUPPORT 1 HAS_U2B2_SUPPORT 0 HAS_USER_HIGH_SPEED_LOW_POWER_TILE_SUPPORT 0 HAS_USE_FITTER_INFO_SUPPORT 0 HAS_VCCPD_POWER_RAIL 1 HAS_VERTICAL_MIGRATION_SUPPORT 1 HAS_VIEWDRAW_SYMBOL_SUPPORT 0 HAS_VIO_SUPPORT 1 HAS_VIRTUAL_DEVICES 0 HAS_WYSIWYG_DFFEAS_SUPPORT 1 HAS_XIBISO_WRITER_SUPPORT 1 IFP_USE_LEGACY_IO_CHECKER 1 INCREMENTAL_DESIGN_SUPPORTS_COMPATIBLE_CONSTRAINTS 0 INSTALLED 0 INTERNAL_POF_SUPPORT_ENABLED 0 INTERNAL_USE_ONLY 0 ISSUE_MILITARY_TEMPERATURE_WARNING 0 IS_CONFIG_ROM 0 IS_DEFAULT_FAMILY 0 IS_HARDCOPY_FAMILY 0 IS_HBGA_PACKAGE 0 IS_HIGH_CURRENT_PART 0 IS_LOW_POWER_PART 0 IS_SDM_ONLY_PACKAGE 0 LVDS_IO 1 M10K_MEMORY 1 M144K_MEMORY 0 M20K_MEMORY 0 M4K_MEMORY 0 M512_MEMORY 0 M9K_MEMORY 0 MLAB_MEMORY 1 MRAM_MEMORY 0 NOT_LISTED 0 NOT_MIGRATABLE 0 NO_FITTER_DELAY_CACHE_GENERATED 0 NO_PIN_OUT 0 NO_POF 0 NO_RPE_SUPPORT 0 NO_SUPPORT_FOR_LOGICLOCK_CONTENT_BACK_ANNOTATION 1 NO_SUPPORT_FOR_STA_CLOCK_UNCERTAINTY_CHECK 0 NO_TDC_SUPPORT 0 POSTFIT_BAK_DATABASE_EXPORT_ENABLED 1 POSTMAP_BAK_DATABASE_EXPORT_ENABLED 1 PROGRAMMER_SUPPORT 1 QFIT_IN_DEVELOPMENT 0 QMAP_IN_DEVELOPMENT 0 RAM_LOGICAL_NAME_CHECKING_IN_CUT_ENABLED 1 REPORTS_METASTABILITY_MTBF 1 REQUIRES_INSTALLATION_PATCH 0 REQUIRES_LIST_OF_TEMPERATURE_AND_VOLTAGE_OPERATING_CONDITIONS 1 RESERVES_SIGNAL_PROBE_PINS 0 RESOLVE_MAX_FANOUT_EARLY 1 RESOLVE_MAX_FANOUT_LATE 0 RESPECTS_FIXED_SIZED_LOCKED_LOCATION_LOGICLOCK 1 RESTRICTED_USER_SELECTION 0 RISEFALL_SUPPORT_IS_HIDDEN 0 SHOW_HIDDEN_FAMILY_IN_PROGRAMMER 0 STRICT_TIMING_DB_CHECKS 0 SUPPORTS_ADDITIONAL_OPTIONS_FOR_UNUSED_IO 1 SUPPORTS_CRC 1 SUPPORTS_DIFFERENTIAL_AIOT_BOARD_TRACE_MODEL 1 SUPPORTS_DSP_BALANCING_BACK_ANNOTATION 0 SUPPORTS_GENERATION_OF_EARLY_POWER_ESTIMATOR_FILE 1 SUPPORTS_GLOBAL_SIGNAL_BACK_ANNOTATION 1 SUPPORTS_MAC_CHAIN_OUT_ADDER 1 SUPPORTS_RAM_PACKING_BACK_ANNOTATION 0 SUPPORTS_REG_PACKING_BACK_ANNOTATION 0 SUPPORTS_SIGNALPROBE_REGISTER_PIPELINING 1 SUPPORTS_SINGLE_ENDED_AIOT_BOARD_TRACE_MODEL 1 SUPPORTS_USER_MANUAL_LOGIC_DUPLICATION 1 TMV_RUN_CUSTOMIZABLE_VIEWER 1 TMV_RUN_INTERNAL_DETAILS 1 TMV_RUN_INTERNAL_DETAILS_ON_IO 0 TMV_RUN_INTERNAL_DETAILS_ON_IOBUF 1 TMV_RUN_INTERNAL_DETAILS_ON_LCELL 0 TMV_RUN_INTERNAL_DETAILS_ON_LRAM 0 TRANSCEIVER_3G_BLOCK 1 TRANSCEIVER_6G_BLOCK 1 USES_ACV_FOR_FLED 1 USES_ADB_FOR_BACK_ANNOTATION 1 USES_ALTERA_LNSIM 0 USES_ASIC_ROUTING_POWER_CALCULATOR 0 USES_DATA_DRIVEN_PLL_COMPUTATION_UTIL 1 USES_DEV 1 USES_ICP_FOR_ECO_FITTER 0 USES_LIBERTY_TIMING 0 USES_POWER_SIGNAL_ACTIVITIES 1 USES_THIRD_GENERATION_TIMING_MODELS_TIS 1 USES_U2B2_TIMING_MODELS 0 USE_ADVANCED_IO_POWER_BY_DEFAULT 1 USE_ADVANCED_IO_TIMING_BY_DEFAULT 1 USE_BASE_FAMILY_DDB_PATH 0 USE_OCT_AUTO_CALIBRATION 1 USE_RELAX_IO_ASSIGNMENT_RULES 0 USE_RISEFALL_ONLY 1 USE_SEPARATE_LIST_FOR_TECH_MIGRATION 0 USE_SINGLE_COMPILER_PASS_PLL_MIF_FILE_WRITER 1 USE_TITAN_IO_BASED_IO_REGISTER_PACKER_UTIL 1 USING_28NM_OR_OLDER_TIMING_METHODOLOGY 1 WYSIWYG_BUS_WIDTH_CHECKING_IN_CUT_ENABLED 1</parameter>
   <parameter name="tightlyCoupledDataMaster0MapParam" value="" />
@@ -1897,6 +2191,230 @@
   <parameter name="width" value="4" />
   <parameter name="clockRate" value="60000000" />
  </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="fdcpy_fdmode">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="2" />
+  <parameter name="clockRate" value="30000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="fdcpy_mfm">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="fdcpy_unit">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="fdcpy_emunit">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="2" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="fdcpy_track">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="7" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="fdcpy_head">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="fdcpy_recarib">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="fdcpy_seek">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="fdcpy_wrdisk">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="fdcpy_rddisk">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="fdcpy_busy">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="true" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="FALLING" />
+  <parameter name="generateIRQ" value="true" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="fdcpy_error">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="true" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="true" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="fddsel">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="true" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="ANY" />
+  <parameter name="generateIRQ" value="true" />
+  <parameter name="irqType" value="EDGE" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="4" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="fdwgate">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="true" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="ANY" />
+  <parameter name="generateIRQ" value="true" />
+  <parameter name="irqType" value="EDGE" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="60000000" />
+ </module>
  <connection
    kind="avalon"
    version="13.1"
@@ -1925,7 +2443,7 @@
    start="nios2_qsys_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047488" />
+  <parameter name="baseAddress" value="0x00047568" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -1967,7 +2485,7 @@
    start="nios2_qsys_0.data_master"
    end="sysid.control_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047480" />
+  <parameter name="baseAddress" value="0x00047560" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2069,7 +2587,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIIN.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047470" />
+  <parameter name="baseAddress" value="0x00047550" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="pio_SASIOUT.clk" />
@@ -2084,7 +2602,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIOUT.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047460" />
+  <parameter name="baseAddress" value="0x00047540" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2136,7 +2654,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASISEL.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047450" />
+  <parameter name="baseAddress" value="0x00047530" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2145,7 +2663,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIBSY.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047440" />
+  <parameter name="baseAddress" value="0x00047520" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2184,7 +2702,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIREQ.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047430" />
+  <parameter name="baseAddress" value="0x00047510" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2193,7 +2711,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIACK.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047420" />
+  <parameter name="baseAddress" value="0x00047500" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2202,7 +2720,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIIO.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047410" />
+  <parameter name="baseAddress" value="0x000474f0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2211,7 +2729,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASICD.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047400" />
+  <parameter name="baseAddress" value="0x000474e0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2220,7 +2738,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIMSG.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000473f0" />
+  <parameter name="baseAddress" value="0x000474d0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2229,7 +2747,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SASIRST.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000473e0" />
+  <parameter name="baseAddress" value="0x000474c0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2276,7 +2794,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SPIHS.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000473d0" />
+  <parameter name="baseAddress" value="0x000474b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="vram.clk1" />
@@ -2320,7 +2838,7 @@
    start="nios2_qsys_0.data_master"
    end="model.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000473c0" />
+  <parameter name="baseAddress" value="0x000474a0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="pio_SDCS.clk" />
@@ -2335,7 +2853,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_SDCS.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000473b0" />
+  <parameter name="baseAddress" value="0x00047490" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2396,7 +2914,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_NVSAVE.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000473a0" />
+  <parameter name="baseAddress" value="0x00047480" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2433,7 +2951,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_INITDONE.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047390" />
+  <parameter name="baseAddress" value="0x00047470" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="pio_FDRAMADDR.clk" />
@@ -2448,7 +2966,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDRAMADDR.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047380" />
+  <parameter name="baseAddress" value="0x00047460" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2473,7 +2991,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDMODEIN.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047370" />
+  <parameter name="baseAddress" value="0x00047450" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="pio_FDWROTE.clk" />
@@ -2488,7 +3006,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDWROTE.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047360" />
+  <parameter name="baseAddress" value="0x00047440" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2508,7 +3026,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDSEL0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047350" />
+  <parameter name="baseAddress" value="0x00047430" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2528,7 +3046,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDSEL1.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047340" />
+  <parameter name="baseAddress" value="0x00047420" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2548,7 +3066,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDEJECT.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047330" />
+  <parameter name="baseAddress" value="0x00047410" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2570,7 +3088,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDINDISK.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047320" />
+  <parameter name="baseAddress" value="0x00047400" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2590,7 +3108,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDMODEOUT.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047310" />
+  <parameter name="baseAddress" value="0x000473f0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2610,7 +3128,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDWPROT.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047300" />
+  <parameter name="baseAddress" value="0x000473e0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2635,7 +3153,7 @@
    start="nios2_qsys_0.data_master"
    end="txt_cursorC.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000472f0" />
+  <parameter name="baseAddress" value="0x000473d0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2655,7 +3173,7 @@
    start="nios2_qsys_0.data_master"
    end="txt_cursorL.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000472e0" />
+  <parameter name="baseAddress" value="0x000473c0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2680,7 +3198,7 @@
    start="nios2_qsys_0.data_master"
    end="txt_cursoren.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000472d0" />
+  <parameter name="baseAddress" value="0x000473b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="pio_FDEMUEN.clk" />
@@ -2695,7 +3213,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDEMUEN.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000472c0" />
+  <parameter name="baseAddress" value="0x000473a0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2715,7 +3233,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDRAMRD.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000472b0" />
+  <parameter name="baseAddress" value="0x00047390" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2769,7 +3287,7 @@
    start="nios2_qsys_0.data_master"
    end="kbfifo.out">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047490" />
+  <parameter name="baseAddress" value="0x00047570" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2797,7 +3315,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDRAMWR.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000472a0" />
+  <parameter name="baseAddress" value="0x00047380" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="pio_FDEBUSY.clk" />
@@ -2812,7 +3330,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDEBUSY.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047290" />
+  <parameter name="baseAddress" value="0x00047370" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2832,7 +3350,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDRAMBUSY.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047280" />
+  <parameter name="baseAddress" value="0x00047360" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2863,7 +3381,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDMODESET.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047270" />
+  <parameter name="baseAddress" value="0x00047350" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2883,7 +3401,7 @@
    start="nios2_qsys_0.data_master"
    end="pio_FDMOTOR.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00047260" />
+  <parameter name="baseAddress" value="0x00047340" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -2898,6 +3416,384 @@
    end="pio_FDMOTOR.irq">
   <parameter name="irqNumber" value="4" />
  </connection>
+ <connection kind="clock" version="13.1" start="fdclk.clk" end="fdcpy_fdmode.clk" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_fdmode.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_fdmode.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_fdmode.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_fdmode.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047330" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_mfm.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_mfm.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_mfm.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047320" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_mfm.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_unit.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_unit.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047310" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_unit.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_unit.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_emunit.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_emunit.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047300" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_emunit.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_emunit.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_track.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_track.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000472f0" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_track.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_track.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_head.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_head.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000472e0" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_head.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_recarib.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_recarib.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000472d0" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_recarib.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_seek.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_seek.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000472c0" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_seek.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_head.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_recarib.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_seek.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_wrdisk.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000472b0" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_wrdisk.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_wrdisk.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_wrdisk.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_rddisk.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_rddisk.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000472a0" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_rddisk.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_rddisk.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_busy.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_busy.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047290" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_busy.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_busy.reset" />
+ <connection
+   kind="interrupt"
+   version="13.1"
+   start="nios2_qsys_0.d_irq"
+   end="fdcpy_busy.irq">
+  <parameter name="irqNumber" value="7" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdcpy_error.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdcpy_error.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047280" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdcpy_error.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdcpy_error.reset" />
+ <connection
+   kind="interrupt"
+   version="13.1"
+   start="nios2_qsys_0.d_irq"
+   end="fdcpy_error.irq">
+  <parameter name="irqNumber" value="8" />
+ </connection>
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_mfm.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_unit.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_emunit.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_track.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_head.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_recarib.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_seek.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_wrdisk.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_rddisk.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_busy.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdcpy_error.clk" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fddsel.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fddsel.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047270" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fddsel.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fddsel.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="fdwgate.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="fdwgate.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00047260" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="fdwgate.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="fdclk.clk_reset"
+   end="fdwgate.reset" />
+ <connection
+   kind="interrupt"
+   version="13.1"
+   start="nios2_qsys_0.d_irq"
+   end="fddsel.irq">
+  <parameter name="irqNumber" value="9" />
+ </connection>
+ <connection
+   kind="interrupt"
+   version="13.1"
+   start="nios2_qsys_0.d_irq"
+   end="fdwgate.irq">
+  <parameter name="irqNumber" value="11" />
+ </connection>
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fdwgate.clk" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="fddsel.clk" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="false" />

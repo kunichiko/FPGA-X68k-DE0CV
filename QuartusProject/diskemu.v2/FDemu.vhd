@@ -87,8 +87,8 @@ signal	txwrbitex	:std_logic;
 signal	fmtxend		:std_logic;
 signal	mfmtxend	:std_logic;
 signal	txend		:std_logic;
-signal	modsft		:std_logic;
-signal	demsft		:std_logic;
+signal	modsftfm		:std_logic;
+signal	modsftmfm		:std_logic;
 signal	modbreak	:std_logic;
 
 signal	curpos		:std_logic_vector(13 downto 0);
@@ -304,17 +304,9 @@ begin
 					"00";
 	curfdmode<=fdmode3 & fdmode2 & fdmode1 & fdmode0;
 
-	bitlenr<=	4000*sysclk/1000000	when selfdmode(1)='0' and RDMFM='0' else
-				2000*sysclk/1000000	when selfdmode(1)='0' and RDMFM='1' else
-				2000*sysclk/1000000	when selfdmode(1)='1' and RDMFM='0' else
-				1000*sysclk/1000000	when selfdmode(1)='1' and RDMFM='1' else
-				4000*sysclk/1000000;
+	bitlenr<=	4000*sysclk/1000000	when selfdmode(1)='0' else 2000*sysclk/1000000;
 				
-	bitlenw<=	4000*sysclk/1000000	when WRFDMODE(1)='0' and WRMFM='0' else
-				2000*sysclk/1000000	when WRFDMODE(1)='0' and WRMFM='1' else
-				2000*sysclk/1000000	when WRFDMODE(1)='1' and WRMFM='0' else
-				1000*sysclk/1000000	when WRFDMODE(1)='1' and WRMFM='1' else
-				4000*sysclk/1000000;
+	bitlenw<=	4000*sysclk/1000000	when WRFDMODE(1)='0' else 2000*sysclk/1000000;
 				
 	tracklen0<=	conv_std_logic_vector( 6250,14) when fdmode0="00" else
 				conv_std_logic_vector( 6250,14) when fdmode0="01" else
@@ -416,7 +408,8 @@ begin
 			
 	indexn<='0' when curpos="00000000000000" else '1';
 	
-	wsft	:sftgen generic map(maxbwidth) port map(bitlenr,modsft,clk,rstn);
+	wsftfm	:sftgen generic map(maxbwidth) port map(bitlenr,modsftfm,clk,rstn);
+	wsftmfm	:sftgen generic map(maxbwidth/2) port map(bitlenr/2,modsftmfm,clk,rstn);
 	
 	fmtx	:fmmod port map(
 		txdat	=>txdat,
@@ -433,7 +426,7 @@ begin
 		bitout	=>fmwrbit,
 		writeen	=>open,
 		
-		sft		=>modsft,
+		sft		=>modsftfm,
 		clk		=>clk,
 		rstn	=>rstn
 	);
@@ -451,12 +444,12 @@ begin
 		bitout	=>mfmwrbit,
 		writeen	=>open,
 		
-		sft		=>modsft,
+		sft		=>modsftmfm,
 		clk		=>clk,
 		rstn	=>rstn
 	);
-	txemp<=fmtxemp when RDMFM='0' else mfmtxemp;
-	txwrbit<=fmwrbit when RDMFM='0' else mfmwrbit;
+	txemp<=fmtxemp and mfmtxemp;
+	txwrbit<=fmwrbit or mfmwrbit;
 	wdatext	:signext generic map(extcount) port map(extcount,txwrbit,txwrbitex,clk,rstn);
 	
 	RDBITn<=not txwrbitex;
@@ -506,8 +499,8 @@ begin
 		rstn	=>rstn
 	);
 
-	mfmrx	:mfmdem generic map(maxbwidth)port map(
-		bitlen	=>bitlenw,
+	mfmrx	:mfmdem generic map(maxbwidth/2)port map(
+		bitlen	=>bitlenw/2,
 		
 		datin	=>mfmrxbit,
 		

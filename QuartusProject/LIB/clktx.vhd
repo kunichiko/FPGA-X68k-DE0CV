@@ -16,6 +16,7 @@ end clktx;
 architecture rtl of clktx is
 signal	txpend	:std_logic;
 signal	txdone	:std_logic;
+--signal	stxpend	:std_logic;
 begin
 	process(fclk,rstn)begin
 		if(rstn='0')then
@@ -33,11 +34,15 @@ begin
 		if(rstn='0')then
 			txdone<='0';
 			txout<='0';
+--			stxpend<='0';
 		elsif(sclk' event and sclk='1')then
 			txout<='0';
+--			stxpend<=txpend;
+--			if(stxpend='1')then
 			if(txpend='1')then
 				txout<='1';
 				txdone<='1';
+--			elsif(stxpend='0')then
 			elsif(txpend='0')then
 				txdone<='0';
 			end if;

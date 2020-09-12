@@ -193,6 +193,8 @@ signal	kbfifowait		:std_logic;
 signal	fdemu_tracklen	:std_logic_vector(13 downto 0);
 signal	fdcpy_tracklen	:std_logic_vector(13 downto 0);
 
+signal	fdbusy			:std_logic_vector(3 downto 0);
+
 component diskemu
 	port (
 		model_export         : in  std_logic_vector(7 downto 0)  := (others => '0'); --           model.export
@@ -277,7 +279,9 @@ component diskemu
 		fdcpy_wrdisk_export  : out std_logic;                                        --    fdcpy_wrdisk.export
 		fdcpy_rddisk_export  : out std_logic;                                        --    fdcpy_rddisk.export
 		fdcpy_busy_export    : in  std_logic                     := '0';             --      fdcpy_busy.export
-		fdcpy_error_export   : in  std_logic                     := '0'              --     fdcpy_error.export
+		fdcpy_error_export   : in  std_logic                     := '0';             --     fdcpy_error.export
+		fddsel_export        : in  std_logic_vector(3 downto 0)  := (others => '0'); --          fddsel.export
+		fdwgate_export       : in  std_logic                     := '0'              --         fdwgate.export
 	);
 end component;
 
@@ -460,6 +464,8 @@ begin
 		fdcpy_rddisk_export  =>fdcpy_rddisk,
 		fdcpy_busy_export    =>fdcpy_busy,
 		fdcpy_error_export   =>fdcpy_error,
+		fddsel_export        =>fdbusy,
+		fdwgate_export       =>not fdc_wrenn,
 		
 		curc_export				=>vcursor_Cw,
 		curl_export				=>vcursor_Lw,
@@ -479,6 +485,8 @@ begin
 	
 	vcursor_L<=vcursor_Lw(VLwidth-1 downto 0);
 	vcursor_C<=vcursor_Cw(VCwidth-1 downto 0);
+	
+	fdbusy<=(not fdc_useln) and (not fdc_motorn);
 	
 	fdmodem_usel<=	"00" when fdc_useln="1110" else
 					"01" when fdc_useln="1101" else

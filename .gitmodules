@@ -1,0 +1,3 @@
+[submodule "QuartusProject/sound/OPM_JT51/jt51"]
+	path = QuartusProject/sound/OPM_JT51/jt51
+	url = https://github.com/jotego/jt51.git

@@ -764,7 +764,7 @@ begin
 					ramendaddr<=(others=>'0');
 					ramrd<='1';
 					lastvid<='1';
-				elsif(g0_caddr/=g0caddrh and g0_clear='1' and lastvid='0' and lastvid='0' and rambusy='0')then
+				elsif(g0_caddr/=g0caddrh and g0_clear='1' and lastvid='0' and rambusy='0')then
 					g0caddrh<=g0_caddr;
 					ramaddrh<=g0_caddr(awidth-1 downto 8);
 					RAM_STATE<=ST_G0CLR;

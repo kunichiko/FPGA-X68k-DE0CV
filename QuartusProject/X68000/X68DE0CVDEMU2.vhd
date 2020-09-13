@@ -12,7 +12,7 @@ generic(
 	FCFREQ		:integer	:=30000;		--FDC clock
 	ACFREQ		:integer	:=32000;		--Audio clock
 	DACFREQ		:integer	:=16000;		--Audio DAC freq
-	DEBUG			:std_logic_vector(7 downto 0)	:="00010010"	--nop,SPRBGONOFF,OPMCH_ONOFF,PAUSE_ONOFF,GRP_ONOFF,SCR_ONOFF,ADPCM_ONOFF,CYCLERESET
+	DEBUG			:std_logic_vector(7 downto 0)	:="00010110"	--nop,SPRBGONOFF,OPMCH_ONOFF,PAUSE_ONOFF,GRP_ONOFF,SCR_ONOFF,ADPCM_ONOFF,CYCLERESET
 );
 port(
 	pClk50M		:in std_logic;
@@ -1047,6 +1047,8 @@ port(
 	AP		:in std_logic_vector(3 downto 0);
 	txtmask	:in std_logic_vector(15 downto 0)	:=(others=>'0');
 	gmode	:in std_logic_vector(1 downto 0);
+	vmode	:in std_logic_vector(1 downto 0);
+	gsize	:in std_logic;
 	rcpybusy:in std_logic  :='0';
 	
 	ram_addr	:out std_logic_vector(22 downto 0);
@@ -1066,6 +1068,8 @@ port(
 	
 	iowait		:in std_logic	:='0';
 	
+	gpcen		:in std_logic;
+
 	min			:in std_logic;
 	mon			:out std_logic;
 	sclk		:in std_logic;
@@ -2667,6 +2671,8 @@ begin
 		AP		=>vr_AP,
 		txtmask	=>vr_txtmask,
 		gmode	=>vr_col,
+		vmode	=>vr_GR_CMODE,
+		gsize	=>vr_size,
 		rcpybusy=>vr_rcpybusy,
 		
 		ram_addr	=>ram_addr,
@@ -2685,7 +2691,9 @@ begin
 		ldr_ack		=>ldr_ack,
 	
 		iowait		=>iowait,
-		
+
+		gpcen			=>'1',		
+
 		min			=>mmap_min,
 		sclk		=>sysclk,
 		rstn		=>srstn

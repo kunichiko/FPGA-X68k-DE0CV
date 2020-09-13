@@ -93,6 +93,13 @@ signal	d_wrv	:std_logic_vector(3 downto 0);
 signal	donev	:std_logic_vector(3 downto 0);
 signal	actch	:integer range 0 to 4;
 signal	lm_as	:std_logic;
+signal	gc_bt	:std_logic_vector(1 downto 0);
+signal	gc_br	:std_logic_vector(1 downto 0);
+signal	bwcount	:integer range 0 to (128*16)-1;
+signal	brcount	:integer range 0 to 127;
+signal	blen		:integer range 0 to 128;
+signal	bwtotal	:integer range 0 to (128*16)-1;
+signal	bren	:std_logic;
 
 component dma1ch
 port(
@@ -110,6 +117,8 @@ port(
 	busact		:in std_logic;
 	buschk		:out std_logic;
 	reqg		:out std_logic;
+	bt			:out std_logic_vector(1 downto 0);
+	br			:out std_logic_vector(1 downto 0);
 	pri			:out std_logic_vector(1 downto 0);
 	b_indat		:in std_logic_vector(15 downto 0);
 	b_outdat	:out std_logic_vector(15 downto 0);
@@ -201,7 +210,7 @@ begin
 				when others =>
 					n_pri:="1111";
 				end case;
-				if(busreqv(i)='1' and n_pri<=c_pri)then
+				if(busreqv(i)='1' and (reqgv(i)='0' or bren='1') and n_pri<=c_pri)then
 					channel:=i;
 					c_pri:=n_pri;
 				end if;
@@ -285,6 +294,8 @@ begin
 		busact		=>busactv(0),
 		buschk		=>buschkv(0),
 		reqg		=>reqgv(0),
+		bt			=>open,
+		br			=>open,
 		pri			=>pri0(3 downto 2),
 		b_indat		=>b_din,
 		b_outdat	=>b_dout0,
@@ -327,6 +338,8 @@ begin
 		busact		=>busactv(1),
 		buschk		=>buschkv(1),
 		reqg		=>reqgv(1),
+		bt			=>open,
+		br			=>open,
 		pri			=>pri1(3 downto 2),
 		b_indat		=>b_din,
 		b_outdat	=>b_dout1,
@@ -369,6 +382,8 @@ begin
 		busact		=>busactv(2),
 		buschk		=>buschkv(2),
 		reqg		=>reqgv(2),
+		bt			=>open,
+		br			=>open,
 		pri			=>pri2(3 downto 2),
 		b_indat		=>b_din,
 		b_outdat	=>b_dout2,
@@ -411,6 +426,8 @@ begin
 		busact		=>busactv(3),
 		buschk		=>buschkv(3),
 		reqg		=>reqgv(3),
+		bt			=>gc_bt,
+		br			=>gc_br,
 		pri			=>pri3(3 downto 2),
 		b_indat		=>b_din,
 		b_outdat	=>b_dout3,
@@ -522,5 +539,41 @@ begin
 	doneo2<=	donev(2);-- when actch=2 else
 	doneo3<=	donev(3);-- when actch=3 else
 --			'0';
+	
+	blen<=	16		when gc_bt="00" else
+				32		when gc_bt="01" else
+				64		when gc_bt="10" else
+				128	when gc_bt="11" else
+				0;
+	
+	bwtotal<=	(blen*2)-1 when gc_br="00" else
+					(blen*4)-1 when gc_br="01" else
+					(blen*8)-1 when gc_br="10" else
+					(blen*16)-1 when gc_br="11" else
+					0;
+	
+	process(clk,rstn)begin
+		if(rstn='0')then
+			bwcount<=0;
+			bren<='1';
+		elsif(clk' event and clk='1')then
+			if(actch/=4)then
+				if(brcount<(blen-1))then
+					brcount<=brcount+1;
+				else
+					bren<='0';
+				end if;
+			end if;
+			if(bwcount<bwtotal)then
+				bwcount<=bwcount+1;
+			else
+				bwcount<=0;
+				brcount<=0;
+				bren<='1';
+			end if;
+		end if;
+	end process;
+				
+			
 	
 end rtl;

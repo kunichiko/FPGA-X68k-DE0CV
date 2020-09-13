@@ -325,9 +325,9 @@ begin
 					START<='0';
 					FINISH<='0';
 					if(MONWD>x"9")then
-						TXOUT<="0000" & MONWD;
-					else
 						TXOUT<="0001" & (MONWD-x"a");
+					else
+						TXOUT<="0000" & MONWD;
 					end if;
 					WRn<='0';
 					I2CSTATE<=IS_WRRTCMON;

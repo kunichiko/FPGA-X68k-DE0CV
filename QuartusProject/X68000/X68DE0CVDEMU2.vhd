@@ -12,7 +12,7 @@ generic(
 	FCFREQ		:integer	:=30000;		--FDC clock
 	ACFREQ		:integer	:=32000;		--Audio clock
 	DACFREQ		:integer	:=16000;		--Audio DAC freq
-	DEBUG			:std_logic_vector(7 downto 0)	:="00010110"	--nop,SPRBGONOFF,OPMCH_ONOFF,PAUSE_ONOFF,GRP_ONOFF,SCR_ONOFF,ADPCM_ONOFF,CYCLERESET
+	DEBUG			:std_logic_vector(7 downto 0)	:="00000010"	--nop,SPRBGONOFF,OPMCH_ONOFF,PAUSE_ONOFF,GRP_ONOFF,SCR_ONOFF,ADPCM_ONOFF,CYCLERESET
 );
 port(
 	pClk50M		:in std_logic;
@@ -799,7 +799,10 @@ generic(
 	AWIDTH		:integer	:=25;
 	CAWIDTH		:integer	:=10;
 	BRSIZE		:integer	:=8;
-	CLKMHZ		:integer 	:=120		--SDRAM clk MHz
+	BRBLOCKS		:integer	:=4;
+	CLKMHZ		:integer 	:=120;		--SDRAM clk MHz
+	REFINT	:integer	:=3;
+	REFCNT	:integer	:=64
 );
 port(
 	-- SDRAM PORTS
@@ -2778,7 +2781,10 @@ begin
 		AWIDTH		=>25,
 		CAWIDTH		=>10,
 		BRSIZE		=>brsize,
-		CLKMHZ		=>RCFREQ
+		BRBLOCKS		=>8,
+		CLKMHZ		=>RCFREQ,
+		REFINT		=>3,
+		REFCNT		=>64
 	) port map(
 		PMEMCKE		=>pMemCke,
 		PMEMCS_N	=>pMemCs_n,

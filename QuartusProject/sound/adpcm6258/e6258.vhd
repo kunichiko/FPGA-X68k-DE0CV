@@ -79,24 +79,22 @@ begin
 			drq<='0';
 			ldatwr:="00";
 		elsif(sndclk' event and sndclk='1')then
-			if(ldatwr="10")then
+			if(datwr='1')then
+				drq<='0';
+			elsif(ldatwr="10")then
 				if(addrbuf='0')then
 					if(datinbuf(1)='1')then
 						playen<='1';
-						drq<='0';
 					elsif(datinbuf(2)='1')then
 						recen<='1';
-						drq<='0';
 					elsif(datinbuf(0)='1')then
 						playen<='0';
 						recen<='0';
-						drq<='0';
 					end if;
 				else
 					nxtbuf1<=datinbuf(7 downto 4);
 					nxtbuf0<=datinbuf(3 downto 0);
 					bufcount<=2;
-					drq<='0';
 				end if;
 			end if;
 			if(datuse='1')then

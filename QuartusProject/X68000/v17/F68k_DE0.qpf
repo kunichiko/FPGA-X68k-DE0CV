@@ -18,20 +18,20 @@
 #
 # Quartus Prime
 # Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-# Date created = 17:59:06  September 13, 2020
+# Date created = 00:54:07  September 14, 2020
 #
 # -------------------------------------------------------------------------- #
 
 QUARTUS_VERSION = "18.1"
-DATE = "17:59:06  September 13, 2020"
+DATE = "00:54:07  September 14, 2020"
 
 # Revisions
 
 PROJECT_REVISION = "release-F68K_DE0CV_DEMU"
-PROJECT_REVISION = "release-F68kMiSTer"
-PROJECT_REVISION = "F68k_DE0CV_DEMU2"
 PROJECT_REVISION = "release-F68k_DE0CV"
+PROJECT_REVISION = "release-F68kMiSTer"
 PROJECT_REVISION = "F68k_MiSTer"
+PROJECT_REVISION = "F68k_DE0CV_DEMU2"
 PROJECT_REVISION = "F68k_DE0CV"
 PROJECT_REVISION = "F68k_DE0CV_DEMU"
 PROJECT_REVISION = "F68l_MiSTerDEMU2"

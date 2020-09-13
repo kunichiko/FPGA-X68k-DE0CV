@@ -7,7 +7,10 @@ generic(
 	AWIDTH		:integer	:=25;
 	CAWIDTH		:integer	:=10;
 	BRSIZE		:integer	:=8;
-	CLKMHZ		:integer 	:=120		--SDRAM clk MHz
+	BRBLOCKS		:integer	:=4;
+	CLKMHZ		:integer 	:=120;		--SDRAM clk MHz
+	REFINT	:integer	:=3;
+	REFCNT	:integer	:=64
 );
 port(
 	-- SDRAM PORTS
@@ -198,7 +201,10 @@ end component;
 component cachecont
 generic(
 	awidth	:integer	:=22;
-	brsize	:integer	:=8
+	brsize	:integer	:=8;
+	brblocks	:integer	:=4;
+	refint	:integer	:=3;
+	refcnt	:integer	:=64
 );
 port(
 	b_addr	:in std_logic_vector(awidth-1 downto 0);
@@ -367,7 +373,7 @@ begin
 	b_rd_m	<='0' when cache_inidone='0' else b_rd;
 	b_wr_m	<="00" when cache_inidone='0' else b_wr;
 
-	CACHEC	:cachecont generic map(AWIDTH,BRSIZE) port map(
+	CACHEC	:cachecont generic map(AWIDTH,BRSIZE,BRBLOCKS,REFINT,REFCNT) port map(
 		b_addr	=>b_addr,
 		b_wdat	=>b_wdat,
 		b_rdat	=>b_rdat,

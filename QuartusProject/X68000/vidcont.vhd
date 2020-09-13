@@ -140,8 +140,6 @@ port(
 	gclrpage:in std_logic_vector(3 downto 0);
 	gclrbusy:out std_logic;
 	
-	dbgin		:in std_logic_vector(3 downto 0);
-	
 	vidclk		:in std_logic;
 	sysclk	:in std_logic;
 	rstn	:in std_logic
@@ -321,8 +319,8 @@ begin
 	xvvbgn<=		vvbgn		when hfreq='1' else vvbgn(8 downto 0) & '0';
 	xvvend<=		vvend		when hfreq='1' else vvend(8 downto 0) & '0';
 
-	g_ddaten<=	'1' when g4_ddat/="0000" and gmode="00" else
-					'1' when g8_ddat/=x"00" and gmode="01" else
+	g_ddaten<=	'1' when g4_ddat/=x"0" and gmode="00" else
+					'1' when g8_ddat(3 downto 0)/=x"0" and gmode="01" else
 					'1' when g16_ddat/=x"0000" and gmode(1)='1' else
 					'0';
 
@@ -385,18 +383,18 @@ begin
 	g3haddr_offset<='0' & (g3_hoffset+haddrmod(8 downto 0));
 	g3vaddr_offset<='0' & (g3_voffset+vaddrmod(8 downto 0));
 	
-	nxt_g0r0c4addrh<="00" & g0vaddr_offset(8 downto 0);
+	nxt_g0r0c4addrh<=g0vaddr_offset(8 downto 0) & "00";
 	cur_g0r0c4addrl<=g0haddr_offset(8 downto 2);
-	nxt_g1r0c4addrh<="01" & g1vaddr_offset(8 downto 0);
+	nxt_g1r0c4addrh<=g1vaddr_offset(8 downto 0) & "01";
 	cur_g1r0c4addrl<=g1haddr_offset(8 downto 2);
-	nxt_g2r0c4addrh<="10" & g2vaddr_offset(8 downto 0);
+	nxt_g2r0c4addrh<=g2vaddr_offset(8 downto 0) & "10";
 	cur_g2r0c4addrl<=g2haddr_offset(8 downto 2);
-	nxt_g3r0c4addrh<="11" & g3vaddr_offset(8 downto 0);
+	nxt_g3r0c4addrh<=g3vaddr_offset(8 downto 0) & "11";
 	cur_g3r0c4addrl<=g3haddr_offset(8 downto 2);
 
-	nxt_g0r0c8addrh<='0' & g0vaddr_offset(8 downto 0);
+	nxt_g0r0c8addrh<=g0vaddr_offset(8 downto 0) & '0';
 	cur_g0r0c8addrl<=g0haddr_offset(8 downto 1);
-	nxt_g1r0c8addrh<='1' & g2vaddr_offset(8 downto 0);
+	nxt_g1r0c8addrh<=g2vaddr_offset(8 downto 0) & '1';
 	cur_g1r0c8addrl<=g2haddr_offset(8 downto 1);
 
 	nxt_g0r0c16addrh<=g0vaddr_offset(8 downto 0);
@@ -773,7 +771,7 @@ begin
 --	tdoten<='0' when txten='0' or t_ddatd="0000" or tpalin=x"0000" else '1';
 	tdoten<='0' when txten='0' or (tpalin=x"0000" and t_ddatd="0000") else '1';
 	sdoten<=	'0' when spren='0' else
-				'0' when sprite_ind(3 downto 0)=x"0" or (spalin=x"0000" and sprite_ind(3 downto 0)=x"f") else
+				'0' when sprite_ind(3 downto 0)=x"0" or (spalin=x"0000" and sprite_ind(3 downto 0)/=x"1") else
 				'1';
 	gdoten<=	'0' when grpen='0' else
 				'0' when gpalin=x"0000" and g_ddatend='0' else

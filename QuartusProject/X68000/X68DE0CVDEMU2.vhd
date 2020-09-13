@@ -617,6 +617,7 @@ signal	HDMI_DAT2	:std_logic;
 
 --for OPM
 signal	opm_cen		:std_logic;
+signal	opm_wr_n_d	:std_logic;
 signal	opm_odat	:std_logic_vector(7 downto 0);
 signal	opm_doe		:std_logic;
 signal	opm_intn	:std_logic;
@@ -3832,11 +3833,7 @@ begin
 	--opm_doe    <= '1' when opm_cen='0' and b_rdn='0' else '0';
 	opm_data_d <= pOPM_DATA;
 	--opm_odat   <= opm_data_d;
-	pOPM_DATA(7 downto 0) <= dbus(7 downto 0) when opm_cen='0' and b_wrn(0)='0' else
-                            (others=>'Z');
-	pOPM_A0    <= abus(1);
 	pOPM_RD_n  <= '1'; --'0' when opm_cen='0' and b_rdn='0' else '1';
-	pOPM_WR_n  <= '0' when opm_cen='0' and b_wrn(0)='0' else '1';
 	pOPM_RST   <= not srstn;
 	pOPM_CLK   <= opm_clk_divider(2);
 
@@ -3844,9 +3841,25 @@ begin
 		if(srstn='0')then
 			opm_irq_n_d <= '1';
 			--opm_intn    <= '1';
+			opm_wr_n_d <= '1';
 		elsif(sysclk' event and sysclk='1')then
 			opm_irq_n_d <= pOPM_IRQ_n;
 			--opm_intn    <= opm_irq_n_d;
+			if(opm_cen='0' and b_wrn(0)='0')then
+				pOPM_A0    <= abus(1);
+				pOPM_DATA(7 downto 0) <= dbus(7 downto 0);
+				pOPM_WR_n  <= '0';
+				opm_wr_n_d <= '0';
+			elsif(opm_wr_n_d='0')then
+				-- keep pOPM_DATA and pOPM_A0 for 1 clock period.
+				pOPM_WR_n  <= '1';
+				opm_wr_n_d <= '1';
+			else
+				pOPM_A0    <= abus(1);
+				pOPM_DATA(7 downto 0) <= (others=>'Z');
+				pOPM_WR_n  <= '1';
+				opm_wr_n_d <= '1';
+			end if;
 		end if;
    end process;
 

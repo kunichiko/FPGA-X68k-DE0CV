@@ -113,11 +113,9 @@ set_location_assignment PIN_B15 -to pFd_WGATEn
 set_location_assignment PIN_E14 -to pFd_WPTn
 set_location_assignment PIN_D13 -to pI2Csda
 set_location_assignment PIN_G17 -to pI2Cscl
-set_location_assignment PIN_K19 -to pF68kIO_I2S_MCLK
 set_location_assignment PIN_R15 -to pF68kIO_I2S_BICK
 set_location_assignment PIN_R16 -to pF68kIO_I2S_DATA
 set_location_assignment PIN_T19 -to pF68kIO_I2S_LRCK
-set_location_assignment PIN_T17 -to pF68kIO_I2S_MUTE_n
 set_location_assignment PIN_A13 -to pJoyA[2]
 set_location_assignment PIN_H15 -to pJoyA[4]
 set_location_assignment PIN_B12 -to pJoyA[1]

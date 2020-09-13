@@ -43,6 +43,7 @@ architecture rtl of sasiif is
 signal	iowdat	:std_logic_vector(7 downto 0);
 signal	CMDWR	:std_logic;
 signal	CMDRD	:std_logic;
+signal	DMACLR:std_logic;
 signal	IDWR	:std_logic;
 signal	IDCLR	:std_logic;
 signal	BUSRST	:std_logic;
@@ -157,6 +158,7 @@ begin
 	IDCLR<=	'1' when adrwr(1)='0' and ladrwr(1)='1' else '0';
 	CMDWR<=	'1' when adrwr(0)='0' and ladrwr(0)='1' else '0';
 	CMDRD<=	'1' when adrrd(0)='0' and ladrrd(0)='1' else '0';
+	DMACLR<=	'1' when adrwr(0)='1' or adrrd(0)='1' else '0';
 	
 	process(clk,rstn)
 	variable lencount	:integer range 0 to rstlen-1;
@@ -192,8 +194,9 @@ begin
 				HSwait<='0';
 			elsif(sREQ='1' and lREQ='0')then
 				drq<='1';
-			elsif(CMDRD='1' or CMDWR='1')then
+			elsif(DMACLR='1')then
 				drq<='0';
+			elsif(CMDRD='1' or CMDWR='1')then
 				HSwait<='1';
 			elsif(sREQ='0')then
 				HSwait<='0';

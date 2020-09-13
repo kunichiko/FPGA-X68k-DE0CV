@@ -6,6 +6,7 @@ entity cachecont is
 generic(
 	awidth	:integer	:=22;
 	brsize	:integer	:=8;
+	brblocks	:integer	:=4;
 	refint	:integer	:=3;
 	refcnt	:integer	:=64
 );
@@ -134,8 +135,6 @@ port(
 end cachecont;
 
 architecture rtl of cachecont is
-constant brblocks	:integer	:=8;
-
 signal	lb_addr		:std_logic_vector(awidth-1 downto 0);
 signal	lb_csaddr	:std_logic_vector(awidth-brsize-1 downto 0);
 signal	lb_cdaddr	:std_logic_vector(awidth-brsize-1 downto 0);

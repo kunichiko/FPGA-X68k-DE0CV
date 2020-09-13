@@ -167,6 +167,8 @@ type state_t is(
 );
 signal	STATE	:state_t;
 signal	drqx	:std_logic;
+signal	drqe	:std_logic;
+signal	drqeclr:std_logic;
 signal	ldrq	:std_logic;
 signal	CONT	:std_logic;
 signal	CONT_clr:std_logic;
@@ -209,11 +211,21 @@ begin
 	S_DITres<=regwdat(10) when regaddr(5 downto 1)="00000" and regwr(1)='1' else '0';
 	S_PCTres<=regwdat( 9) when regaddr(5 downto 1)="00000" and regwr(1)='1' else '0';
 	
-	process(clk,rstn)begin
+	process(clk,rstn)
+	variable ldrqx	:std_logic;
+	begin
 		if(rstn='0')then
 			drqx<='0';
+			drqe<='0';
+			ldrqx:='0';
 		elsif(clk' event and clk='1')then
 			drqx<=drq;
+			if(drqx='1' and ldrqx='0')then
+				drqe<='1';
+			elsif(drqeclr='1')then
+				drqe<='0';
+			end if;
+			ldrqx:=drqx;
 		end if;
 	end process;
 	
@@ -581,6 +593,7 @@ begin
 			S_BTCset<='0';
 			CONTMODE<='0';
 			reqwait<='0';
+			drqeclr<='0';
 		elsif(clk' event and clk='1')then
 			MTC_dec		<='0';
 			MTC_dec2		<='0';
@@ -612,12 +625,14 @@ begin
 			ldrq<=drqx;
 			int_comp<='0';
 			S_BTCset<='0';
+			drqeclr<='0';
 			if(reqwait='1')then
 				reqwait<='0';
 			else
 				case STATE is
 				when ST_IDLE =>
 					if(CHactive='1')then
+						drqeclr<='1';
 						CONTMODE<='0';
 						if(OCR_CHAIN(1)='1')then
 							busreq<='1';
@@ -638,19 +653,43 @@ begin
 							STATE<=ST_BUSWAIT;
 							reqwait<='1';
 						when "10" =>
-							if(drqx='1')then
-								busreq<='1';
-								bytecnt<=0;
-								STATE<=ST_BUSWAIT;
-								reqwait<='1';
-							end if;
+							case DCR_XRM is
+							when "10" | "11"=>
+								if(drqe='1' and drqx='1')then
+									busreq<='1';
+									bytecnt<=0;
+									STATE<=ST_BUSWAIT;
+									reqwait<='1';
+									drqeclr<='1';
+								end if;
+							when others =>
+								if(drqx='1')then
+									busreq<='1';
+									bytecnt<=0;
+									STATE<=ST_BUSWAIT;
+									reqwait<='1';
+									drqeclr<='1';
+								end if;
+							end case;
 						when "11" =>
-							if(drqx='1' or CONTMODE='0')then
-								busreq<='1';
-								CONTMODE<='1';
-								STATE<=ST_BUSWAIT;
-								reqwait<='1';
-							end if;
+							case DCR_XRM is
+							when "10" | "11" =>
+								if((drqe='1' and drqx='1') or CONTMODE='0')then
+									busreq<='1';
+									CONTMODE<='1';
+									STATE<=ST_BUSWAIT;
+									reqwait<='1';
+									drqeclr<='1';
+								end if;
+							when others =>
+								if(drqx='1' or CONTMODE='0')then
+									busreq<='1';
+									CONTMODE<='1';
+									STATE<=ST_BUSWAIT;
+									reqwait<='1';
+									drqeclr<='1';
+								end if;
+							end case;
 						when others =>
 							STATE<=ST_IDLE;
 						end case;

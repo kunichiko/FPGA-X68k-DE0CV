@@ -319,8 +319,8 @@ begin
 	xvvbgn<=		vvbgn		when hfreq='1' else vvbgn(8 downto 0) & '0';
 	xvvend<=		vvend		when hfreq='1' else vvend(8 downto 0) & '0';
 
-	g_ddaten<=	'1' when g4_ddat/="0000" and gmode="00" else
-					'1' when g8_ddat/=x"00" and gmode="01" else
+	g_ddaten<=	'1' when g4_ddat/=x"0" and gmode="00" else
+					'1' when g8_ddat(3 downto 0)/=x"0" and gmode="01" else
 					'1' when g16_ddat/=x"0000" and gmode(1)='1' else
 					'0';
 

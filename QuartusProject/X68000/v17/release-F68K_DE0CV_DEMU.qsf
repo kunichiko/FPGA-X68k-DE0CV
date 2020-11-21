@@ -230,7 +230,7 @@ set_location_assignment PIN_P14 -to pSeg5[3]
 set_location_assignment PIN_T14 -to pSeg5[2]
 set_location_assignment PIN_M8 -to pSeg5[1]
 set_location_assignment PIN_N9 -to pSeg5[0]
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 set_location_assignment PIN_C11 -to pSd_Dt[3]
 set_location_assignment PIN_E12 -to pSd_Dt[2]
@@ -339,6 +339,11 @@ set_instance_assignment -name SLEW_RATE 0 -to pDac_SL
 set_instance_assignment -name SLEW_RATE 0 -to pDac_SR
 set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE F68k_DE0.vwf
 set_global_assignment -name VHDL_FILE ../../sound/EM3012.vhd
+set_global_assignment -name VHDL_FILE ../../kunichiko/i2c_frontpanel_led/X68_FRONTPANEL_CONTROLLER.vhd
+set_global_assignment -name VHDL_FILE ../../kunichiko/i2c_frontpanel_led/I2C_TLC59116_pkg.vhd
+set_global_assignment -name VHDL_FILE ../../kunichiko/i2c_frontpanel_led/I2C_TLC59116.vhd
+set_global_assignment -name VHDL_FILE ../../kunichiko/i2c_frontpanel_led/I2C_MUX_PROXY.vhd
+set_global_assignment -name VHDL_FILE ../../kunichiko/i2c_frontpanel_led/I2C_MUX.vhd
 set_global_assignment -name VERILOG_FILE ../../sound/OPM_JT51/jt51/hdl/jt51_timers.v
 set_global_assignment -name VERILOG_FILE ../../sound/OPM_JT51/jt51/hdl/jt51_sh.v
 set_global_assignment -name VERILOG_FILE ../../sound/OPM_JT51/jt51/hdl/jt51_reg.v

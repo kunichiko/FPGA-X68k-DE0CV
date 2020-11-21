@@ -4,6 +4,8 @@ LIBRARY	IEEE;
 	USE	IEEE.STD_LOGIC_UNSIGNED.ALL;
 	use work.FDC_timing.all;
 	use work.I2C_pkg.all;
+	use work.I2C_TLC59116_pkg.all;
+
 
 entity X68DE0CVDEMU2 is
 generic(
@@ -664,6 +666,7 @@ signal	i2s_sndL,i2s_sndR	:std_logic_vector(31 downto 0);
 signal	SDAIN,SDAOUT	:std_logic;
 signal	SCLIN,SCLOUT	:std_logic;
 signal	I2CCLKEN	:std_logic;
+
 signal	I2C_TXDAT	:std_logic_vector(7 downto 0);		--tx data in
 signal	I2C_RXDAT	:std_logic_vector(7 downto 0);	--rx data out
 signal	I2C_WRn		:std_logic;						--write
@@ -678,6 +681,35 @@ signal	I2C_START	:std_logic;							--make start condition
 signal	I2C_FINISH	:std_logic;							--next data is final(make stop condition)
 signal	I2C_F_FINISH :std_logic;							--next data is final(make stop condition)
 signal	I2C_INIT	:std_logic;
+
+-- Define the number of I2C device drivers  
+constant NUM_DRIVERS: integer := 2;
+
+signal	I2C_TXDAT_PXY	:i2cdat_array(NUM_DRIVERS-1 downto 0);	    --tx data in
+signal	I2C_RXDAT_PXY	:i2cdat_array(NUM_DRIVERS-1 downto 0);	    --rx data out
+signal	I2C_WRn_PXY		:std_logic_vector(NUM_DRIVERS-1 downto 0);	--write
+signal	I2C_RDn_PXY		:std_logic_vector(NUM_DRIVERS-1 downto 0);	--read
+signal	I2C_TXEMP_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);	--tx buffer empty
+signal	I2C_RXED_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);	--rx buffered
+signal	I2C_NOACK_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);	--no ack
+signal	I2C_COLL_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);  --collision detect
+signal	I2C_NX_READ_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);	--next data is read
+signal	I2C_RESTART_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);	--make re-start condition
+signal	I2C_START_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);	--make start condition
+signal	I2C_FINISH_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);	--next data is final(make stop condition)
+signal	I2C_F_FINISH_PXY:std_logic_vector(NUM_DRIVERS-1 downto 0);	--next data is final(make stop condition)
+signal	I2C_INIT_PXY	:std_logic_vector(NUM_DRIVERS-1 downto 0);
+
+-- for frontpanel
+signal  LED_POWER       :std_logic_vector(1 downto 0);
+signal  LED_HD_BUSY     :std_logic;
+signal  LED_TIMER       :std_logic;
+signal  LED_FDD0_ACCESS :std_logic_vector(1 downto 0);
+signal  LED_FDD1_ACCESS :std_logic_vector(1 downto 0);
+signal  LED_FDD0_EJECT  :std_logic;
+signal  LED_FDD1_EJECT  :std_logic;
+
+signal  ledmodes			:led_mode_array(0 to 15);
 
 --RTC
 signal	rtc_odat	:std_logic_Vector(3 downto 0);
@@ -2508,6 +2540,96 @@ port(
 );
 end component;
 
+component I2C_MUX is
+generic(
+    NUM_DRIVERS	:integer	:=2
+);
+port(
+    -- I2C
+    TXOUT		:out	std_logic_vector(7 downto 0);	--tx data in
+    RXIN		:in		std_logic_vector(7 downto 0);	--rx data out
+    WRn			:out	std_logic;						--write
+    RDn			:out	std_logic;						--read
+    
+    TXEMP		:in		std_logic;						--tx buffer empty
+    RXED		:in		std_logic;						--rx buffered
+    NOACK		:in		std_logic;						--no ack
+    COLL		:in		std_logic;						--collision detect
+    NX_READ		:out	std_logic;						--next data is read
+    RESTART		:out	std_logic;						--make re-start condition
+    START		:out	std_logic;						--make start condition
+    FINISH		:out	std_logic;						--next data is final(make stop condition)
+    F_FINISH	:out	std_logic;						--next data is final(make stop condition by force)
+    INIT		:out	std_logic;
+    
+    -- for Driver
+    DATIN_PXY   :in     i2cdat_array(NUM_DRIVERS-1 downto 0);		--tx data in
+    DATOUT_PXY	:out    i2cdat_array(NUM_DRIVERS-1 downto 0);		--rx data out
+    WRn_PXY		:in     std_logic_vector(NUM_DRIVERS-1 downto 0);	--write
+    RDn_PXY		:in     std_logic_vector(NUM_DRIVERS-1 downto 0);	--read
+    
+    TXEMP_PXY   :out    std_logic_vector(NUM_DRIVERS-1 downto 0);	--tx buffer empty
+    RXED_PXY	:out    std_logic_vector(NUM_DRIVERS-1 downto 0);	--rx buffered
+    NOACK_PXY	:out    std_logic_vector(NUM_DRIVERS-1 downto 0);	--no ack
+    COLL_PXY	:out    std_logic_vector(NUM_DRIVERS-1 downto 0);	--collision detect
+    NX_READ_PXY	:in     std_logic_vector(NUM_DRIVERS-1 downto 0);	--next data is read
+    RESTART_PXY	:in     std_logic_vector(NUM_DRIVERS-1 downto 0);	--make re-start condition
+    START_PXY	:in     std_logic_vector(NUM_DRIVERS-1 downto 0);	--make start condition
+    FINISH_PXY	:in     std_logic_vector(NUM_DRIVERS-1 downto 0);	--next data is final(make stop condition)
+    F_FINISH_PXY:in     std_logic_vector(NUM_DRIVERS-1 downto 0);	--next data is final(make stop condition)
+    INIT_PXY	:in     std_logic_vector(NUM_DRIVERS-1 downto 0);
+    
+    clk			:in     std_logic;
+    rstn		:in     std_logic
+);
+end component;
+
+component I2C_TLC59116 is
+port(
+    -- I2C
+    TXOUT		:out	std_logic_vector(7 downto 0);	--tx data in
+    RXIN		:in		std_logic_vector(7 downto 0);	--rx data out
+    WRn			:out	std_logic;						--write
+    RDn			:out	std_logic;						--read
+    
+    TXEMP		:in		std_logic;						--tx buffer empty
+    RXED		:in		std_logic;						--rx buffered
+    NOACK		:in		std_logic;						--no ack
+    COLL		:in		std_logic;						--collision detect
+    NX_READ		:out	std_logic;						--next data is read
+    RESTART		:out	std_logic;						--make re-start condition
+    START		:out	std_logic;						--make start condition
+    FINISH		:out	std_logic;						--next data is final(make stop condition)
+    F_FINISH	:out	std_logic;						--next data is final(make stop condition by force)
+    INIT		:out	std_logic;
+    
+    -- Ports
+    LEDMODES    :in led_mode_array(0 to 15);
+
+    clk			:in std_logic;
+    rstn		:in std_logic
+);
+end component;
+
+component X68_FRONTPANEL_CONTROLLER is
+port(
+    -- Control
+    LED_POWER       :in     std_logic_vector(1 downto 0);
+    LED_HD_BUSY     :in     std_logic;
+    LED_TIMER       :in     std_logic;
+    LED_FDD0_ACCESS :in     std_logic_vector(1 downto 0);
+    LED_FDD1_ACCESS :in     std_logic_vector(1 downto 0);
+    LED_FDD0_EJECT  :in     std_logic;
+    LED_FDD1_EJECT  :in     std_logic;
+    
+    -- to TLC59116 module
+    LEDMODES        :out	led_mode_array(0 to 15);
+                
+    clk			    :in     std_logic;
+    rstn		    :in     std_logic
+);
+end component;
+
 begin
 	pllrst<=not pwr_rstn;
 	clkgen	:mainpllCVdemu port map(
@@ -4051,26 +4173,112 @@ begin
 		alarm	=>rtc_alarm,
 		
 	--I2C I/F
-		TXOUT	=>I2C_TXDAT,
-		RXIN	=>I2C_RXDAT,
-		WRn		=>I2C_WRn,
-		RDn		=>I2C_RDn,
+		TXOUT	=>I2C_TXDAT_PXY(0),
+		RXIN	=>I2C_RXDAT_PXY(0),
+		WRn		=>I2C_WRn_PXY(0),
+		RDn		=>I2C_RDn_PXY(0),
 
-		TXEMP	=>I2C_TXEMP,
-		RXED	=>I2C_RXED,
-		NOACK	=>I2C_NOACK,
-		COLL	=>I2C_COLL,
-		NX_READ	=>I2C_NX_READ,
-		RESTART	=>I2C_RESTART,
-		START	=>I2C_START,
-		FINISH	=>I2C_FINISH,
-		F_FINISH=>I2C_F_FINISH,
-		INIT	=>I2C_INIT,
+		TXEMP	=>I2C_TXEMP_PXY(0),
+		RXED	=>I2C_RXED_PXY(0),
+		NOACK	=>I2C_NOACK_PXY(0),
+		COLL	=>I2C_COLL_PXY(0),
+		NX_READ	=>I2C_NX_READ_PXY(0),
+		RESTART	=>I2C_RESTART_PXY(0),
+		START	=>I2C_START_PXY(0),
+		FINISH	=>I2C_FINISH_PXY(0),
+		F_FINISH=>I2C_F_FINISH_PXY(0),
+		INIT	=>I2C_INIT_PXY(0),
 
 		clk		=>sysclk,
 		rstn	=>srstn
 	);
 
+	--
+	-- LED driver 
+	--
+	tlc59116 :I2C_TLC59116 port map(
+		-- I2C I/F
+		TXOUT	=>I2C_TXDAT_PXY(1),
+		RXIN	=>I2C_RXDAT_PXY(1),
+		WRn		=>I2C_WRn_PXY(1),
+		RDn		=>I2C_RDn_PXY(1),
+
+		TXEMP	=>I2C_TXEMP_PXY(1),
+		RXED	=>I2C_RXED_PXY(1),
+		NOACK	=>I2C_NOACK_PXY(1),
+		COLL	=>I2C_COLL_PXY(1),
+		NX_READ	=>I2C_NX_READ_PXY(1),
+		RESTART	=>I2C_RESTART_PXY(1),
+		START	=>I2C_START_PXY(1),
+		FINISH	=>I2C_FINISH_PXY(1),
+		F_FINISH=>I2C_F_FINISH_PXY(1),
+		INIT	=>I2C_INIT_PXY(1),
+
+		-- LED Control Ports
+		LEDMODES => ledmodes,
+
+		clk		=>sysclk,
+		rstn	=>srstn
+	);
+
+	FP: X68_FRONTPANEL_CONTROLLER port map(
+		LED_POWER       => LED_POWER,
+		LED_HD_BUSY     => LED_HD_BUSY,
+		LED_TIMER       => LED_TIMER,
+		LED_FDD0_ACCESS => LED_FDD0_ACCESS,
+		LED_FDD1_ACCESS => LED_FDD1_ACCESS,
+		LED_FDD0_EJECT  => LED_FDD0_EJECT,
+		LED_FDD1_EJECT  => LED_FDD1_EJECT,
+
+		-- to TLC59116 module
+		LEDMODES        => ledmodes,
+
+		clk		=>sysclk,
+		rstn	=>srstn
+	);
+	
+	process(sysclk,srstn)begin
+		 if(srstn='0')then
+			  LED_POWER       <= "11";
+			  LED_HD_BUSY     <= '0';
+			  LED_TIMER       <= '0';
+			  LED_FDD0_ACCESS <= "00";
+			  LED_FDD0_EJECT  <= '0';
+			  LED_FDD1_ACCESS <= "00";
+			  LED_FDD1_EJECT  <= '0';
+		 elsif(sysclk' event and sysclk='1')then
+			  LED_HD_BUSY     <= '0';
+			  if(SASI_BSY='1')then
+					LED_HD_BUSY<='1';
+			  end if;
+			  if(FDD_INDISK(0)='0')then
+					LED_FDD0_ACCESS	<="00";
+					LED_FDD0_EJECT  	<= '0';
+			  else
+					LED_FDD0_EJECT  	<= '1';
+					if(FD_MOTOR='1' and FD_USEL="00")then
+						LED_FDD0_ACCESS<="10";
+					else
+						LED_FDD0_ACCESS<="11";
+					end if;
+			  end if;
+			  if(FDD_INDISK(1)='0')then
+					LED_FDD1_ACCESS	<="00";
+					LED_FDD1_EJECT  	<= '0';
+			  else
+					LED_FDD1_EJECT  	<= '1';
+					if(FD_MOTOR='1' and FD_USEL="01")then
+						LED_FDD1_ACCESS<="10";
+					else
+						LED_FDD1_ACCESS<="11";
+					end if;
+			  end if;
+		 end if;
+	end process;
+
+	--
+	-- I2C Interface
+	--
 	I2C	:I2CIF port map(
 		DATIN	=>I2C_TXDAT,
 		DATOUT	=>I2C_RXDAT,
@@ -4097,6 +4305,45 @@ begin
 		SFT		=>I2CCLKEN,
 		clk		=>sysclk,
 		rstn 	=>srstn
+	);
+
+	I2CMUX :I2C_MUX generic map(NUM_DRIVERS=>NUM_DRIVERS) port map(
+		-- I2C
+		TXOUT   => I2C_TXDAT,
+		RXIN    => I2C_RXDAT,
+		WRn     => I2C_WRn,
+		RDn     => I2C_RDn,
+    
+		TXEMP   => I2C_TXEMP,
+		RXED	=> I2C_RXED,
+		NOACK	=> I2C_NOACK,
+		COLL	=> I2C_COLL,
+		NX_READ	=> I2C_NX_READ,
+		RESTART	=> I2C_RESTART,
+		START	=> I2C_START,
+		FINISH	=> I2C_FINISH,
+		F_FINISH=> I2C_F_FINISH,
+		INIT	=> I2C_INIT,
+    
+		-- for Driver
+		DATIN_PXY   => I2C_TXDAT_PXY,
+		DATOUT_PXY	=> I2C_RXDAT_PXY,
+		WRn_PXY		=> I2C_WRn_PXY,
+		RDn_PXY		=> I2C_RDn_PXY,
+    
+		TXEMP_PXY   => I2C_TXEMP_PXY,
+		RXED_PXY	=> I2C_RXED_PXY,
+		NOACK_PXY	=> I2C_NOACK_PXY,
+		COLL_PXY	=> I2C_COLL_PXY,
+		NX_READ_PXY	=> I2C_NX_READ_PXY,
+		RESTART_PXY	=> I2C_RESTART_PXY,
+		START_PXY	=> I2C_START_PXY,
+		FINISH_PXY	=> I2C_FINISH_PXY,
+		F_FINISH_PXY => I2C_F_FINISH_PXY,
+		INIT_PXY	=> I2C_INIT_PXY,
+    
+		clk			=> sysclk,
+		rstn		=> srstn
 	);
 
 	pI2CSCL <= '0' when SCLOUT='0' else 'Z';

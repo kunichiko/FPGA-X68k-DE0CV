@@ -17,4 +17,6 @@ package I2C_pkg is
 	constant BIT_START	:integer	:=1;	-- Make start condition
 	constant BIT_FIN	:integer	:=0;	-- Final data(make stop condition)
 
+	type i2cdat_array is array (Natural range<>) of std_logic_vector(I2CDAT_WIDTH-1 downto 0);
+
 end I2C_pkg;

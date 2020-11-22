@@ -2,7 +2,7 @@
 
 BIOSフォルダには以下の２つのファイルが必要です。
 
- * IPLROM.hex
+ * IPLROM-EXPERT.hex / IPLROM-XVI.hex
     * リポジトリに同梱
     * X68000のIPLROMイメージを Intel Hex形式に変換したファイルです。
  * CGROM.hex

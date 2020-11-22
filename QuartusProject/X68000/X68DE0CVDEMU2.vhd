@@ -163,6 +163,7 @@ signal	mem_rstn:std_logic;
 signal	pwr_rstn:std_logic;
 signal	pwrsw	:std_logic;
 signal	vid_rstn	:std_logic;
+signal	willrst:std_logic;
 
 signal	dbus	:std_logic_vector(15 downto 0);
 signal	abus	:std_logic_vector(23 downto 0);
@@ -2335,7 +2336,8 @@ port(
 	
 	power	:out std_logic;
 	pint	:out std_logic;
-	
+	willrst	:out std_logic;
+
 	sclk	:in std_logic;
 	srstn	:in std_logic;
 	pclk	:in std_logic;
@@ -2668,6 +2670,7 @@ begin
 		
 		power	=>pwr_rstn,
 		pint	=>pwrsw,
+		willrst	=>willrst,
 		
 		sclk	=>sysclk,
 		srstn	=>srstn,
@@ -4236,44 +4239,71 @@ begin
 		clk		=>sysclk,
 		rstn	=>srstn
 	);
-	
+
 	process(sysclk,srstn)begin
-		 if(srstn='0')then
-			  LED_POWER       <= "11";
-			  LED_HD_BUSY     <= '0';
-			  LED_TIMER       <= '0';
-			  LED_FDD0_ACCESS <= "00";
-			  LED_FDD0_EJECT  <= '0';
-			  LED_FDD1_ACCESS <= "00";
-			  LED_FDD1_EJECT  <= '0';
-		 elsif(sysclk' event and sysclk='1')then
-			  LED_HD_BUSY     <= '0';
-			  if(SASI_BSY='1')then
+		if(srstn='0')then
+			LED_POWER		<="11";
+			LED_HD_BUSY     <= '0';
+			LED_TIMER       <= '0';
+			LED_FDD0_ACCESS <= "00";
+			LED_FDD0_EJECT  <= '0';
+			LED_FDD1_ACCESS <= "00";
+			LED_FDD1_EJECT  <= '0';
+		elsif(sysclk' event and sysclk='1')then
+			LED_HD_BUSY     <= '0';
+			-- pwrswは実機のフロント電源スイッチの状態（'0'の時オン、'1'の時オフ）
+			-- willrstは電源がOFFになってからPLLが止まるまでの0.5秒ほどの期間'1'、通常は'0'
+			if(pwrsw='0' and willrst='0')then
+				-- 通常状態(電源ランプグリーン)
+				LED_POWER<="11";
+				if(SASI_BSY='1')then
 					LED_HD_BUSY<='1';
-			  end if;
-			  if(FDD_INDISK(0)='0')then
+				end if;
+				 if(FDD_INDISK(0)='0')then
 					LED_FDD0_ACCESS	<="00";
 					LED_FDD0_EJECT  	<= '0';
-			  else
+				else
 					LED_FDD0_EJECT  	<= '1';
 					if(FD_MOTOR='1' and FD_USEL="00")then
 						LED_FDD0_ACCESS<="10";
 					else
 						LED_FDD0_ACCESS<="11";
 					end if;
-			  end if;
-			  if(FDD_INDISK(1)='0')then
+				end if;
+				if(FDD_INDISK(1)='0')then
 					LED_FDD1_ACCESS	<="00";
 					LED_FDD1_EJECT  	<= '0';
-			  else
+				else
 					LED_FDD1_EJECT  	<= '1';
 					if(FD_MOTOR='1' and FD_USEL="01")then
 						LED_FDD1_ACCESS<="10";
 					else
 						LED_FDD1_ACCESS<="11";
 					end if;
-			  end if;
-		 end if;
+				end if;
+			elsif(pwrsw='1' and willrst='0')then
+				-- シャットダウン中（電源ランプグリーン点滅）
+				LED_POWER<="10";
+			elsif(pwrsw='1' and willrst='1')then
+				-- シャットダウン完了（電源ランプ赤、その他消灯）
+				LED_POWER<="01";
+				LED_HD_BUSY     <= '0';
+				LED_TIMER       <= '0';
+				LED_FDD0_ACCESS <= "00";
+				LED_FDD0_EJECT  <= '0';
+				LED_FDD1_ACCESS <= "00";
+				LED_FDD1_EJECT  <= '0';
+			else
+				-- その他（想定外、全消灯）
+				LED_POWER<="00";
+				LED_HD_BUSY     <= '0';
+				LED_TIMER       <= '0';
+				LED_FDD0_ACCESS <= "00";
+				LED_FDD0_EJECT  <= '0';
+				LED_FDD1_ACCESS <= "00";
+				LED_FDD1_EJECT  <= '0';
+			end if;
+		end if;
 	end process;
 
 	--

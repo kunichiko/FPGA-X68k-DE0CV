@@ -27,6 +27,7 @@
 -- - Power
 --     - "00" - OFF
 --     - "01" - STANDBY (R)
+--     - "10" - Blinking (G) (Shutting down)
 --     - "11" - ON (G)
 -- - HD BUSY
 --     - "0" - Idle (OFF)
@@ -87,7 +88,7 @@ begin
                 LEDMODES(2) <= "10";
             when "10" =>
                 LEDMODES(0) <= "00";
-                LEDMODES(1) <= "10";
+                LEDMODES(1) <= "11";
                 LEDMODES(2) <= "00";
             when "11" =>
                 LEDMODES(0) <= "00";

@@ -240,7 +240,7 @@ set_location_assignment PIN_P14 -to pSeg5[3]
 set_location_assignment PIN_T14 -to pSeg5[2]
 set_location_assignment PIN_M8 -to pSeg5[1]
 set_location_assignment PIN_N9 -to pSeg5[0]
-set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 set_location_assignment PIN_C11 -to pSd_Dt[3]
 set_location_assignment PIN_E12 -to pSd_Dt[2]

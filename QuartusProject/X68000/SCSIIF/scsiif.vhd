@@ -54,24 +54,10 @@ port(
 end scsiif;
 
 architecture rtl of scsiif is
-signal	iowdat	:std_logic_vector(7 downto 0);
-signal	CMDWR	:std_logic;
-signal	CMDRD	:std_logic;
-signal	DMACLR:std_logic;
-signal	IDWR	:std_logic;
-signal	IDCLR	:std_logic;
-signal	BUSRST	:std_logic;
-signal	adrwr,ladrwr	:std_logic_vector(3 downto 0);
-signal	adrrd,ladrrd	:std_logic_vector(3 downto 0);
-signal	RDDAT_DAT	:std_logic_vector(7 downto 0);
-signal	RDDAT_STA	:std_logic_vector(7 downto 0);
-signal	ACKb,lACK	:std_logic;
-signal	sREQ,lREQ	:std_logic;
-signal	SELb		:std_logic;
-signal	HSwait		:std_logic;
-signal	inirst		:std_logic;
-
-
+signal	SCSI_SEL: std_logic;
+signal	SCSI_ACK: std_logic;
+signal	SCSI_RST: std_logic;
+signal	SCSI_ATN: std_logic;
 
 component em89352 is
 port(
@@ -92,15 +78,15 @@ port(
     SDIp    :in std_logic;      -- parity for SDI
 	SDO 	:out std_logic_vector(7 downto 0);
     SDOP    :out std_logic;     -- parity for SDO
-	SEL		:out std_logic;
+	SEL		:inout std_logic;
 	BSY		:in std_logic;
 	REQ		:in std_logic;
-	ACK		:out std_logic;
+	ACK		:inout std_logic;
 	IO		:in std_logic;
 	CD		:in std_logic;
 	MSG		:in std_logic;
-	RST		:out std_logic;
-    ATN     :out std_logic;
+	RST		:inout std_logic;
+    ATN     :inout std_logic;
 	
 	clk		:in std_logic;
 	rstn	:in std_logic
@@ -126,18 +112,22 @@ begin
 		SDIp    => IDATp,
 		SDO 	=> ODAT,
 		SDOP    => ODATp,
-		SEL		=> SEL,
+		SEL		=> SCSI_SEL,
 		BSY		=> BSY,
 		REQ		=> REQ,
-		ACK		=> ACK,
+		ACK		=> SCSI_ACK,
 		IO		=> IO,
 		CD		=> CD,
 		MSG		=> MSG,
-		RST		=> RST,
+		RST		=> SCSI_RST,
 		ATN     => open,
 		
 		clk		=> clk,
 		rstn	=> rstn
 	);
+
+	SEL<=SCSI_SEL;
+	ACK<=SCSI_ACK;
+	RST<=SCSI_RST;
 
 end rtl;

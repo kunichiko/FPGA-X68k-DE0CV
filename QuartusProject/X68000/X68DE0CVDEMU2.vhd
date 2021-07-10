@@ -71,8 +71,8 @@ port(
 
     -- DIP switch, Lamp ports
     pDip        : in std_logic_vector( 9 downto 0);     -- 0=ON,  1=OFF(default on shipment)
-    pLed        : out std_logic_vector( 9 downto 0);    -- 0=OFF, 1=ON(green)
-    pPsw			: in std_logic_vector(3 downto 0);
+    pLed		: out std_logic_vector( 9 downto 0);    -- 0=OFF, 1=ON(green)
+    pPsw		: in std_logic_vector(3 downto 0);
     pSeg0		: out std_logic_vector(7 downto 0);
     pSeg1		: out std_logic_vector(7 downto 0);
     pSeg2		: out std_logic_vector(7 downto 0);
@@ -187,6 +187,7 @@ signal	mpu_udsn			:std_logic;
 signal	mpu_ldsn			:std_logic;
 signal	mpu_rwn			:std_logic;
 signal	mpu_clke			:std_logic;
+signal	mpu_pause	:std_logic;
 
 -- for memorymap
 signal	m_addr	:std_logic_vector(31 downto 0);
@@ -2628,7 +2629,17 @@ begin
 	
 	pLed(1)<=dma_bconte;
 	
-	mpu_clke<=(not dma_bconte);
+
+	process(sysclk,srstn)begin
+		if(srstn='0')then
+			mpu_pause<='0';
+		elsif(sysclk' event and sysclk='1')then
+			if(pPsw(3)='0') then
+				mpu_pause <= not mpu_pause;
+			end if;
+		end if;
+	end process;
+	mpu_clke<=(not dma_bconte) and (not mpu_pause);
 	MPU	:TG68 port map(
 		clk           =>sysclk,
 		reset         =>srstn,

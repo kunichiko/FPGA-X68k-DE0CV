@@ -32,15 +32,15 @@ port(
     SDIp    :in std_logic;      -- parity for SDI
 	SDO 	:out std_logic_vector(7 downto 0);
     SDOP    :out std_logic;     -- parity for SDO
-	SEL		:out std_logic;
+	SEL		:inout std_logic;
 	BSY		:in std_logic;
 	REQ		:in std_logic;
-	ACK		:out std_logic;
+	ACK		:inout std_logic;
 	IO		:in std_logic;
 	CD		:in std_logic;
 	MSG		:in std_logic;
-	RST		:out std_logic;
-    ATN     :out std_logic;
+	RST		:inout std_logic;
+    ATN     :inout std_logic;
 	
 	clk		:in std_logic;
 	rstn	:in std_logic
@@ -110,6 +110,11 @@ type state_t	is(
 signal	STATE	:state_t;
 
 begin
+	ACK <= '0';
+	SEL <= '0';
+	ATN <= '0';
+	RST <= '0';
+
 	process(clk,rstn)begin
 		if(rstn='0')then
 			ladrwr<=(others=>'0');
@@ -309,7 +314,15 @@ begin
 	end process;
 
 	-- R5: SPC Diag Control (for Write)
-	PSNS <=X"FF"; -- Phase Sense for read
+	--PSNS <=X"FF"; -- Phase Sense for read
+	PSNS(7)<=	not REQ;
+	PSNS(6)<=	not ACK;
+	PSNS(5)<=	not ATN;
+	PSNS(4)<=	not SEL;
+	PSNS(3)<=	not BSY;
+	PSNS(2)<=	not MSG;
+	PSNS(1)<=	not CD;
+	PSNS(0)<=	not IO;
 	SDGC_WR<=	'1' when ladrwr(5)='1' and adrwr(5)='0' else '0';	-- falling edge
 
 	process(clk,rstn)begin

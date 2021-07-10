@@ -81,6 +81,16 @@ signal	TCH 	:std_logic_Vector(7 downto 0);
 signal	TCM 	:std_logic_Vector(7 downto 0);
 signal	TCL 	:std_logic_Vector(7 downto 0);
 
+-- register fields 
+signal	SCTL_RstDis	:std_logic; -- 7
+signal	SCTL_CntRst	:std_logic; -- 6
+signal	SCTL_DigMod	:std_logic; -- 5
+signal	SCTL_ArbEna	:std_logic; -- 4 
+signal	SCTL_ParEna	:std_logic; -- 3
+signal	SCTL_SelEna	:std_logic; -- 2
+signal	SCTL_RstEna	:std_logic; -- 1
+signal	SCTL_IntEna	:std_logic; -- 0
+
 type initstate_t is (
 	is_init,
 	is_reset,
@@ -262,16 +272,76 @@ begin
 		end if;
 	end process;
 
+	SCTL_RstDis <= SCTL(7);
+	SCTL_CntRst <= SCTL(6);
+	SCTL_DigMod <= SCTL(5);
+	SCTL_ArbEna <= SCTL(4);
+	SCTL_ParEna <= SCTL(3);
+	SCTL_SelEna <= SCTL(2);
+	SCTL_RstEna <= SCTL(1);
+	SCTL_IntEna <= SCTL(0);
 
-	SCMD <=X"00";
-			--
-	INTS <=X"00";
-	PSNS <=X"00";
-	SDGC <=X"00";
+	-- R2: SPC Command
+	SCMD_WR<=	'1' when ladrwr(2)='1' and adrwr(2)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			SCMD	<=(others=>'0');
+		elsif(clk' event and clk='1')then
+			if(SCMD_WR='1')then
+				SCMD<=iowdat;
+			end if;
+		end if;
+	end process;
+
+	-- R4: Reset Interrupt Sense for write
+	INTS_WR<=	'1' when ladrwr(4)='1' and adrwr(4)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			INTS	<=(others=>'0');
+		elsif(clk' event and clk='1')then
+			if(INTS_WR='1')then
+				-- rest interrupt
+				INTS<=iowdat;
+			end if;
+		end if;
+	end process;
+
+	-- R5: SPC Diag Control (for Write)
+	PSNS <=X"00"; -- Phase Sense for read
+	SDGC_WR<=	'1' when ladrwr(5)='1' and adrwr(5)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			SDGC	<=(others=>'0');
+		elsif(clk' event and clk='1')then
+			if(SDGC_WR='1')then
+				SDGC<=iowdat;
+			end if;
+		end if;
+	end process;
+
+	-- R6
 	SSTS <=X"00";
+
+	-- R7
 	SERR <=X"00";
 
-	-- R10: Temporary Register
+	-- R8: Phase Control
+	PCTL_WR<=	'1' when ladrwr(8)='1' and adrwr(8)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			PCTL	<=(others=>'0');
+		elsif(clk' event and clk='1')then
+			if(PCTL_WR='1')then
+				PCTL<=iowdat(7)&"0000"&iowdat(2 downto 0);
+			end if;
+		end if;
+	end process;
+
+	-- R10: Data Register
 	DREG_WR<=	'1' when ladrwr(10)='1' and adrwr(10)='0' else '0';	-- falling edge
 
 	process(clk,rstn)begin

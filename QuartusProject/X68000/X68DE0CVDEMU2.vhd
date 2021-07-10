@@ -4389,7 +4389,9 @@ begin
 		rstn	=>srstn
 	);
 
-	SCSI_CS<='1' when abus(23 downto 3)=(x"e9600" & '0') else '0';
+	-- 0xE96020 for internal SCSI (after X68000 SUPER)
+	-- 0xEA0000 for external SCSI board (CZ-6BS1)
+	SCSI_CS<='1' when abus(23 downto 5)=(x"e960" & "001") else '0';
 	
 	SCSI	:scsiif port map(
 		cs		=>SCSI_CS,

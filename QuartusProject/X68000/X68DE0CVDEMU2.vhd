@@ -405,36 +405,36 @@ signal	SD_SLOW_CLK		:std_logic;
 signal	SD_SLOW_CS		:std_logic;
 signal	SD_HS			:std_logic;
 
---for SASI
-signal	SASI_CS		:std_logic;
-signal	SASI_RDAT	:std_logic_vector(7 downto 0);
-signal	SASI_DOE	:std_logic;
-signal	SASI_INT	:std_logic;
-signal	SASI_IACK	:std_logic;
-signal	SASI_DRQ	:std_logic;
-signal	SASI_DACK	:std_logic;
-signal	SASI_BUSY	:std_logic;
+--for SCSI
+signal	SCSI_CS		:std_logic;
+signal	SCSI_RDAT	:std_logic_vector(7 downto 0);
+signal	SCSI_DOE	:std_logic;
+signal	SCSI_INT	:std_logic;
+signal	SCSI_IACK	:std_logic;
+signal	SCSI_DRQ	:std_logic;
+signal	SCSI_DACK	:std_logic;
+signal	SCSI_BUSY	:std_logic;
 signal	iowait_sasi	:std_logic;
 
-signal	SASI_H2C	:std_logic_vector(7 downto 0);
-signal	SASI_C2H	:std_logic_vector(7 downto 0);
-signal	SASI_SEL	:std_logic;
-signal	SASI_BSY	:std_logic;
-signal	SASI_REQ	:std_logic;
-signal	SASI_ACK	:std_logic;
-signal	SASI_IO		:std_logic;
-signal	SASI_CD		:std_logic;
-signal	SASI_MSG	:std_logic;
-signal	SASI_RST	:std_logic;
+signal	SCSI_H2C	:std_logic_vector(7 downto 0);
+signal	SCSI_C2H	:std_logic_vector(7 downto 0);
+signal	SCSI_SEL	:std_logic;
+signal	SCSI_BSY	:std_logic;
+signal	SCSI_REQ	:std_logic;
+signal	SCSI_ACK	:std_logic;
+signal	SCSI_IO		:std_logic;
+signal	SCSI_CD		:std_logic;
+signal	SCSI_MSG	:std_logic;
+signal	SCSI_RST	:std_logic;
 
-signal	SASI_SELf	:std_logic;
-signal	SASI_BSYf	:std_logic;
-signal	SASI_REQf	:std_logic;
-signal	SASI_ACKf	:std_logic;
-signal	SASI_IOf	:std_logic;
-signal	SASI_CDf	:std_logic;
-signal	SASI_MSGf	:std_logic;
-signal	SASI_RSTf	:std_logic;
+signal	SCSI_SELf	:std_logic;
+signal	SCSI_BSYf	:std_logic;
+signal	SCSI_REQf	:std_logic;
+signal	SCSI_ACKf	:std_logic;
+signal	SCSI_IOf	:std_logic;
+signal	SCSI_CDf	:std_logic;
+signal	SCSI_MSGf	:std_logic;
+signal	SCSI_RSTf	:std_logic;
 
 -- IO unit
 signal	IOU_rdat	:std_logic_vector(7 downto 0);
@@ -1381,34 +1381,7 @@ port(
 );	
 end component;	
 
-component sasisd
-port(
-	cs		:in std_logic;
-	addr	:in std_logic_vector(1 downto 0);
-	rd		:in std_logic;
-	wr		:in std_logic;
-	wdat	:in std_logic_vector(7 downto 0);
-	rdat	:out std_logic_vector(7 downto 0);
-	doe		:out std_logic;
-	int		:out std_logic;
-	iack	:in std_logic;
-	drq		:out std_logic;
-	dack	:in std_logic;
-	
-	SCLK	:out std_logic;
-	SDI		:in std_logic;
-	SDO		:out std_logic;
-	SD_CS	:out std_logic;
-
-	BUSY	:out std_logic;
-	
-	sdsft	:in std_logic;
-	clk		:in std_logic;
-	rstn	:in std_logic
-);
-end component;
-
-component sasiif
+component scsiif
 port(
 	cs		:in std_logic;
 	addr	:in std_logic_vector(1 downto 0);
@@ -1440,33 +1413,6 @@ port(
 );
 end component;
 
-component sasi2sd
-port(
-	IDAT	:in std_logic_vector(7 downto 0);
-	ODAT	:out std_logic_vector(7 downto 0);
-	SEL		:in std_logic;
-	BSY		:out std_logic;
-	REQ		:out std_logic;
-	ACK		:in std_logic;
-	IO		:out std_logic;
-	CD		:out std_logic;
-	MSG		:out std_logic;
-	RST		:in std_logic;
-
-	
-	SCLK	:out std_logic;
-	SDI		:in std_logic;
-	SDO		:out std_logic;
-	SD_CS	:out std_logic;
-	
-	BUSY	:out std_logic;
-
-	sdsft	:in std_logic;
-	clk		:in std_logic;
-	rstn	:in std_logic
-);
-end component;
-
 component diskemuunit
 generic(
 	clkfreq		:integer	:=30000;
@@ -1491,7 +1437,7 @@ port(
 	sdc_sclk	:out std_logic;
 	sdc_cs		:out std_logic;
 	
---SASI
+--SCSI
 	sasi_din	:in std_logic_vector(7 downto 0);
 	sasi_dout	:out std_logic_vector(7 downto 0);
 	sasi_sel	:in std_logic;
@@ -2767,8 +2713,8 @@ begin
 		pclo0	=>open,
 		doneo0	=>FDC_TC,
 		
-		drq1	=>SASI_DRQ,
-		dack1	=>SASI_DACK,
+		drq1	=>SCSI_DRQ,
+		dack1	=>SCSI_DACK,
 		pcli1	=>'1',
 		pclo1	=>open,
 		doneo1	=>open,
@@ -2815,7 +2761,7 @@ begin
 			spram_rdat			when spram_doe='1' else
 			x"00" & scc_odat	when scc_doe='1' else
 			x"00" & FDC_WD		when FDC_OE='1' else
-			x"00" & SASI_RDAT	when SASI_DOE='1' else
+			x"00" & SCSI_RDAT	when SCSI_DOE='1' else
 			x"00" & IOU_rdat	when IOU_doe='1' else
 			x"000" & rtc_odat	when rtc_doe='1' else
 			x"00" & ppi_odat	when ppi_doe='1' else
@@ -2837,7 +2783,7 @@ begin
 	b_lds<=not b_ldsn;
 	b_uds<=not b_udsn;
 	
-	iowait<=iowait_rcpy or iowait_sasi or iowait_opm;
+	iowait<=iowait_rcpy or iowait_scsi or iowait_opm;
 	process(sysclk)begin
 		if(sysclk' event and sysclk='1')then
 			dwait<=pDip(9);
@@ -3749,13 +3695,13 @@ begin
 		fdc_cs		=>FDC_cs,
 		fdc_int		=>FDC_INT,
 
-		hdd_int		=>SASI_INT,
+		hdd_int		=>SCSI_INT,
 		prn_int		=>'0',
 		
 		clk			=>sysclk,
 		rstn		=>srstn
 	);
-	SASI_IACK<='0';
+	SCSI_IACK<='0';
 	pFD_DS0<='0' when FD_DE(0)='0' else 'Z';
 	pFD_DS1<='0' when FD_DE(1)='0' else 'Z';
 	--pFD_MOTOR0<='0' when FDD_MOTORn(0)='0' else 'Z';
@@ -4256,7 +4202,7 @@ begin
 			if(pwrsw='0' and willrst='0')then
 				-- 通常状態(電源ランプグリーン)
 				LED_POWER<="11";
-				if(SASI_BSY='1')then
+				if(SCSI_BSY='1')then
 					LED_HD_BUSY<='1';
 				end if;
 				 if(FDD_INDISK(0)='0')then
@@ -4441,45 +4387,45 @@ begin
 		rstn	=>srstn
 	);
 
-	SASI_CS<='1' when abus(23 downto 3)=(x"e9600" & '0') else '0';
+	SCSI_CS<='1' when abus(23 downto 3)=(x"e9600" & '0') else '0';
 	
-	SASI	:sasiif port map(
-		cs		=>SASI_CS,
+	SCSI	:scsiif port map(
+		cs		=>SCSI_CS,
 		addr	=>abus(2 downto 1),
 		rd		=>b_rd,
 		wr		=>b_wr(0),
 		wdat	=>dbus(7 downto 0),
-		rdat	=>SASI_RDAT,
-		doe		=>SASI_DOE,
-		int		=>SASI_INT,
-		iack	=>SASI_IACK,
-		drq		=>SASI_DRQ,
-		dack	=>SASI_DACK,
-		iowait	=>iowait_sasi,
+		rdat	=>SCSI_RDAT,
+		doe		=>SCSI_DOE,
+		int		=>SCSI_INT,
+		iack	=>SCSI_IACK,
+		drq		=>SCSI_DRQ,
+		dack	=>SCSI_DACK,
+		iowait	=>iowait_scsi,
 		
-		IDAT	=>SASI_C2H,
-		ODAT	=>SASI_H2C,
+		IDAT	=>SCSI_C2H,
+		ODAT	=>SCSI_H2C,
 		ODEN	=>open,
-		SEL		=>SASI_SEL,
-		BSY		=>SASI_BSYf,
-		REQ		=>SASI_REQf,
-		ACK		=>SASI_ACK,
-		IO		=>SASI_IOf,
-		CD		=>SASI_CDf,
-		MSG		=>SASI_MSGf,
-		RST		=>SASI_RST,
+		SEL		=>SCSI_SEL,
+		BSY		=>SCSI_BSYf,
+		REQ		=>SCSI_REQf,
+		ACK		=>SCSI_ACK,
+		IO		=>SCSI_IOf,
+		CD		=>SCSI_CDf,
+		MSG		=>SCSI_MSGf,
+		RST		=>SCSI_RST,
 		
 		clk		=>sysclk,
 		rstn	=>srstn
 	);
-	SELf	:digifilter generic map(2,'0') port map(SASI_SEL,SASI_SELf,emuclk,srstn);
-	BSYf	:digifilter generic map(2,'0') port map(SASI_BSY,SASI_BSYf,sysclk,srstn);
-	REQf	:digifilter generic map(2,'0') port map(SASI_REQ,SASI_REQf,sysclk,srstn);
-	ACKf	:digifilter generic map(2,'0') port map(SASI_ACK,SASI_ACKf,emuclk,srstn);
-	IOf		:digifilter generic map(2,'0') port map(SASI_IO,SASI_IOf,sysclk,srstn);
-	CDf		:digifilter generic map(2,'0') port map(SASI_CD,SASI_CDf,sysclk,srstn);
-	MSGf	:digifilter generic map(2,'0') port map(SASI_MSG,SASI_MSGf,sysclk,srstn);
-	RSTf	:digifilter generic map(2,'0') port map(SASI_RST,SASI_RSTf,emuclk,srstn);
+	SELf	:digifilter generic map(2,'0') port map(SCSI_SEL,SCSI_SELf,emuclk,srstn);
+	BSYf	:digifilter generic map(2,'0') port map(SCSI_BSY,SCSI_BSYf,sysclk,srstn);
+	REQf	:digifilter generic map(2,'0') port map(SCSI_REQ,SCSI_REQf,sysclk,srstn);
+	ACKf	:digifilter generic map(2,'0') port map(SCSI_ACK,SCSI_ACKf,emuclk,srstn);
+	IOf		:digifilter generic map(2,'0') port map(SCSI_IO,SCSI_IOf,sysclk,srstn);
+	CDf		:digifilter generic map(2,'0') port map(SCSI_CD,SCSI_CDf,sysclk,srstn);
+	MSGf	:digifilter generic map(2,'0') port map(SCSI_MSG,SCSI_MSGf,sysclk,srstn);
+	RSTf	:digifilter generic map(2,'0') port map(SCSI_RST,SCSI_RSTf,emuclk,srstn);
 	
 	DISKE	:diskemuunit generic map(
 		clkfreq		=>FCFREQ,
@@ -4503,17 +4449,17 @@ begin
 		sdc_sclk	=>SDC_SCLK,
 		sdc_cs		=>SDC_CS,
 		
-	--SASI
-		sasi_din	=>SASI_H2C,
-		sasi_dout	=>SASI_C2H,
-		sasi_sel	=>SASI_SELf,
-		sasi_bsy	=>SASI_BSY,
-		sasi_req	=>SASI_REQ,
-		sasi_ack	=>SASI_ACKf,
-		sasi_io		=>SASI_IO,
-		sasi_cd		=>SASI_CD,
-		sasi_msg	=>SASI_MSG,
-		sasi_rst	=>SASI_RSTf,
+	--SCSI
+		sasi_din	=>SCSI_H2C,
+		sasi_dout	=>SCSI_C2H,
+		sasi_sel	=>SCSI_SELf,
+		sasi_bsy	=>SCSI_BSY,
+		sasi_req	=>SCSI_REQ,
+		sasi_ack	=>SCSI_ACKf,
+		sasi_io		=>SCSI_IO,
+		sasi_cd		=>SCSI_CD,
+		sasi_msg	=>SCSI_MSG,
+		sasi_rst	=>SCSI_RSTf,
 
 	--FDD
 		fdc_useln	=>FDC_USELn,
@@ -4594,7 +4540,7 @@ begin
 				
 	nv_doe<=b_rd when nv_ce='1' else '0';
 	
-	SASI_BUSY<=SASI_BSY;
+	SCSI_BUSY<=SCSI_BSY;
 	
 	pLed(6 downto 2)<=INT7 & INT6 & INT5 & INT3 & INT1;
 	

@@ -51,9 +51,9 @@ port(
 	clk		:in std_logic;
 	rstn	:in std_logic
 );
-end sasiif;
+end scsiif;
 
-architecture rtl of sasiif is
+architecture rtl of scsiif is
 signal	iowdat	:std_logic_vector(7 downto 0);
 signal	CMDWR	:std_logic;
 signal	CMDRD	:std_logic;

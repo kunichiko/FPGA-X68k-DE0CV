@@ -45,9 +45,9 @@ port(
 	clk		:in std_logic;
 	rstn	:in std_logic
 );
-end sasiif;
+end em89352;
 
-architecture rtl of sasiif is
+architecture rtl of em89352 is
 signal	iowdat	:std_logic_vector(7 downto 0);			-- CPUからの書き込みデータ
 signal	adrwr,ladrwr	:std_logic_vector(15 downto 0);
 signal	adrrd,ladrrd	:std_logic_vector(15 downto 0);
@@ -57,6 +57,11 @@ signal	SCTL_WR	:std_logic;
 signal	SCMD_WR	:std_logic;
 signal	INTS_WR	:std_logic;
 signal	PSNS_WR	:std_logic;
+signal	PCTL_WR	:std_logic;
+signal	TEMP_WR	:std_logic;
+signal	TCH_WR	:std_logic;
+signal	TCM_WR	:std_logic;
+signal	TCL_WR	:std_logic;
 
 -- registers
 signal	BDID	:std_logic_vector(7 downto 0);
@@ -67,6 +72,13 @@ signal	PSNS	:std_logic_Vector(7 downto 0);
 signal	SDGC	:std_logic_Vector(7 downto 0);
 signal	SSTS	:std_logic_Vector(7 downto 0);
 signal	SERR	:std_logic_Vector(7 downto 0);
+signal	PCTL	:std_logic_Vector(7 downto 0);
+signal	MBC 	:std_logic_Vector(7 downto 0);
+signal	DREG	:std_logic_Vector(7 downto 0);
+signal	TEMP	:std_logic_Vector(7 downto 0);
+signal	TCH 	:std_logic_Vector(7 downto 0);
+signal	TCM 	:std_logic_Vector(7 downto 0);
+signal	TCL 	:std_logic_Vector(7 downto 0);
 
 type initstate_t is (
 	is_init,
@@ -195,6 +207,10 @@ begin
 			SDGC when adrrd="00000000"&"00100000" else
 			SSTS when adrrd="00000000"&"01000000" else
 			SERR when adrrd="00000000"&"10000000" else
+			--
+			TCH  when adrrd="00010000"&"00000000" else
+			TCM  when adrrd="00100000"&"00000000" else
+			TCL  when adrrd="01000000"&"00000000" else
 			(others=>'0');
 
 	-- R0: Bus Device ID
@@ -234,13 +250,14 @@ begin
 
 	process(clk,rstn)begin
 		if(rstn='0')then
-			SCTL	<=(others=>'0')
+			SCTL	<=(others=>'0');
 		elsif(clk' event and clk='1')then
 			if(SCTL_WR='1')then
 				SCTL<=iowdat;
 			end if;
 		end if;
 	end process;
+
 
 	SCMD <=X"00";
 			--
@@ -249,6 +266,31 @@ begin
 	SDGC <=X"00";
 	SSTS <=X"00";
 	SERR <=X"00";
+
+	-- R12: Transfer Counter High
+	-- R13: Transfer Counter Mid
+	-- R14: Transfer Counter Low
+	TCH_WR<=	'1' when ladrwr(12)='1' and adrwr(12)='0' else '0';	-- falling edge
+	TCM_WR<=	'1' when ladrwr(13)='1' and adrwr(13)='0' else '0';	-- falling edge
+	TCL_WR<=	'1' when ladrwr(14)='1' and adrwr(14)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			TCH	<=(others=>'0');
+			TCM	<=(others=>'0');
+			TCL	<=(others=>'0');
+		elsif(clk' event and clk='1')then
+			if(TCH_WR='1')then
+				TCH<=iowdat;
+			end if;
+			if(TCM_WR='1')then
+				TCM<=iowdat;
+			end if;
+			if(TCL_WR='1')then
+				TCL<=iowdat;
+			end if;
+		end if;
+	end process;
 
 	--	iowait<=HSwait when cs='1' else '0';
 	iowait <= '0';

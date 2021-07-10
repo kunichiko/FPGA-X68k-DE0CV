@@ -134,7 +134,7 @@ begin
 		CD		=> CD,
 		MSG		=> MSG,
 		RST		=> RST,
-		ATN     => ATN,
+		ATN     => open,
 		
 		clk		=> clk,
 		rstn	=> rstn

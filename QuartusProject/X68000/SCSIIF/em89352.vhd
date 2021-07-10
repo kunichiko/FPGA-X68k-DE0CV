@@ -58,6 +58,7 @@ signal	SCMD_WR	:std_logic;
 signal	INTS_WR	:std_logic;
 signal	PSNS_WR	:std_logic;
 signal	PCTL_WR	:std_logic;
+signal	DREG_WR	:std_logic;
 signal	TEMP_WR	:std_logic;
 signal	TCH_WR	:std_logic;
 signal	TCM_WR	:std_logic;
@@ -200,14 +201,17 @@ begin
 
 	RDAT<=	BDID when adrrd="00000000"&"00000001" else
 			SCTL when adrrd="00000000"&"00000010" else
-			SCMD when adrrd="00000000"&"00000010" else
+			SCMD when adrrd="00000000"&"00000100" else
 			--
-			INTS when adrrd="00000000"&"00001000" else
-			PSNS when adrrd="00000000"&"00010000" else
-			SDGC when adrrd="00000000"&"00100000" else
+			INTS when adrrd="00000000"&"00010000" else
+			PSNS when adrrd="00000000"&"00100000" else
 			SSTS when adrrd="00000000"&"01000000" else
 			SERR when adrrd="00000000"&"10000000" else
 			--
+			PCTL when adrrd="00000001"&"00000000" else
+			MBC  when adrrd="00000010"&"00000000" else
+			DREG when adrrd="00000100"&"00000000" else
+			TEMP when adrrd="00001000"&"00000000" else
 			TCH  when adrrd="00010000"&"00000000" else
 			TCM  when adrrd="00100000"&"00000000" else
 			TCL  when adrrd="01000000"&"00000000" else
@@ -266,6 +270,32 @@ begin
 	SDGC <=X"00";
 	SSTS <=X"00";
 	SERR <=X"00";
+
+	-- R10: Temporary Register
+	DREG_WR<=	'1' when ladrwr(10)='1' and adrwr(10)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			DREG	<=(others=>'0');
+		elsif(clk' event and clk='1')then
+			if(DREG_WR='1')then
+				DREG<=iowdat;
+			end if;
+		end if;
+	end process;
+
+	-- R11: Temporary Register
+	TEMP_WR<=	'1' when ladrwr(11)='1' and adrwr(11)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			TEMP	<=(others=>'0');
+		elsif(clk' event and clk='1')then
+			if(TEMP_WR='1')then
+				TEMP<=iowdat;
+			end if;
+		end if;
+	end process;
 
 	-- R12: Transfer Counter High
 	-- R13: Transfer Counter Mid

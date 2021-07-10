@@ -49,14 +49,24 @@ end sasiif;
 
 architecture rtl of sasiif is
 signal	iowdat	:std_logic_vector(7 downto 0);			-- CPUからの書き込みデータ
-signal	adrwr,ladrwr	:std_logic_vector(7 downto 0);
-signal	adrrd,ladrrd	:std_logic_vector(7 downto 0);
+signal	adrwr,ladrwr	:std_logic_vector(15 downto 0);
+signal	adrrd,ladrrd	:std_logic_vector(15 downto 0);
 
 signal	BDID_WR	:std_logic;
-signal	BDID_RD	:std_logic;
+signal	SCTL_WR	:std_logic;
+signal	SCMD_WR	:std_logic;
+signal	INTS_WR	:std_logic;
+signal	PSNS_WR	:std_logic;
 
 -- registers
 signal	BDID	:std_logic_vector(7 downto 0);
+signal	SCTL	:std_logic_Vector(7 downto 0);
+signal	SCMD	:std_logic_Vector(7 downto 0);
+signal	INTS	:std_logic_Vector(7 downto 0);
+signal	PSNS	:std_logic_Vector(7 downto 0);
+signal	SDGC	:std_logic_Vector(7 downto 0);
+signal	SSTS	:std_logic_Vector(7 downto 0);
+signal	SERR	:std_logic_Vector(7 downto 0);
 
 type initstate_t is (
 	is_init,
@@ -95,56 +105,96 @@ begin
 		if(clk' event and clk='1')then
 			if(CS='1' and WR='1')then
 				case A is
-				when "000" =>
-					adrwr<="00000001";
-				when "001" =>
-					adrwr<="00000010";
-				when "010" =>
-					adrwr<="00000100";
-				when "011" =>
-					adrwr<="00001000";
-				when "100" =>
-					adrwr<="00010000";
-				when "101" =>
-					adrwr<="00100000";
-				when "110" =>
-					adrwr<="01000000";
-				when "111" =>
-					adrwr<="10000000";
+				when "0000" =>
+					adrwr<="0000000000000001";
+				when "0001" =>
+					adrwr<="0000000000000010";
+				when "0010" =>
+					adrwr<="0000000000000100";
+				when "0011" =>
+					adrwr<="0000000000001000";
+				when "0100" =>
+					adrwr<="0000000000010000";
+				when "0101" =>
+					adrwr<="0000000000100000";
+				when "0110" =>
+					adrwr<="0000000001000000";
+				when "0111" =>
+					adrwr<="0000000010000000";
+				when "1000" =>
+					adrwr<="0000000100000000";
+				when "1001" =>
+					adrwr<="0000001000000000";
+				when "1010" =>
+					adrwr<="0000010000000000";
+				when "1011" =>
+					adrwr<="0000100000000000";
+				when "1100" =>
+					adrwr<="0001000000000000";
+				when "1101" =>
+					adrwr<="0010000000000000";
+				when "1110" =>
+					adrwr<="0100000000000000";
+				when "1111" =>
+					adrwr<="1000000000000000";
 				when others =>
-					adrwr<="00000000";
+					adrwr<="0000000000000000";
 				end case;
 			else
-				adrwr<="0000";
+				adrwr<=(others=>'0');
 			end if;
 			if(CS='1' and RD='1')then
 				case A is
-				when "000" =>
-					adrrd<="00000001";
-				when "001" =>
-					adrrd<="00000010";
-				when "010" =>
-					adrrd<="00000100";
-				when "011" =>
-					adrrd<="00001000";
-				when "100" =>
-					adrrd<="00010000";
-				when "101" =>
-					adrrd<="00100000";
-				when "110" =>
-					adrrd<="01000000";
-				when "111" =>
-					adrrd<="10000000";
+				when "0000" =>
+					adrrd<="0000000000000001";
+				when "0001" =>
+					adrrd<="0000000000000010";
+				when "0010" =>
+					adrrd<="0000000000000100";
+				when "0011" =>
+					adrrd<="0000000000001000";
+				when "0100" =>
+					adrrd<="0000000000010000";
+				when "0101" =>
+					adrrd<="0000000000100000";
+				when "0110" =>
+					adrrd<="0000000001000000";
+				when "0111" =>
+					adrrd<="0000000010000000";
+				when "1000" =>
+					adrrd<="0000000100000000";
+				when "1001" =>
+					adrrd<="0000001000000000";
+				when "1010" =>
+					adrrd<="0000010000000000";
+				when "1011" =>
+					adrrd<="0000100000000000";
+				when "1100" =>
+					adrrd<="0001000000000000";
+				when "1101" =>
+					adrrd<="0010000000000000";
+				when "1110" =>
+					adrrd<="0100000000000000";
+				when "1111" =>
+					adrrd<="1000000000000000";
 				when others =>
-					adrrd<="00000000";
+					adrrd<="0000000000000000";
 				end case;
 			else
-				adrrd<="0000";
+				adrrd<=(others=>'0');
 			end if;
 		end if;
 	end process;
 
-	RDAT<=	BDID when adrrd="00000001" else
+	RDAT<=	BDID when adrrd="00000000"&"00000001" else
+			SCTL when adrrd="00000000"&"00000010" else
+			SCMD when adrrd="00000000"&"00000010" else
+			--
+			INTS when adrrd="00000000"&"00001000" else
+			PSNS when adrrd="00000000"&"00010000" else
+			SDGC when adrrd="00000000"&"00100000" else
+			SSTS when adrrd="00000000"&"01000000" else
+			SERR when adrrd="00000000"&"10000000" else
 			(others=>'0');
 
 	-- R0: Bus Device ID
@@ -152,7 +202,7 @@ begin
 
 	process(clk,rstn)begin
 		if(rstn='0')then
-			BDID	<=(others=>'0');
+			BDID	<="10000000";
 		elsif(clk' event and clk='1')then
 			if(BDID_WR='1')then
 				case iowdat(2 downto 0) is
@@ -173,11 +223,32 @@ begin
 				when "111" =>
 					BDID<="10000000";
 				when others =>
-					BDID<="00000000";
+					BDID<="10000000";
 				end case;
 			end if;
 		end if;
 	end process;
+
+	-- R1: SPC Control
+	SCTL_WR<=	'1' when ladrwr(1)='1' and adrwr(1)='0' else '0';	-- falling edge
+
+	process(clk,rstn)begin
+		if(rstn='0')then
+			SCTL	<=(others=>'0')
+		elsif(clk' event and clk='1')then
+			if(SCTL_WR='1')then
+				SCTL<=iowdat;
+			end if;
+		end if;
+	end process;
+
+	SCMD <=X"00";
+			--
+	INTS <=X"00";
+	PSNS <=X"00";
+	SDGC <=X"00";
+	SSTS <=X"00";
+	SERR <=X"00";
 
 	--	iowait<=HSwait when cs='1' else '0';
 	iowait <= '0';

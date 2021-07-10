@@ -414,7 +414,7 @@ signal	SCSI_IACK	:std_logic;
 signal	SCSI_DRQ	:std_logic;
 signal	SCSI_DACK	:std_logic;
 signal	SCSI_BUSY	:std_logic;
-signal	iowait_sasi	:std_logic;
+signal	iowait_scsi	:std_logic;
 
 signal	SCSI_H2C	:std_logic_vector(7 downto 0);
 signal	SCSI_C2H	:std_logic_vector(7 downto 0);
@@ -1384,7 +1384,7 @@ end component;
 component scsiif
 port(
 	cs		:in std_logic;
-	addr	:in std_logic_vector(1 downto 0);
+	addr	:in std_logic_vector(3 downto 0);
 	rd		:in std_logic;
 	wr		:in std_logic;
 	wdat	:in std_logic_vector(7 downto 0);
@@ -1397,7 +1397,9 @@ port(
 	iowait	:out std_logic;
 	
 	IDAT	:in std_logic_vector(7 downto 0);
+	IDATp	:in std_logic;
 	ODAT	:out std_logic_vector(7 downto 0);
+	ODATp	:out std_logic;
 	ODEN	:out std_logic;
 	SEL		:out std_logic;
 	BSY		:in std_logic;
@@ -4391,7 +4393,7 @@ begin
 	
 	SCSI	:scsiif port map(
 		cs		=>SCSI_CS,
-		addr	=>abus(2 downto 1),
+		addr	=>abus(4 downto 1),
 		rd		=>b_rd,
 		wr		=>b_wr(0),
 		wdat	=>dbus(7 downto 0),
@@ -4404,7 +4406,9 @@ begin
 		iowait	=>iowait_scsi,
 		
 		IDAT	=>SCSI_C2H,
+		IDATp	=>'0',
 		ODAT	=>SCSI_H2C,
+		ODATp	=>open,
 		ODEN	=>open,
 		SEL		=>SCSI_SEL,
 		BSY		=>SCSI_BSYf,

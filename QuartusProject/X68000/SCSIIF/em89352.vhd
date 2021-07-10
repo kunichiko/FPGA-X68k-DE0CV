@@ -56,7 +56,7 @@ signal	BDID_WR	:std_logic;
 signal	SCTL_WR	:std_logic;
 signal	SCMD_WR	:std_logic;
 signal	INTS_WR	:std_logic;
-signal	PSNS_WR	:std_logic;
+signal	SDGC_WR	:std_logic;
 signal	PCTL_WR	:std_logic;
 signal	DREG_WR	:std_logic;
 signal	TEMP_WR	:std_logic;
@@ -309,7 +309,7 @@ begin
 	end process;
 
 	-- R5: SPC Diag Control (for Write)
-	PSNS <=X"00"; -- Phase Sense for read
+	PSNS <=X"FF"; -- Phase Sense for read
 	SDGC_WR<=	'1' when ladrwr(5)='1' and adrwr(5)='0' else '0';	-- falling edge
 
 	process(clk,rstn)begin

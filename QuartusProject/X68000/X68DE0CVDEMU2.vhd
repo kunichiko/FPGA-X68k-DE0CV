@@ -188,6 +188,8 @@ signal	mpu_ldsn			:std_logic;
 signal	mpu_rwn			:std_logic;
 signal	mpu_clke			:std_logic;
 signal	mpu_pause	:std_logic;
+signal	mpu_psw		:std_logic;
+signal	mpu_pswd	:std_logic;
 
 -- for memorymap
 signal	m_addr	:std_logic_vector(31 downto 0);
@@ -2633,8 +2635,12 @@ begin
 	process(sysclk,srstn)begin
 		if(srstn='0')then
 			mpu_pause<='0';
+			mpu_psw<='0';
+			mpu_pswd<='0';
 		elsif(sysclk' event and sysclk='1')then
-			if(pPsw(3)='0') then
+			mpu_psw <= pPsw(3);
+			mpu_pswd<= mpu_psw;
+			if(mpu_pswd='1' and mpu_psw='0') then
 				mpu_pause <= not mpu_pause;
 			end if;
 		end if;
